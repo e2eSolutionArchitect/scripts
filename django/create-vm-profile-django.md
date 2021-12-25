@@ -5,5 +5,6 @@ python -m venv vmdev
 
 `` now to activate the environment 
 >> <env name>/Scripts/active
-vmdev/Scripts/active
+
+  vmdev/Scripts/active
   
