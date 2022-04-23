@@ -1,0 +1,17 @@
+version: '3.7'
+services:
+  tomee:
+    image: tomee:8.0.8-webprofile
+    ports:
+      - 8888:8080
+    expose:
+      - 8080
+    container_name: tomee8
+    networks:
+      - net_tomee8
+    volumes:
+      - v_tomee8:/home/ubuntu/tomee8
+volumes:
+  v_tomee8:
+networks:
+  net_tomee8:

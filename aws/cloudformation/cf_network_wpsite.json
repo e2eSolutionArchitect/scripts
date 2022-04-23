@@ -1,0 +1,186 @@
+{
+    "Parameters" : {
+          "VPCCidrBlock": {
+			"Description": "VPC CIDR block",
+			"Type": "CommaDelimitedList",
+			"Default": "192.162.0.0/24"
+		  },
+		  "SubnetIPBlock": {
+			"Description": "Subnet CIDR blocks",
+			"Type": "CommaDelimitedList",
+			"Default": "192.162.0.0/25,192.162.0.128/25"
+		  },
+		  "InstanceTypeParameter" : {
+			"Type" : "String",
+			"Default" : "t2.micro",
+			"AllowedValues" : ["t2.micro", "t3.small", "t3.medium"],
+			"Description" : "Select t2.micro, t3.small, or t3.medium. Default is t2.micro."
+		  },
+		"KeyName": {
+            "Description" : "Name of an existing EC2 KeyPair - YOU NEED TO CREATE THIS IN EC2->Network&Security->Key Pairs",
+            "Type": "AWS::EC2::KeyPair::KeyName"
+        },
+        "LatestAmiId" : {
+            "Type" : "AWS::EC2::Image::Id",
+            "Default" : "ami-0747bdcabd34c712a"
+        }
+    },
+    "Resources" : {
+        "vpc1awstg" : {
+            "Type" : "AWS::EC2::VPC",
+            "Properties" : { 
+				"CidrBlock" : { "Fn::Select" : [ "0", {"Ref" : "VPCCidrBlock"} ] },
+                "EnableDnsSupport" : true,
+                "EnableDnsHostnames" : true,
+                "InstanceTenancy" : "default",
+                "Tags" : [ {"Key" : "Name", "Value" : "vpc1awstg"}, {"Key" : "Project", "Value" : "AWSTGWPSITE"}, {"Key" : "CreatedBy", "Value" : "SomCloud"} ]
+            }
+        },
+        "vpc1awstgsnA1" : {
+            "Type" : "AWS::EC2::Subnet",
+            "Properties" : { 
+                "VpcId" : {"Ref" : "vpc1awstg"},
+                "Tags" : [ {"Key" : "Name", "Value" : "vpc1awstg_sn_A1"}, {"Key" : "Project", "Value" : "AWSTGWPSITE"}, {"Key" : "CreatedBy", "Value" : "SomCloud"} ],
+                "AvailabilityZone" : {
+                    "Fn::Select" : [
+                        "0",
+                        {
+                            "Fn::GetAZs" : ""
+                        }
+                    ]
+                },
+                "CidrBlock" : { "Fn::Select" : [ "0", {"Ref" : "SubnetIPBlock"} ] }
+            }
+        },
+        "vpc1awstgsnB1" : {
+            "Type" : "AWS::EC2::Subnet",
+            "Properties" : { 
+                "VpcId" : {"Ref" : "vpc1awstg"},
+                "Tags" : [ {"Key" : "Name", "Value" : "vpc1awstg_sn_B1"}, {"Key" : "Project", "Value" : "AWSTGWPSITE"}, {"Key" : "CreatedBy", "Value" : "SomCloud"} ],
+                "AvailabilityZone" : {
+                    "Fn::Select" : [
+                        "0",
+                        {
+                            "Fn::GetAZs" : ""
+                        }
+                    ]
+                },
+                "CidrBlock" : { "Fn::Select" : [ "1", {"Ref" : "SubnetIPBlock"} ] }
+            }
+        },
+        "igwvpc1awstg" : {
+            "Type" : "AWS::EC2::InternetGateway",
+            "DependsOn" : "vpc1awstg",
+            "Properties" : {
+               "Tags" : [ {"Key" : "Name", "Value" : "IGW-vpc1awstg"}, {"Key" : "Project", "Value" : "AWSTGWPSITE"}, {"Key" : "CreatedBy", "Value" : "SomCloud"} ]
+            }   
+        },
+        "igwvpc1awstgattachment" : {
+            "DependsOn" : "igwvpc1awstg",
+            "Type" : "AWS::EC2::VPCGatewayAttachment",
+            "Properties" : {
+               "InternetGatewayId" : {"Ref" : "igwvpc1awstg"},
+               "VpcId" : {"Ref" : "vpc1awstg"}
+            }
+        },
+        "rtpublic" : {
+            "Type" : "AWS::EC2::RouteTable",
+            "Properties" : {
+               "VpcId" : {"Ref" : "vpc1awstg"},
+               "Tags" : [  {"Key" : "Name", "Value" : "RT-Public"} , {"Key" : "Project", "Value" : "AWSTGWPSITE"}, {"Key" : "CreatedBy", "Value" : "SomCloud"}]
+            }  
+        },        
+		"rtprivate" : {
+            "Type" : "AWS::EC2::RouteTable",
+            "Properties" : {
+               "VpcId" : {"Ref" : "vpc1awstg"},
+               "Tags" : [  {"Key" : "Name", "Value" : "RT-Private"}, {"Key" : "Project", "Value" : "AWSTGWPSITE"}, {"Key" : "CreatedBy", "Value" : "SomCloud"} ]
+            }  
+        },
+        "rtpublicdefault" : {
+            "Type" : "AWS::EC2::Route",
+            "DependsOn" : "igwvpc1awstgattachment",
+            "Properties" : {
+               "RouteTableId" : { "Ref" : "rtpublic" },
+               "DestinationCidrBlock" : "0.0.0.0/0",
+               "GatewayId" : { "Ref" : "igwvpc1awstg" }
+            }
+        },		
+        "rtprivateAssoA1" : {
+            "Type" : "AWS::EC2::SubnetRouteTableAssociation",
+            "Properties" : {
+                "RouteTableId" : {"Ref" : "rtpublic" },
+                "SubnetId" : {"Ref" : "vpc1awstgsnA1" }
+              }
+        },
+        "rtpublicpubAssoB1" : {
+            "Type" : "AWS::EC2::SubnetRouteTableAssociation",
+            "Properties" : {
+                "RouteTableId" : {"Ref" : "rtpublic" },
+                "SubnetId" : {"Ref" : "vpc1awstgsnB1" }
+              }
+        },
+		"sgwpbasenet" : {
+            "Type" : "AWS::EC2::SecurityGroup",
+            "Properties" : {
+                "GroupName" : "SGAWSTG",
+                "GroupDescription" : "SGAWSTG",
+                "SecurityGroupIngress" : [{"IpProtocol" : "tcp", "FromPort" : 22, "ToPort" : 22, "CidrIp" : "0.0.0.0/0" },
+				                          {"IpProtocol" : "tcp", "FromPort" : 8080, "ToPort" : 8080, "CidrIp" : "0.0.0.0/0" }],
+                "Tags" :  [ {"Key" : "Name", "Value" : "SGAWSTG"}, {"Key" : "Project", "Value" : "AWSTGWPSITE"}, {"Key" : "CreatedBy", "Value" : "SomCloud"} ],
+                "VpcId" : {"Ref" : "vpc1awstg"}
+            }
+        },
+        "eipa" : {
+            "Type" : "AWS::EC2::EIP",
+            "DependsOn" : "igwvpc1awstgattachment",
+            "Properties" : {
+              "Domain" : "vpc",
+			  "InstanceId" : { "Ref" : "wpsiteawstg" }
+            }
+        },
+        "wpsiteawstg" : {
+            "Type" : "AWS::EC2::Instance",
+            "Properties" : {
+			    "InstanceType" : { "Ref" : "InstanceTypeParameter" },
+				"ImageId" : { "Ref" : "LatestAmiId" },
+                "KeyName" : {"Ref" : "KeyName"},
+                "NetworkInterfaces" : [ {
+                    "AssociatePublicIpAddress": "true",
+                    "DeviceIndex": "0",
+                    "GroupSet": [{ "Ref" : "sgwpbasenet" }],
+                    "SubnetId": { "Ref" : "vpc1awstgsnA1" }
+                }],
+				"BlockDeviceMappings" : [
+				 {
+					"DeviceName" : "/dev/sda1",
+					"Ebs" : {
+					  "VolumeType" : "gp2",
+					  "DeleteOnTermination" : "false",
+					  "VolumeSize" : "8"
+					}
+				  }
+			  ],
+                "Tags" : [ {"Key" : "Name", "Value" : "AWSTGWPSITE"}, {"Key" : "Project", "Value" : "AWSTGWPSITE"}, {"Key" : "CreatedBy", "Value" : "SomCloud"} ]
+            }
+        }
+	},
+	"Outputs" : {
+		"InstanceId" : {
+		  "Description" : "InstanceId of the newly created EC2 instance",
+		  "Value" : { "Ref" : "wpsiteawstg" }
+		},
+		"AZ" : {
+		  "Description" : "Availability Zone of the newly created EC2 instance",
+		  "Value" : { "Fn::GetAtt" : [ "wpsiteawstg", "AvailabilityZone" ] }
+		},
+		"PublicDNS" : {
+		  "Description" : "Public DNSName of the newly created EC2 instance",
+		  "Value" : { "Fn::GetAtt" : [ "wpsiteawstg", "PublicDnsName" ] }
+		},
+		"PublicIP" : {
+		  "Description" : "Public IP address of the newly created EC2 instance",
+		  "Value" : { "Fn::GetAtt" : [ "wpsiteawstg", "PublicIp" ] }
+		}
+	  }
+}

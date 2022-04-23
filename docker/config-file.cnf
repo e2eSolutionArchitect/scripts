@@ -1,0 +1,8 @@
+[mysqld]
+innodb_buffer_pool_size=1024M
+innodb_read_io_threads=4
+innodb_flush_log_at_trx_commit=2
+innodb_flush_method=O_DIRECT
+
+
+bind-address=0.0.0.0

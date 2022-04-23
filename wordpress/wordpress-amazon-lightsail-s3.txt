@@ -1,0 +1,45 @@
+
+## End to End Implementation of a WordPress website in Amazon lightsail where amazon s3 is used to store wordpress media content 
+
+# Step: Run below command to check your wordpress credential in bitnami 
+sudo cat /home/bitnami/bitnami_credentials
+for more detail please refer bitnami documentatio > https://docs.bitnami.com/aws/faq/get-started/find-credentials/
+
+
+# Step: Configure AWS credential in wordpress wp-config.php
+--------
+ATTENTION: any misconfiguration or type in this step can break your wordpress website. make sure you keep a back copy of wp-config.php before you start editing as mentioned below. 
+if anything breaks just replace with your backup copy and it will be fine, 
+--------
+Add either Code 1 or 2 in wp-config.php before the line which says /* That's all, stop editing! Happy publishing. */ 
+Refer the video tutorial 
+
+Code 1: 
+define('AS3CF_AWS_ACCESS_KEY_ID','*****************');
+
+define('AS3CF_AWS_SECRET_ACCESS_KEY','*****************');
+
+
+Code 2 2: 
+define( 'AS3CF_SETTINGS', serialize( array(
+    'provider' => 'aws',
+    'access-key-id' => '*****************',
+    'secret-access-key' => '**********************************',
+) ) );
+
+
+Setp : Add S3 bucket policy 
+
+{
+    "Version": "2012-10-17",
+    "Id": "PolicyReadS3",
+    "Statement": [
+        {
+            "Sid": "1",
+            "Effect": "Allow",
+            "Principal": "*",
+            "Action": "s3:GetObject",
+            "Resource": "arn:aws:s3:::bucketname/*"
+        }
+    ]
+}

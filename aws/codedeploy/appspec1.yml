@@ -1,0 +1,17 @@
+version: 0.0
+Resources:
+ - TargetService:
+    Type: AWS::ECS::Service
+    Properties:
+     TaskDefinition: "arn:aws:ecs:us-east-1:<AWS account no>:task-definition/bg-task-def1:1"
+     LoadBalancerInfo:
+      ContainerName: "bg-cont"
+      ContainerPort: 8181
+      
+      
+## notes      
+#      TaskDefinition: "arn:aws:ecs:us-east-1:<AWS account no>:task-definition/<taskdefinition name>:1" - you will get this ARN from ECS cluster > task definition > json
+#      check the blue gree deployment section in course https://www.udemy.com/course/aws-cicd-automation-complete-reference-for-prod-ready-system/
+#      LoadBalancerInfo:
+#       ContainerName: "container name"
+#       ContainerPort: <port number of your service>

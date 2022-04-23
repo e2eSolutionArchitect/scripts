@@ -1,0 +1,35 @@
+version: 0.2
+ 
+phases:
+  install:
+    commands:
+      - apt-get update -y
+      - apt-get install -y openjdk-8-jdk
+  pre_build:
+    commands:
+      - echo pre build started on 'date'
+      - mvn clean install
+      - echo Logging in to Amazon ECR...
+      - aws --version
+      - $(aws ecr get-login --region $AWS_DEFAULT_REGION --no-include-email)
+      - IMAGE_REPO_NAME=<your ecr repo name>
+      - REPOSITORY_URI=<your aws account no>.dkr.ecr.us-east-1.amazonaws.com/$IMAGE_REPO_NAME
+      - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
+      - IMAGE_TAG=build-$(echo $CODEBUILD_BUILD_ID | awk -F":" '{print $2}')
+  build:
+    commands:
+      - echo Build started 'date'
+      - docker build -t $REPOSITORY_URI:latest .
+      - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG
+  post_build:
+    commands:
+      - echo Build completed on 'date'
+      - echo Pushing the Docker image...
+      - docker push $REPOSITORY_URI:$IMAGE_TAG
+      - docker push $REPOSITORY_URI:latest
+      - printf $REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
+      - cat imagedefinitions.json
+artifacts:
+  files:
+    - imagedefinitions.json
+    - 'target/springbootdemo-0.0.1-SNAPSHOT.jar'

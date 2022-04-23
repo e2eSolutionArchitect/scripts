@@ -1,0 +1,72 @@
+Production mode:
+You can build your application in production mode by running command:
+ng build --prod
+
+When application is built for production mode then environments/environment.ts file gets replaced with environments/environment.prod.ts file. Hence if you are referring to settings from environment.ts file in your code, you don’t have to put any if condition or hard code production URL.
+
+For each target environment,  create a new file under folder environments. like: environment.stg.ts , environment.qa.ts
+
+update env file with below code snipet and update according to your env settings. 
+export const environment = {
+  stg: true,
+  environmentName: 'Stage',
+  apiUrl: 'Stage url'
+};
+
+Use environment settings inside components
+Your feature components/services can now use normal environment.ts file for referring settings like API URL etc.
+
+update your compont ts accordingly. 
+
+import { environment } from 'src/environments/environment';
+
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
+})
+export class AppComponent {
+  title = 'multiple-env-demo';
+  environmentName = '';
+  environmentUrl = 'Debug api';
+
+  constructor() {
+    this.environmentName = environment.environmentName;
+    this.environmentUrl = environment.apiUrl;
+  }
+}
+
+
+Update angular.json configuration. add a new section under projects/architect/build section.
+"build": {
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ],
+            },
+            "qa": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.qa.ts"
+                }
+              ]
+            },
+            "staging": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.staging.ts"
+                }
+              ]
+            }
+          }
+        }
+
+Build application for custom environment. Now build your application for targeted environment by specific --configuration parameter to ng build command.
+ng build --configuration stg
+and dist folder shall contains build output with stg configuration.

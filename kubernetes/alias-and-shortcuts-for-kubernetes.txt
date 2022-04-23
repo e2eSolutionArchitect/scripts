@@ -1,0 +1,35 @@
+alias kc='f(){ kubectl "$@" ;  unset -f f; }; f'
+
+alias kcg='f(){ kubectl get "$@" --all-namespaces -o wide;  unset -f f; }; f'
+
+alias kce='f(){ kubectl edit "$@";  unset -f f; }; f'
+alias kcdl='f(){ kubectl delete "$@";  unset -f f; }; f'
+
+alias kcgp='f(){ kubectl get pod -o wide;  unset -f f; }; f'
+alias kcgd='f(){ kubectl get deployment -o wide;  unset -f f; }; f'
+alias kcgs='f(){ kubectl get service -o wide;  unset -f f; }; f'
+alias kcgrs='f(){ kubectl get replicaset -o wide;  unset -f f; }; f'
+
+
+alias kcd='f(){ kubectl describe "$@" ;  unset -f f; }; f'
+alias kcdp='f(){ kubectl describe pod "$@" ;  unset -f f; }; f'
+alias kcdd='f(){ kubectl describe deployment "$@"  ;  unset -f f; }; f'
+alias kcdrs='f(){ kubectl describe replicaset "$@"  ;  unset -f f; }; f'
+alias kcds='f(){ kubectl describe service "$@"  ;  unset -f f; }; f'
+
+
+kc get ns
+kc run nginx-pod --image=nginx:alpine --dry-run=client -o yaml > pod.yaml
+kc run redis --image=redis:alpine --labels=tire=db --dry-run=client -o yaml > pod2.yaml
+kc expose pod redis --name redis-service --port 6379 --target-port 6379
+kc create deployment webapp --image=kodekloud/webapp-color
+kc scale deployment webapp --replicas=3
+kc run custom-nginx --image=nginx --port 8080
+
+
+kc create ns dev-ns
+kc create deployment redis-deploy --namespace=dev-ns --image=redis
+kc scale deployment redis-deploy --replicas=2 --namespace=dev-ns
+
+kc run httpd --image=httpd:alpine
+kc run httpd --image=httpd:alpine --port 80 expose --dry-run=client -o yaml

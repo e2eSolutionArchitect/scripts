@@ -1,0 +1,123 @@
+
+# update both master and node instance
+
+sudo apt-get update
+
+# Install docker on both nodes
+
+
+sudo apt-get install docker.io -y
+
+## refer https://kubernetes.io/fr/docs/setup/independent/install-kubeadm/
+
+sudo su
+
+# run below 4 commands in both nodes
+
+apt-get update && apt-get install -y apt-transport-https curl
+curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
+
+cat <<EOF >/etc/apt/sources.list.d/kubernetes.list
+deb https://apt.kubernetes.io/ kubernetes-xenial main
+EOF
+
+apt-get update
+apt-get install -y kubelet kubeadm kubectl
+
+# initialize kubernetes. do it in master only
+
+# --pod-network-cidr=192.168.0.0/16 is for calico network plugin
+kubeadm init --apiserver-advertise-address=172.31.59.151 --pod-network-cidr=192.168.0.0/16
+
+# If you are using a VM having 1 CPU then you may get NumCPU error. ignore NumCPU error by --ignore-preflight-errors=NumCPU
+kubeadm init --apiserver-advertise-address=172.31.59.151 --pod-network-cidr=192.168.0.0/16 --ignore-preflight-errors=NumCPU
+
+# copy the token from the output of above command like below and run in worker node. 
+
+kubeadm join 172.31.59.151:6443 --token v6e766.v28w9j2gsube33f9 \
+    --discovery-token-ca-cert-hash sha256:3ecc9ed324b3948108dec86c94f7a3086b3c0a26c5c8bdb5774c8cd420e9923a
+	
+	
+detected "cgroupfs" as the Docker cgroup driver. The recommended driver is "systemd". Please follow the guide at https://kubernetes.io/docs/setup/cri/
+
+# If you get above error then run following command
+# start docker service
+
+sudo systemctl start docker.service 
+
+# then create a docker demon 
+
+# Set up the Docker daemon
+cat > /etc/docker/daemon.json <<EOF
+{
+  "exec-opts": ["native.cgroupdriver=systemd"],
+  "log-driver": "json-file",
+  "log-opts": {
+    "max-size": "100m"
+  },
+  "storage-driver": "overlay2"
+}
+EOF
+
+
+# then restart docker service 
+systemctl daemon-reload
+systemctl restart docker.service
+
+# re-run the token query in slave. 
+kubeadm join 172.31.59.151:6443 --token v6e766.v28w9j2gsube33f9 \
+    --discovery-token-ca-cert-hash sha256:3ecc9ed324b3948108dec86c94f7a3086b3c0a26c5c8bdb5774c8cd420e9923a
+
+# after running the above command successfully you will get below as output 
+This node has joined the cluster:
+* Certificate signing request was sent to apiserver and a response was received.
+* The Kubelet was informed of the new secure connection details.
+
+Run 'kubectl get nodes' on the control-plane to see this node join the cluster.
+
+# run kubectl get nodes and you may get below error as the server is not properly configured 
+
+The connection to the server localhost:8080 was refused - did you specify the right host or port?
+
+# to fix it run the below three commnds in master node . these commnds are actually in the output log of master node
+
+mkdir -p $HOME/.kube 
+sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+sudo chown $(id -u):$(id -g) $HOME/.kube/config 
+
+# now run kubectl get nodes. you should get output 
+
+root@ip-172-31-59-151:/home/ubuntu# kubectl get nodes
+NAME               STATUS     ROLES    AGE   VERSION
+ip-172-31-59-151   NotReady   master   30m   v1.18.8
+ip-172-31-62-27    NotReady   <none>   16m   v1.18.8
+
+# abouve two nodes are your cluster node. master and worker. 
+# as you see the status of the nodes are showing "NotReady". because we have not installed network plugin. 
+it means there is no network in your cluster right now. its just master and worker which are connected to each other. 
+
+# now to install network run below two commands in master node. 
+
+kubectl apply -f https://docs.projectcalico.org/v3.10/getting-started/kubernetes/installation/hosted/rbac-kdd.yml
+
+kubectl apply -f https://docs.projectcalico.org/v3.3/getting-started/kubernetes/installation/hosted/kubernetes-datastore/calico-networking/1.7/calico.yaml
+
+# your network plugin now has initialized. now check the status
+
+kubectl get pods --all-namespaces
+
+# you should get below output 
+
+root@ip-172-31-59-151:/home/ubuntu# kubectl get pods --all-namespaces
+
+# All the pods should be in running status. then run kubectl get nodes
+kubectl get nodes
+should have both nodes Ready status
+
+it means both nodes are ready for deployment. 
+
+showing Pending means thre is something wrong. check following things
+1. the network plugin 'calico' installed properly
+2. if docker and kubernetes are using same cgroup driver. 
+
+

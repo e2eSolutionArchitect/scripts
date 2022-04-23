@@ -1,0 +1,40 @@
+`` Kibana default port no 5601.
+`` elasticsearch port 9200
+
+`` install metricbeat
+
+sudo apt-get install metricbeat
+sudo systemctl start metricbeat  -- all rich metric like cpu,load, memory, network, processes etc are all being collected into elasticsearch in 10 sec interval 
+
+`` add load testing
+
+sudo apt install stress
+
+'' check how many core and available memory you have
+
+nproc -- to check no of core 
+
+`` check memory 
+
+free -h
+
+`` create load/stress , max out the cpu for 2 mins or 120 secs
+stress -- cpu 1 --timeout 120 
+
+`` now run 5 worker for 3 mins 
+stress --vm 5 --timeout 180
+
+
+
+`` bring logstash server up. browse to logstash bin folder and execute below folder. make sure you have logstask.conf file configured properly
+logstash -f logstash.conf
+
+`` list index in elasticsearch 
+localhost:9200/_cat/_indices
+
+`` search in elasticsearch 
+localhost:9200/<index name>/_search
+
+
+
+

@@ -1,0 +1,38 @@
+version: '3.7'
+
+services:
+  # Database
+  db:
+    image: mysql:latest
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./config-file.cnf:/etc/mysql/conf.d/config-file.cnf
+    restart: always
+    expose:
+      - '3306'
+    ports:
+      - '3306:3306'
+    environment:
+      MYSQL_ROOT_PASSWORD: pass@123
+      MYSQL_DATABASE: testdb
+      MYSQL_USER: testusr
+      MYSQL_PASSWORD: pass123
+    networks:
+      - dockernet
+  # phpmyadmin
+  phpmyadmin:
+    depends_on:
+      - db
+    image: phpmyadmin/phpmyadmin:latest
+    restart: always
+    ports:
+      - '8899:80'
+    environment:
+      PMA_HOST: db
+      MYSQL_ROOT_PASSWORD: pass@123
+    networks:
+      - dockernet
+networks:
+  dockernet:
+volumes:
+  db_data:

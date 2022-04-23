@@ -1,0 +1,48 @@
+version: '3'
+
+services:
+  # Database
+  db:
+    image: mysql:8.0.23
+    volumes:
+     - /var/lib/mysql_data:/var/lib/mysql
+     - ./config-file.cnf:/etc/mysql/conf.d/config-file.cnf
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: passowrd
+      MYSQL_DATABASE: DATABASEDB
+      MYSQL_USER: testusr
+      MYSQL_PASSWORD: passowrd
+    expose:
+      - 3306
+    ports:
+      - 3306:3306
+    networks:
+      - mysqlnet
+  # Keycloak
+  keycloak:
+    depends_on:
+      - db
+    image: jboss/keycloak:12.0.2
+    restart: always
+    environment:
+        DB_VENDOR: MYSQL
+        DB_ADDR: db
+        DB_DATABASE: DATABASEDB
+        DB_USER: testusr
+        DB_PASSWORD: password
+        #JDBC_PARAMS: "useSSL=false"
+        KEYCLOAK_USER: admin
+        KEYCLOAK_PASSWORD: password
+    expose:
+      - '8443'
+      - '8080'
+    ports:
+      - '8080:8080'
+      - '8443:8443'
+    networks:
+      - mysqlnet
+volumes:
+  v_keycloak_data:
+networks:
+  mysqlnet:

@@ -1,0 +1,59 @@
+pipeline
+	{
+		agent any
+
+		environment {
+			registry =aws_acct_id.dkr.ecr.us-east-2.amazomaws.com/your_ecr_repo
+		}
+
+		stages {
+		   stage ('Git pull') {
+			   steps {
+				   checkout ([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId:",url: 'https://github.com/awstechguide/testrepo']]])
+				}
+			}
+
+		   
+		   stage ('Build Image') {
+			 steps{
+			   script {
+			     dockerImage =docker.build registry
+			   }
+			   
+			 }
+		   }
+
+		   stage ('Upload to ECR') {
+				steps {
+					  script{
+						 sh 'aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin <AWS_ACC_ID>.dkr.ecr.us.east-2.amazonaws.com'
+						 sh 'docker push <AWS_ACC_ID>.dkr.ecr.us.east-2.amazonaws.com/<YOUR-ECR-REPO>:latest'
+					    }
+				}
+				
+			}	
+			
+			
+		   stage ('Clean container') {
+				steps {
+					  script{
+					      sh 'docker ps -f name=<container-name> -q | xargs --no-run-if-empty docker container stop'
+					      sh 'docker container ls -a -fname=<container-name> -q | xargs -r docker container rm'
+					    }
+				}
+				
+			}	
+			
+			
+			stage ('Docker Run') {
+				steps {
+					  script{
+					    sh 'docker run -d -p 8096:5000 --rm --name <container-name> aws_acct_id.dkr.ecr.us-east-2.amazomaws.com/your_ecr_repo:latest'
+					    }
+				}
+				
+			}
+
+		}
+
+	}

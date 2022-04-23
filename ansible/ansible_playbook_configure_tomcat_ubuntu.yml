@@ -1,0 +1,44 @@
+---
+ - name: Configure in Remote Hosts
+   hosts: remotehosts
+   gather_facts: true
+   become: yes
+   vars:
+     tomcat_port: 8282
+   tasks:
+    - name: Update repos
+      apt:
+        name: "*"
+        state: latest
+    - name: Installing OpenJDK
+      apt:
+        name: openjdk-8-jdk
+    - name: Downloading tomcat
+      get_url:
+        url: "http://apache.mirror.iweb.ca/tomcat/tomcat-8/v8.5.56/bin/apache-tomcat-8.5.56.tar.gz"
+        dest: /usr/local
+    - name: Extracting tomcat
+      unarchive:
+        src: "/usr/local/apache-tomcat-8.5.56.tar.gz"
+        dest: /usr/local
+        remote_src: yes
+    - name: Renaming tomcat home
+      command: mv /usr/local/apache-tomcat-8.5.56 /usr/local/tomcat
+    - name: Changing port
+      template:
+        src: server.xml.j2
+        dest: /usr/local/tomcat/conf/server.xml
+    - name: Updating users and role
+      template:
+        src: tomcat-users.xml
+        dest: /usr/local/tomcat/conf/tomcat-users.xml
+    - name: Updating context xml restriction
+      template:
+        src: context-manager.xml
+        dest: /usr/local/tomcat/webapps/manager/META-INF/context.xml
+    - name: Updating restriction for host manager context
+      template:
+        src: context-hostmanager.xml
+        dest: /usr/local/tomcat/webapps/host-manager/META-INF/context.xml
+    - name: Starting tomcat
+      shell: nohup /usr/local/tomcat/bin/startup.sh &

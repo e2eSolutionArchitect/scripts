@@ -1,0 +1,13 @@
+# need update. not tested 
+FROM tomee:8.0.8-webprofile
+
+# As we are using the tomee Docker images, then we dont need to install Java, Tomcat, and other required packages
+
+LABEL maintainer=”som@awstechguide.com”
+
+WORKDIR /opt/tomcat/webapps
+RUN curl -O -L https://github.com/......../SampleWebApp.war
+
+EXPOSE 8080
+
+CMD ["/opt/tomcat/bin/catalina.sh", "run"]

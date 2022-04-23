@@ -1,0 +1,8 @@
+Error: "The link you followed has expired" while installing wordpress theme
+Note: only add below five lines of code in your .htaccess (you will get this file under your public_html folder in your hosting or at root where you installed your wordpress)
+
+php_value upload_max_filesize 128M
+php_value post_max_size 128M
+php_value max_execution_time 300
+php_value max_input_time 300
+php_value memory_limit 256M

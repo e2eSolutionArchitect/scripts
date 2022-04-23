@@ -1,0 +1,51 @@
+
+
+Error 1:
+Caused by: com.amazonaws.services.dynamodbv2.model.AmazonDynamoDBException: The provided key element does not match the schema (Service: AmazonDynamoDBv2; Status Code: 400; 
+Fix:1.1 Partition key name is case sensitive. It's column name and data type match with the column in upload file. 
+1.2 Make sure the value in number data type fields are within length 8
+
+
+Erroe 2: 
+Caused by: com.amazonaws.services.dynamodbv2.model.AmazonDynamoDBException: Supplied AttributeValue is empty, must contain exactly one of the supported datatypes (Service: AmazonDynamoDBv2; Status Code: 400;
+Fix: 2.1 Make sure you dont have any attribute/column value empty. 
+2.2 If you have all values present still getting the error it means you have wrong data type. Make sure String means "s" not "S", number means "n" not "N". make sure datatype is in small letter. 
+
+DynamoDB upload file format 
+{
+	"policyid": {
+		"n": "448094"
+	},
+	"eq_site_limit": {
+		"n": "190724.4"
+	},
+	"county": {
+		"s": "CLAY COUNTY"
+	},
+	"statecode": {
+		"s": "NK"
+	}
+}
+
+Important Note: Ensure data type format. 
+String : “s”       NOT “S”
+Number: “n”   NOT “N”
+
+-DynamoDB table name is case sensitive.
+-Partition key is also case sensitive
+-The upload file in s3 should be in a directory. Point the directory not the file from data pipeline configuration.
+-Make sure your s3 file in proper format.
+-Once the pipeline is active the EMR instances take time. Check in EMR cluster. 
+-Do not forget to delete the pipeline and ensure EMR cluster is also terminated after you complete testing. Otherwise, it will continue charging. 
+
+sample data: policyid is partition key
+
+{"eq_site_limit":{"n":"78960"},"hu_site_limit":{"n":"7875678"},"policyid":{"n":"10006"},"line":{"s":"Commertial"},"county":{"s":"COUNTY 6"},"construction":{"s":"Reinforced Concrete"},"statecode":{"s":"BG"}}
+{"eq_site_limit":{"n":"68960"},"hu_site_limit":{"n":"2563"},"policyid":{"n":"10005"},"line":{"s":"Residential"},"county":{"s":"COUNTY 5"},"construction":{"s":"Masonry"},"statecode":{"s":"FL"}}
+{"eq_site_limit":{"n":"3232.67"},"hu_site_limit":{"n":"8234"},"policyid":{"n":"10007"},"line":{"s":"Commertial"},"county":{"s":"COUNTY 7"},"construction":{"s":"Reinforced Concrete"},"statecode":{"s":"NH"}}
+{"eq_site_limit":{"n":"66786877"},"hu_site_limit":{"n":"56498"},"policyid":{"n":"10008"},"line":{"s":"Residential"},"county":{"s":"COUNTY 8"},"construction":{"s":"Reinforced Concrete"},"statecode":{"s":"NA"}}
+{"eq_site_limit":{"n":"567560"},"hu_site_limit":{"n":"7875678"},"policyid":{"n":"10009"},"line":{"s":"Commertial"},"county":{"s":"COUNTY 6"},"construction":{"s":"Reinforced Concrete"},"statecode":{"s":"BG"}}
+{"eq_site_limit":{"n":"49450"},"hu_site_limit":{"n":"1322563"},"policyid":{"n":"10010"},"line":{"s":"Residential"},"county":{"s":"COUNTY 5"},"construction":{"s":"Masonry"},"statecode":{"s":"FL"}}
+{"eq_site_limit":{"n":"32.67"},"hu_site_limit":{"n":"9234"},"policyid":{"n":"10011"},"line":{"s":"Commertial"},"county":{"s":"COUNTY 7"},"construction":{"s":"Reinforced Concrete"},"statecode":{"s":"NH"}}
+{"eq_site_limit":{"n":"6677"},"hu_site_limit":{"n":"16498"},"policyid":{"n":"10012"},"line":{"s":"Residential"},"county":{"s":"COUNTY 8"},"construction":{"s":"Reinforced Concrete"},"statecode":{"s":"NA"}}
+

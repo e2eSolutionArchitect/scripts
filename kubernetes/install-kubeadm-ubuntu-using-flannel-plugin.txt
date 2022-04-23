@@ -1,0 +1,149 @@
+
+******** common steps for all nodes starts here ************
+# update both master and node instance
+
+sudo apt-get update
+
+# Install docker on both nodes
+
+## add master and worker ip entries in etc host file like below
+root@ip-172-31-78-104:/home/ubuntu# sudo vi /etc/hosts
+root@ip-172-31-78-104:/home/ubuntu# sudo cat /etc/hosts
+127.0.0.1 localhost
+
+172.31.78.104 kube-master
+172.31.77.191 kube-worker
+root@ip-172-31-78-104:/home/ubuntu#
+
+## check SWAP if it is disabled. it should be disabled. 
+
+root@ip-172-31-77-191:/home/ubuntu# free -m
+              total        used        free      shared  buff/cache   available
+Mem:           3933         141        3154           0         637        3574
+Swap:             0           0           0
+root@ip-172-31-77-191:/home/ubuntu#
+
+# swap 0 means disabled. if not disabled then run below command
+sudo swapoff -a
+
+## refer https://kubernetes.io/fr/docs/setup/independent/install-kubeadm/
+
+sudo su
+
+apt-get update && apt-get install -y apt-transport-https curl
+apt-get update
+
+# adding key for kubernetes repository
+
+curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
+
+apt-add-repository "deb https://apt.kubernetes.io/ kubernetes-xenial main"
+
+
+apt-get update && apt-get install -y kubelet kubeadm kubectl docker.io
+apt-get update
+
+# start docker service on all nodes
+sudo systemctl enable docker
+sudo systemctl start docker
+sudo systemctl status docker
+
+******** common steps for all nodes are done ************
+
+# initialize kubernetes. do it in master only
+
+# --pod-network-cidr=192.168.0.0/16 is for FLANNEL network plugin
+ sudo kubeadm init --apiserver-advertise-address <private ip of master node> --pod-network-cidr=172.16.0.0/16
+ sudo kubeadm init --apiserver-advertise-address 172.31.78.104 --pod-network-cidr=172.16.0.0/16
+ 
+To start using your cluster, you need to run the following as a regular user:
+
+  mkdir -p $HOME/.kube
+  sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+  sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
+You should now deploy a pod network to the cluster.
+Run "kubectl apply -f [podnetwork].yaml" with one of the options listed at:
+  https://kubernetes.io/docs/concepts/cluster-administration/addons/
+
+Then you can join any number of worker nodes by running the following on each as root:
+
+kubeadm join 172.31.78.104:6443 --token zh6i6a.2zqvblnn9kdi1sd1 \
+    --discovery-token-ca-cert-hash sha256:b2232018e20e8946a79b1dcbf37569bc2a122495ae1ff8a61fb8fc1fc53b71b0
+
+	
+## kubeadm work was only till this point to setup the cluster for you. cluster setup is done. now onwards we will be using kubectl
+
+# You have to run below commands one after another. 
+
+  mkdir -p $HOME/.kube
+  sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+  sudo chown $(id -u):$(id -g) $HOME/.kube/config
+  
+# run below command to add FLANNEL network 
+sudo kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
+
+# run below command in worker nodes to join those nodes in cluster
+
+kubeadm join 172.31.78.104:6443 --token zh6i6a.2zqvblnn9kdi1sd1 \
+    --discovery-token-ca-cert-hash sha256:b2232018e20e8946a79b1dcbf37569bc2a122495ae1ff8a61fb8fc1fc53b71b0
+ 
+# now run kubectl get nodes. you should get output . But in NotReady status. because there is no network in the cluster now. it is only master and worker nodes. 
+
+root@ip-172-31-78-104:/home/ubuntu# kubectl get nodes
+NAME               STATUS   ROLES    AGE     VERSION
+ip-172-31-77-191   Ready    <none>   22s     v1.18.8
+ip-172-31-78-104   Ready    master   6m58s   v1.18.8
+
+# abouve two nodes are your cluster node. master and worker. 
+
+# your network plugin now has initialized. now check the status
+
+kubectl get pods --all-namespaces
+
+# you should get below output 
+
+root@ip-172-31-78-104:/home/ubuntu# kubectl get pods --all-namespaces
+NAMESPACE     NAME                                       READY   STATUS    RESTARTS   AGE
+kube-system   coredns-66bff467f8-g6mmt                   1/1     Running   0          8m30s
+kube-system   coredns-66bff467f8-hj5hr                   1/1     Running   0          8m30s
+kube-system   etcd-ip-172-31-78-104                      1/1     Running   0          8m45s
+kube-system   kube-apiserver-ip-172-31-78-104            1/1     Running   0          8m45s
+kube-system   kube-controller-manager-ip-172-31-78-104   1/1     Running   0          8m45s
+kube-system   kube-flannel-ds-amd64-dbcw5                1/1     Running   0          2m13s
+kube-system   kube-flannel-ds-amd64-tjv9g                1/1     Running   0          4m30s
+kube-system   kube-proxy-6fhmb                           1/1     Running   0          2m13s
+kube-system   kube-proxy-cbhw8                           1/1     Running   0          8m30s
+kube-system   kube-scheduler-ip-172-31-78-104            1/1     Running   0          8m44s
+root@ip-172-31-78-104:/home/ubuntu#
+
+
+# All the pods should be in running status. then run kubectl get nodes
+kubectl get nodes
+should have both nodes Ready status
+
+#it means both nodes are ready for deployment. 
+
+#Test by deploying an httpd image
+
+#In master run below commands
+kubectl run my-httpd --image=httpd --replicas=1 --port=80
+
+kubectl get pods
+
+kubectl get pod -o wide
+
+root@ip-172-31-78-104:/home/ubuntu# kubectl get pods
+NAME       READY   STATUS    RESTARTS   AGE
+my-httpd   1/1     Running   0          78s
+root@ip-172-31-78-104:/home/ubuntu# kubectl get pod -o wide
+NAME       READY   STATUS    RESTARTS   AGE   IP           NODE               NOMINATED NODE   READINESS GATES
+my-httpd   1/1     Running   0          88s   172.16.1.2   ip-172-31-77-191   <none>           <none>
+root@ip-172-31-78-104:/home/ubuntu#
+
+# copy the IP from ablove output and Now go to worker command line
+curl 172.16.1.2
+
+root@ip-172-31-77-191:/home/ubuntu# curl 172.16.1.2
+<html><body><h1>It works!</h1></body></html>
+root@ip-172-31-77-191:/home/ubuntu#

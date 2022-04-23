@@ -1,0 +1,20 @@
+# need update. not tested 
+FROM centos
+
+# As we are using the latest Ubuntu/CentOS Docker images, then we need to install Java, Tomcat, and other required packages
+
+LABEL maintainer=”som@awstechguide.com”
+RUN mkdir /opt/tomcat/
+WORKDIR /opt/tomcat
+RUN curl -O https://www.apache.org/dyn/closer.cgi/tomee/tomee-8.0.8/apache-tomee-8.0.8-webprofile.tar.gz
+RUN tar xvfz apache-tomee*.tar.gz
+RUN mv apache-tomee-8.0.8/* /opt/tomcat/.
+RUN yum -y install java
+RUN java -version
+
+WORKDIR /opt/tomcat/webapps
+RUN curl -O -L https://github.com/......../SampleWebApp.war
+
+EXPOSE 8080
+
+CMD ["/opt/tomcat/bin/catalina.sh", "run"]
