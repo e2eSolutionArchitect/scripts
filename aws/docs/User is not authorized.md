@@ -1,11 +1,11 @@
-### I was actually getting this issue while trying to provision any resources from AWS CLI (using terraform) and having MFA enabled. 
-It use to show an encrypted message so first decode the message to read it. 
+## Issue: 
+### While trying to provision any resources from AWS CLI and having **MFA enabled** for the IAM user. It shows an encrypted message with error like "User: xxx is not authorized to perform: xxx with an explicit deny in an indentity-based policy "
 
-User: xxx is not authorized to perform: xxx with an explicit deny in an indentity-based policy 
+So first decode the message to read it. 
 
 Ensure you have 'aws configure' done with valid access credentials.
 
-Step 1:
+### Step 1:
 Decode the error message by below sts command
 
 ```
@@ -15,9 +15,10 @@ aws sts decode-authorization-message --encoded-message <copy-the encoded-message
 It will show detail decoded message. 
 
 
-Step 2: In Decoded message if you find BlockMostAccessUnlessSignedInWithMFA, it means you have your MFA enabled and while using CLI commands you have to use your MFA to generate sessio token
+### Step 2: 
+In Decoded message if you find BlockMostAccessUnlessSignedInWithMFA, it means you have your MFA enabled and while using CLI commands you have to use your MFA to generate sessio token.
 
-to generate session token run below command 
+To generate session token run below command 
 
 ```
 aws sts get-session-token --serial-number <enter-arn-of-your-mfa> --token-code <enter-code-from-your-authenticator-device>
@@ -27,8 +28,7 @@ aws sts get-session-token --serial-number arn:aws:iam::<aws-account-id>:mfa/<use
 
 It will give an output with credentials AccessKeyId, SecretAccessKey, SessionToken
 
-Step 3:
-  
+### Step 3:  
 If you are using windows, browse to you user directory > .aws then open the 'credentials' in notepad. 
 replace the existing values of AccessKeyId, SecretAccessKey with Step 2 output. and add one more line as below 
 
