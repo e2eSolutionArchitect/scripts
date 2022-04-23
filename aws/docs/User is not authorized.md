@@ -1,5 +1,5 @@
 ## Issue: 
-### While trying to provision any resources from AWS CLI and having **MFA enabled** for the IAM user. It shows an encrypted message with error like "User: xxx is not authorized to perform: xxx with an explicit deny in an indentity-based policy "
+### While trying to provision any resources from AWS CLI and having **MFA enabled** for the IAM user, it shows an encrypted message with error like "User: xxx is not authorized to perform: xxx with an explicit deny in an indentity-based policy "
 
 So first decode the message to read it. 
 
