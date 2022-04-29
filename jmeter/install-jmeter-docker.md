@@ -25,5 +25,9 @@ you will get X11 display error as we are using cli mode only. there is no GUI.  
 
 Now run 
 ```
+# For Single Node
 docker run jmeter -n -t /opt/apache-jmeter-5.4.3/bin/examples/CSVSample.jmx -l results.jtl -Dserver.rmi.ssl.disable=true
+
+For Distributed load test
+docker run jmeter -n -t /opt/apache-jmeter-5.4.3/bin/examples/CSVSample.jmx -l results.jtl -R <worker-node-privateIp1,privateIp1> -Dserver.rmi.ssl.disable=true
 ```
