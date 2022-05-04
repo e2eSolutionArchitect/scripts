@@ -50,7 +50,7 @@ echo $JMETER_HOME
 echo $PATH  (PATH must have jmeter home and java home included)
 ```
 
-### Step 3: RMI keystore JKS file in Jmeter controller
+### Step 3: Generate RMI keystore JKS file in Jmeter controller
 - browse to <jmeter-home>/bin
 - run below command to generate jks
   ```
@@ -65,6 +65,19 @@ NOTE: If the above step fails to generate jks then run below
     ```
   ./create-rmi-keystore.sh
   ```
+
+### Step 4: Copy and Move RMI keystore JKS file in Jmeter controller and worker(s) nodes
+- First copy/move the jks file to <jmeter-home>/bin in controller
+  
+  ```
+  cp rmi_keystore.jsk /home/ec2-user/
+  ```
+- Secondly download the jks file in your system (local system). this file needs to be trasferred to EVERY worker nodes
+  
+  ```
+  pscp -i sample.ppk ec2-user@<dns-url-of-controller-instance>:/home/ec2-user/apache-jmeter-5.4.3/bin/rmi_keystore.jks .
+  ```
+  
   
 ### Step 4: Configure jmeter.properties
 - 
