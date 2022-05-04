@@ -50,6 +50,23 @@ echo $JMETER_HOME
 echo $PATH  (PATH must have jmeter home and java home included)
 ```
 
+### Step 3: RMI keystore JKS file in Jmeter controller
+- browse to <jmeter-home>/bin
+- run below command to generate jks
+  ```
+  ./create-rmi-keystore.sh
+  ```
+  enter 'rmi' as name and keep pressing enter for all other question. Type "Yes" when it asks for review and enter to generate the jks file. 
+NOTE: If the above step fails to generate jks then run below
+  ```
+  sudo chown -R $USER:$USER /home/ec2-user/apache-jmeter-5.4.3
+  ```
+  and then run 
+    ```
+  ./create-rmi-keystore.sh
+  ```
+  
+### Step 4: Configure jmeter.properties
 - 
 - 
 - Log into controller node and generate rmi keystore jks. copy the jsk file to <jmeter-home>/bin  in controller node
