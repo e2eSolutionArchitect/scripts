@@ -1,4 +1,4 @@
-## Context: We are discussing here about the installation of jmeter and executing distributed load test in plain EC2 instance with redhat AMI (NON docker environment). 
+## Problem statement: Install jmeter and execute distributed load test in plain EC2 instance with redhat AMI (NON docker environment). 
 
 ### Specification used:
 - AWS EC2 instance with redhat image
