@@ -18,8 +18,23 @@
 1.2 jmeter manual installation
 
 ```
+# Install JDK
 sudo yum update -y
-curl -L silent
+curl -L --silent <java_download_url> > /user/ec2-user/openjdk-<version>.tgz
+tar -xzf user/ec2-user/openjdk-<version>.tgz -C /user/ec2-user
+rm -f user/ec2-user/openjdk-<version>.tgz
+
+export JAVA_HOME=/user/ec2-user/jdk-version
+export PATH=$JAVA_HOME/bin:$PATH
+
+# Install Jmeter
+curl -L --silent <jmeter_download_url> > /user/ec2-user/apache-jmeter-<version>.tgz
+tar -xzf user/ec2-user/apache-jmeter-<version>.tgz -C /user/ec2-user
+rm -f user/ec2-user/apache-jmeter-<version>.tgz
+
+export JMETER_HOME=/user/ec2-user/apache-jmeter-version
+export PATH=$JMETER_HOME/bin:$PATH
+
 ```
 
 ### Step 2: Connect to controller instance using putty
