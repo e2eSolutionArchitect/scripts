@@ -74,17 +74,38 @@ NOTE: If the above step fails to generate jks then run below
   ```
 - Secondly download the jks file in your system (local system). this file needs to be trasferred to EVERY worker nodes
   
+  To Download from controller EC2
   ```
-  pscp -i sample.ppk ec2-user@<dns-url-of-controller-instance>:/home/ec2-user/apache-jmeter-5.4.3/bin/rmi_keystore.jks .
+  pscp -i sample.ppk ec2-user@<dns-url-of-controller-instance>:/home/ec2-user/apache-jmeter-5.4.3/bin/rmi_keystore.jks .  (dont miss the '.' it will copy the file in your local directory)
+  ```
+  To Upload to worker EC2
+  ```
+  pscp -i sample.ppk rmi_keystore.jks ec2-user@<dns-url-of-worker-instance>:/home/ec2-user/apache-jmeter-5.4.3/bin/
   ```
   
+### Step 4: Configure jmeter.properties in both controller and worker one after another
+browse to /home/ec2-user/apache-jmeter-5.4.3/bin/ and open jmeter.properties
   
-### Step 4: Configure jmeter.properties
-- 
-- 
-- Log into controller node and generate rmi keystore jks. copy the jsk file to <jmeter-home>/bin  in controller node
-- Download the rmi keystore jks file from controller node and upload to <jmeter-home>/bin in worker(s) nodes
-- start jmeter server in worker node
-- Run test in controller node
+  ```
+  sudo vi jmeter.properties
+  ```
+  search for port 4000. uncomment the line
+  
+### Step 5: Start worker server
+  connect to your worker instance(s), browse to /home/ec2-user/apache-jmeter-5.4.3/bin/ and run below
+  ```
+  ./jmeter-server -Djava.rmi.server.hostname=<private ip of worker node> -Dserver.rmi.ssl.disable=true
+  
+  If you get rmi error then run below
+  
+   ./jmeter-server -Djava.rmi.server.hostname=<private ip of worker node> -Dserver.rmi.ssl.disable=true -Dserver.rmi.create=false
+  ```
+  
+ ### Step 6: Run test from jmeter controller node
+ ```
+  jmeter -n -t /home/ec2-user/apache-jmeter-5.4.3/bin/examples/CSVSample.jmx -R=<comma separated private ips of your worker nodes> -l result.log -Dserver.rmi.ssl.disable=true
+  
+  jmeter -n -t /home/ec2-user/apache-jmeter-5.4.3/bin/examples/CSVSample.jmx -R10.1.1.2,10.1.1.5 -l result.log -Dserver.rmi.ssl.disable=true
+```
   
 
