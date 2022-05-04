@@ -83,7 +83,7 @@ NOTE: If the above step fails to generate jks then run below
   pscp -i sample.ppk rmi_keystore.jks ec2-user@<dns-url-of-worker-instance>:/home/ec2-user/apache-jmeter-5.4.3/bin/
   ```
   
-### Step 4: Configure jmeter.properties in both controller and worker one after another
+### Step 5: Configure jmeter.properties in both controller and worker one after another
 browse to /home/ec2-user/apache-jmeter-5.4.3/bin/ and open jmeter.properties
   
   ```
@@ -91,7 +91,7 @@ browse to /home/ec2-user/apache-jmeter-5.4.3/bin/ and open jmeter.properties
   ```
   search for port 4000. uncomment the line
   
-### Step 5: Start worker server
+### Step 6: Start worker server
   connect to your worker instance(s), browse to /home/ec2-user/apache-jmeter-5.4.3/bin/ and run below
   ```
   ./jmeter-server -Djava.rmi.server.hostname=<private ip of worker node> -Dserver.rmi.ssl.disable=true
@@ -101,7 +101,7 @@ browse to /home/ec2-user/apache-jmeter-5.4.3/bin/ and open jmeter.properties
    ./jmeter-server -Djava.rmi.server.hostname=<private ip of worker node> -Dserver.rmi.ssl.disable=true -Dserver.rmi.create=false
   ```
   
- ### Step 6: Run test from jmeter controller node
+ ### Step 7: Run test from jmeter controller node
  ```
   jmeter -n -t /home/ec2-user/apache-jmeter-5.4.3/bin/examples/CSVSample.jmx -R=<comma separated private ips of your worker nodes> -l result.log -Dserver.rmi.ssl.disable=true
   
