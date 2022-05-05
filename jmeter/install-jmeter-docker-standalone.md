@@ -34,3 +34,13 @@ docker run --mount type=bind, source="mnt/c/tools/apache-jmeter-5.4.3/bin/", tar
 For Distributed load test
 docker run -n -t /opt/apache-jmeter-5.4.3/bin/examples/CSVSample.jmx -l results.jtl -R <worker-node-privateIp1,privateIp1> -Dserver.rmi.ssl.disable=true
 ```
+
+### Copy the results from stopped containers
+
+```
+docker ps -a  # to check stopped containers
+mkdir jmeter-results # create a dir to store result
+cd jmeter-result
+docker cp <container id>:/opt/apache-jmeter-5.4.3/bin/example .  # dont miss the '.'. it will copy the containt of 'example' folder in your local directory
+
+```
