@@ -28,6 +28,9 @@ Now run
 # For Single Node
 docker run jmeter -n -t /opt/apache-jmeter-5.4.3/bin/examples/CSVSample.jmx -l results.jtl -Dserver.rmi.ssl.disable=true
 
+# mount the source to get the jmeter result in your target
+docker run --mount type=bind, source="mnt/c/tools/apache-jmeter-5.4.3/bin/", target="/opt/apache-jmeter-5.4.3/bin" jmeter -n -t bin/example.jmx -l bin/results.jtl -Dserver.rmi.ssl.disable=true
+
 For Distributed load test
-docker run jmeter -n -t /opt/apache-jmeter-5.4.3/bin/examples/CSVSample.jmx -l results.jtl -R <worker-node-privateIp1,privateIp1> -Dserver.rmi.ssl.disable=true
+docker run -n -t /opt/apache-jmeter-5.4.3/bin/examples/CSVSample.jmx -l results.jtl -R <worker-node-privateIp1,privateIp1> -Dserver.rmi.ssl.disable=true
 ```
