@@ -1,4 +1,5 @@
 # This Dockerfile is to build a custom docker image for jmeter which will be used in AWS ECS container. That's why CMD has been used
+# https://openjdk.java.net/install/
 
 FROM openjdk:19-jdk-alpine3.15
 
