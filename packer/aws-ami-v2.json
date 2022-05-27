@@ -1,18 +1,18 @@
 {
-  "builders": [
-    {
-      "type": "amazon-ebs",
-      "region": "eu-central-1",
-      "source_ami": "ami-0c4f7023847b90238",
-      "instance_type": "t2.micro",
-      "ssh_username": "ubuntu",
-      "ami_name": "packer-example {{timestamp}}"
-    }
-  ],
-  "provisioners": [
-    {
-      "type": "shell",
-      "script": "provision.sh"
-    }
-  ]
-}
+    "builders": [
+      {
+        "type": "amazon-ebs",
+        "region": "us-east-1",
+        "source_ami": "ami-0c4f7023847b90238",
+        "instance_type": "t2.micro",
+        "ssh_username": "ubuntu",
+        "ami_name": "packer-example {{timestamp}}"
+      }
+    ],
+    "provisioners": [
+      {
+        "type": "shell",
+        "script": "provision.sh"
+      }
+    ]
+  }
