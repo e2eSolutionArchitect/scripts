@@ -1,0 +1,38 @@
+{
+  "variables": {
+    "aws_region": "us-west-2",
+    "aws_ami_name": "CentOS-7-HVM-EBS-{{timestamp}}",
+    "source_ami": "ami-0c4f7023847b90238"
+   },
+  "builders": [
+    {
+      "type": "amazon-ebs",
+      "region": "eu-west-2",
+      "source_ami": "{{user `source_ami`}}",
+      "instance_type": "t2.medium",
+      "ssh_username": "ec2-user",
+      "ami_name": "<edited>,
+      "ami_users": ["<edited>","<edited>"],
+      "vpc_filter": {
+        "filters": {
+          "tag:Name": "My App VPC",
+          "isDefault": "false"
+        }
+      },
+      "subnet_filter": {
+        "filters": {
+          "tag:Network Type": "Public"
+        },
+        "random": true
+      }
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "shell",
+      "inline": [
+        "echo Connected via SSM at '{{build `User`}}@{{build `Host`}}:{{build `Port`}}'"
+      ]
+    }
+  ]
+}
