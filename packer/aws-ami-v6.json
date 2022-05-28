@@ -19,12 +19,13 @@
           "isDefault": "false"
         }
       },
-      "subnet_filter": {
-        "filters": {
-          "tag:Network Type": "Public"
-        },
-        "random": true
-      }
+"subnet_filter": {
+            "filters": {
+              "state": "available"
+            },
+            "most_free": true,
+            "random": true
+        }
     }
   ],
   "provisioners": [
