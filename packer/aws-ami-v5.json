@@ -1,0 +1,31 @@
+# reference https://www.packer.io/plugins/builders/amazon/ebs
+{
+  "builders": [
+    {
+      "type": "amazon-ebs",
+      "ami_name": "packer-ami-{{timestamp}}",
+      "instance_type": "t2.micro",
+      "source_ami_filter": {
+        "filters": {
+          "virtualization-type": "hvm",
+          "name": "ubuntu/images/*ubuntu-xenial-16.04-amd64-server-*",
+          "root-device-type": "ebs"
+        },
+        "owners": ["099720109477"],
+        "most_recent": true
+      },
+      "ssh_username": "ubuntu",
+      "ssh_interface": "session_manager",
+      "communicator": "ssh",
+      "iam_instance_profile": "{{user `iam_instance_profile`}}"
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "shell",
+      "inline": [
+        "echo Connected via SSM at '{{build `User`}}@{{build `Host`}}:{{build `Port`}}'"
+      ]
+    }
+  ]
+}
