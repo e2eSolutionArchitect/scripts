@@ -3,7 +3,7 @@
       {
         "type": "amazon-ebs",
         "region": "us-east-1",
-        "source_ami": "ami-0c4f7023847b90238",
+        "source_ami": "ami-09d56f8956ab235b3",
         "instance_type": "t2.micro",
         "ssh_username": "ubuntu",
         "ami_name": "packer-example {{timestamp}}"
