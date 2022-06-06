@@ -22,12 +22,28 @@ unzip awscliv2.zip
 sudo ./aws/install
 ```
 
-### Run the AWS s3 cp command to copy the files to the S3 bucket
+### Run the AWS s3 cp command to copy the single file to the S3 bucket
 
 ```
 aws s3 cp <source file with full path> s3://<s3bucket_name>
 aws s3 cp /home/ec2-user/copy.zip s3://<s3bucket_name>
 ```
+
+### Run the AWS s3 cp command to recursive file copy to the S3 bucket
+
+```
+aws s3 cp <source directory path> s3://<s3bucket_name> --recursive
+aws s3 cp /home/ec2-user/mydir s3://<s3bucket_name> --recursive
+```
+
+### sync files to S3 bucket
+sync will only upload the new or modified files. As it named sync
+
+```
+aws s3 sync <source directory path> s3://<s3bucket_name>
+aws s3 sync /home/ec2-user/mydir s3://<s3bucket_name>
+```
+
 
 ### if upload fails showing "Warning: Skipping file /home/ec2-user/copy.zip"
 
