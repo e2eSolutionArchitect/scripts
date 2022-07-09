@@ -1,0 +1,126 @@
+name: terraform-iac-adopipeline
+
+# This Azure pipeline is to trigger Terraform . Terraform in NON docker env
+
+pool:
+  name: ADO-pool-01
+
+parameters:
+- name: TerraformProjectDirectory
+  default: 'terraform/projects/my-tf-project'
+- name: TerraformModuleDirectory
+  default: 'terraform/modules'  
+- name: TerraformWorkspace
+  default: 'new'
+  values:
+  - select
+  - new
+- name: ExecutedBy
+  default: 'e2esa'
+- name: TerraformAction
+  displayName: 'Select Action'
+  default: 'apply'
+  values:
+  - apply
+  - destroy
+- name: Environment
+  displayName: 'Select Environment'
+  default: 'dev'
+  values:
+  - dev
+  - prod
+
+stages:
+- stage: build
+  displayName: 'Build env ${{paramaters.Environment}}'
+  jobs:
+  - job: Env_Build
+    displayName: 'Build Environment'
+    steps:
+    - task: CopyFiles@2
+      displayName: 'Copy Terraform Files'
+      inputs:
+        SourceFolder: ${{paramaters.TerraformProjectDirectory}}   
+        Contents: |
+         **
+        TargetFolder: '$(Build.ArtifactStagingDirectory)'
+    - task: CopyFiles@2
+      displayName: 'Copy Terraform Modules'
+      inputs:
+        SourceFolder: ${{paramaters.TerraformModuleDirectory}}   
+        Contents: |
+         **
+        TargetFolder: '$(Build.ArtifactStagingDirectory)'
+    - task: PublishBuildArtifacts@1
+      displayName: 'Publish Terraform Files'
+      inputs:
+        PathtoPublish: '$(Build.ArtifactStagingDirectory)'  
+        ArtifactName: 'drop'
+        publishLocation: 'Container'
+    - script: |
+        sudp apt install terraform
+        terraform --version
+      displayName: 'Install Terraform'
+    - task: AWSShellScript@1
+      displayName: 'Initialize terraform'
+      inputs:
+        awsCredentials: ${{paramaters.AWSServiceConnection}}
+        regionName: ${{paramaters.AWSRegion}}
+        scriptType: 'inline'
+        inlineScript: |
+          cd $(Build.ArtifactStagingDirectory)
+          terraform init
+          terraform workspace new ${{paramaters.Environment}}
+    - script: |
+        cd $(Build.ArtifactStagingDirectory)
+        terraform validate
+      displayName: 'Validate'
+    - task: AWSShellScript@1
+      displayName: 'Plan terraform'
+      inputs:
+        awsCredentials: ${{paramaters.AWSServiceConnection}}
+        regionName: ${{paramaters.AWSRegion}}
+        scriptType: 'inline'
+        inlineScript: |
+          cd $(Build.ArtifactStagingDirectory)
+          terraform plan -var-file="${{paramaters.Environment}}-app.tfvars" -var="createdBy=${{paramaters.ExecutedBy}}" 
+- stage: deploy
+  dependsOn: build
+  condition: and(succeeded(), ne(variables['Build.Reason'], 'Pull Request'))
+  displayName: 'Deploy to env: ${{paramaters.Environment}}'
+  jobs:
+  - deployment: approve_apply
+    displayName: 'Review and Approve'
+    environment: approve-${{paramaters.Environment}} 
+    strategy:
+      runOnce:
+        deploy: 
+          steps: 
+          - task: AWSShellScript@1
+            displayName: 'Initialize terraform'
+            inputs:
+              awsCredentials: ${{paramaters.AWSServiceConnection}}
+              regionName: ${{paramaters.AWSRegion}}
+              scriptType: 'inline'
+              inlineScript: |
+                cd $(Build.ArtifactStagingDirectory)
+                cd .. 
+                cd drop 
+                terraform init 
+                terraform workspace new ${{paramaters.Environment}}
+                terraform workspace show
+          - task: AWSShellScript@1
+            displayName: 'Action terraform'
+            inputs:
+              awsCredentials: ${{paramaters.AWSServiceConnection}}
+              regionName: ${{paramaters.AWSRegion}}
+              scriptType: 'inline'
+              inlineScript: |
+                cd $(Build.ArtifactStagingDirectory)
+                cd .. 
+                cd drop 
+                ls
+                terraform ${{paramaters.TerraformAction}} -var-file="${{paramaters.Environment}}-app.tfvars" -var="createdBy=${{paramaters.ExecutedBy}}" -auto-approve
+
+
+

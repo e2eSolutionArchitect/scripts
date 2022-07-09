@@ -1,0 +1,46 @@
+name: angular-nginx-dkr-ecr-adopipeline
+
+# This Azure pipeline build a docker image, connects to AWS, push docker image to AWS ECR.
+# This pipeline is used to build an Angular app then create docker image and push to ECR
+# Make sure you have 'Dockerfile' availabale in same directory
+
+pool:
+  name: ADO-pool-01
+
+parameters:
+- name: AWSRegion
+  default: 'us-east-1'
+- name: AWSServiceConnection
+  default: 'ado-aws-service-con'
+- name: AWSAccountId
+  default: '##########'
+- name: AWSECRRepository
+  default: 'mywebapp'
+
+stages:
+- stage: build
+  displayName: 'Build Image'
+  jobs:
+  - job: Build_Image
+    displayName: 'Build Image'
+    steps:
+    - script: |
+        npm install
+        ng build
+      displayName: 'NPM install and Build'
+    - task: AWSShellScript@1
+      displayName: 'Build and Push Docker Image to AWS ECR'
+      inputs:
+        awsCredentials: ${{paramaters.AWSServiceConnection}}
+        regionName: ${{paramaters.AWSRegion}}
+        scriptType: 'inline'
+        inlineScript: |
+          echo 'Connect to ECR'
+          aws ecr get-login-password --region  ${{paramaters.AWSRegion}} | docker  login --username AWS --password-stdin ${{paramaters.AWSAccountId}}.dkr.ecr.${{paramaters.AWSRegion}}.amazonaws.com
+          echo 'build image'
+          docker build -t ${{paramaters.AWSECRRepository}} .
+          echo 'tag image'
+          docker tag ${{paramaters.AWSECRRepository}}:latest ${{paramaters.AWSAccountId}}.dkr.ecr.${{paramaters.AWSRegion}}.amazonaws.com/${{paramaters.AWSECRRepository}}:latest
+          echo 'push to ECR'
+          docker push ${{paramaters.AWSAccountId}}.dkr.ecr.${{paramaters.AWSRegion}}.amazonaws.com/${{paramaters.AWSECRRepository}}:latest
+          echo 'image pushed successfully'
