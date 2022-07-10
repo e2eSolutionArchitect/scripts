@@ -13,3 +13,10 @@ ng version
 npm -v
 
 node -v
+
+
+Build angular project 
+
+```
+ng build [project] --configuration production
+```
