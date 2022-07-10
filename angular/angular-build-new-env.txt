@@ -1,6 +1,11 @@
 Production mode:
 You can build your application in production mode by running command:
 ng build --prod
+Build angular project 
+
+```
+ng build [project] --configuration production
+```
 
 When application is built for production mode then environments/environment.ts file gets replaced with environments/environment.prod.ts file. Hence if you are referring to settings from environment.ts file in your code, you don’t have to put any if condition or hard code production URL.
 
