@@ -67,3 +67,8 @@ aws s3 cp s3://<s3bucket_name>/copy.zip .  (dont miss the '.' It will copy to yo
 
 ### If you want to a diff AWS account suppose Account A to account B. everything remains same. just make sure you have your account B's credential configuied in account A
 go to home/ec2-user/.aws and update the credential of account B in 'credential' file of account A
+
+### Upload from local system to ec2
+```
+scp -i ~/Downloads/file.pem local_image_file user@ec2_elastic_ip:/home/user/
+```
