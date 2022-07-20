@@ -64,7 +64,7 @@ aws s3 cp /home/ec2-user/copy.zip s3://<s3bucket_name>
 ```
 aws s3 cp s3://<s3bucket_name>/copy.zip .  (dont miss the '.' It will copy to your corrent directry. Or provide a directory path like /home/ec2-user/)
 ```
-you can also use s3 presigned url (incase your s3 bucket is private) to download
+### you can also use s3 presigned url (incase your s3 bucket is private) to download
 1. select the object in s3 bucket > Click Action > Create Pre-signed url by adding time validity 
 2. go to your EC2. run below command to download the object to ec2. NOTE: add your pre-signed url into ""
 
