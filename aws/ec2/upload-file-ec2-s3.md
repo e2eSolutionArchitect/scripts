@@ -69,7 +69,9 @@ aws s3 cp s3://<s3bucket_name>/copy.zip .  (dont miss the '.' It will copy to yo
 2. go to your EC2. run below command to download the object to ec2. NOTE: add your pre-signed url into ""
 
 ```
-curl "https://......"
+wget "https://......"
+
+If wget is not installed then install wget first. sudo apt-get install wget / sudo yum install wget
 ```
 
 ### If you want to a diff AWS account suppose Account A to account B. everything remains same. just make sure you have your account B's credential configuied in account A
