@@ -1,0 +1,26 @@
+
+
+```
+{
+  "Id": "S3AllowSSLRequestsOnly",
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "AllowSSLRequestsOnly",
+      "Action": "s3:*",
+      "Effect": "Deny",
+      "Resource": [
+        "arn:aws:s3:::DOC-EXAMPLE-BUCKET",
+        "arn:aws:s3:::DOC-EXAMPLE-BUCKET/*"
+      ],
+      "Condition": {
+        "Bool": {
+          "aws:SecureTransport": "false"
+        }
+      },
+      "Principal": "*"
+    }
+  ]
+}
+
+```
