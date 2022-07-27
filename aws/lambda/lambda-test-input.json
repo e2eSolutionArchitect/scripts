@@ -1,0 +1,13 @@
+// Test JSON format while testing in Lambda
+
+{
+  "body": "{\"empNo\": \"110011\",\"empName\": \"New Employee\",\"empEmail\": \"som@awstechguide.com\"}"
+}
+
+// Test JSON format while testing through a client like POSTMAN
+
+{
+  "empNo": "220011",
+  "empName": "New Employee",
+  "empEmail": "som@awstechguide.com"
+}
