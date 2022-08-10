@@ -1,3 +1,5 @@
+// References: https://www.fernandomc.com/posts/eight-examples-of-fetching-data-from-dynamodb-with-node/
+
 // This code is to create a single lambda function for GET, DELETE, POST and integrate with a single apigw. 
 // in APIGW make sure your create resources like below
 ```
