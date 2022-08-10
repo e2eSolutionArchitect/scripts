@@ -7,6 +7,8 @@
 ----contract/{id} // {id} this resource is under parent 'contract' resource where resource path is simply {id}
 -----DELETE
 -----GET
+----contract/find/{param} 
+-----GET
 ```
 // Below is the lambda code in NodeJS. add it in index.js 
 
