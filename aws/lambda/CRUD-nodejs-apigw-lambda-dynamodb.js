@@ -27,7 +27,7 @@ exports.handler = async (event, context) => {
 
   try {
     switch (event.httpMethod) {
-      case "DELETE":
+      case "DELETE": //"DELETE /items/{id}":
             const params = {
                 TableName: 'dih_contracts',
                 Key: {
@@ -38,7 +38,7 @@ exports.handler = async (event, context) => {
           .delete(params).promise();
         body = `Deleted contract ${event.pathParameters.id}`;
         break;
-      case "GET":
+      case "GET": //"GET /items":
         if (event.pathParameters != null) {
             body = await dynamo
               .get({
