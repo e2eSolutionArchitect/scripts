@@ -28,14 +28,14 @@ exports.handler = async (event, context) => {
   try {
     switch (event.httpMethod) {
       case "DELETE":
-        await dynamo
-          .delete({
-            TableName: "dih_contracts",
-            Key: {
-              id: event.pathParameters.id
+            const params = {
+                TableName: 'dih_contracts',
+                Key: {
+                  id: event.pathParameters.id
+                }
             }
-          })
-          .promise();
+        await dynamo
+          .delete(params).promise();
         body = `Deleted contract ${event.pathParameters.id}`;
         break;
       case "GET":
@@ -49,13 +49,16 @@ exports.handler = async (event, context) => {
               })
               .promise();
         } else {
-            body = await dynamo.scan({ TableName: "dih_contracts" }).promise();
+            const params = {
+                TableName: 'dih_contracts',
+                Limit: 10
+            }
+            body = await dynamo.scan(params).promise();
         }
         break;
       case "POST":
         let requestJSON = JSON.parse(event.body);
-        await dynamo
-          .put({
+        const postParams = {
             TableName: "dih_contracts",
             Item: {
                   id: cid,
@@ -79,8 +82,8 @@ exports.handler = async (event, context) => {
                   images: requestJSON.images,
                   active: requestJSON.active
             }
-          })
-          .promise();
+          }
+        await dynamo.put(postParams).promise();
         body = `Added/Updated contract ${cid}`;
         break;
       default:
