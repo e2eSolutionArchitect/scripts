@@ -86,6 +86,37 @@ exports.handler = async (event, context) => {
         await dynamo.put(postParams).promise();
         body = `Added/Updated contract ${cid}`;
         break;
+      case "PUT":
+        let requestUpdateJSON = JSON.parse(event.body);
+        await dynamo
+          .put({
+            TableName: "dih_contracts",
+            Item: {
+              id: event.pathParameters.id,
+              productId: requestUpdateJSON.productId,
+              category: requestUpdateJSON.category,
+              name: requestUpdateJSON.name,
+              description: requestUpdateJSON.description,
+              tags: requestUpdateJSON.tags,
+              sku: requestUpdateJSON.sku,
+              barcode: requestUpdateJSON.barcode,
+              brand: requestUpdateJSON.brand,
+              vendor: requestUpdateJSON.vendor,
+              stock: requestUpdateJSON.stock,
+              reserved: requestUpdateJSON.reserved,
+              cost: requestUpdateJSON.cost,
+              basePrice: requestUpdateJSON.basePrice,
+              taxPercent: requestUpdateJSON.taxPercent,
+              price: requestUpdateJSON.price,
+              weight: requestUpdateJSON.weight,
+              thumbnail: requestUpdateJSON.thumbnail,
+              images: requestUpdateJSON.images,
+              active: requestUpdateJSON.active
+            }
+          })
+          .promise();
+        body = `Put item ${event.pathParameters.id}`;
+        break;
       default:
         throw new Error(`Unsupported route: "${event.httpMethod}"`);
     }
