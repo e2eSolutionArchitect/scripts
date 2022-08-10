@@ -133,3 +133,27 @@ exports.handler = async (event, context) => {
     headers
   };
 };
+
+// input for test
+```
+{
+  "category": "20842e9d185cf66455586dd05b548a5f",
+  "name": "ChangedAgain Product",
+  "sku": "SKU00967462",
+  "description": "desc2",
+  "barcode": "8346201275534",
+  "brand":"6ecc25c92e8603a5347c648470c11f68",
+  "tags": "10ac064c68a8d641d98b798bc0f480f7",
+  "vendor": "a248de0582017749e14c3cc4a6395846",
+  "stock": 30,
+  "reserved": 5,
+  "cost": 450.67,
+  "basePrice": 259.70,
+  "taxPercent": 35, 
+  "price": 89.78,
+  "weight": 6,
+  "active": true,
+  "thumbnail": "assets/images/apps/ecommerce/products/watch-01-thumb.jpg",
+  "images": "assets/images/apps/ecommerce/products/watch-01-01.jpg"
+}
+```
