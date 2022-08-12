@@ -1,3 +1,5 @@
+// return format has been changed with custom id "contracts" instead of "Items". To understand the diff pelase compare v2 and v3
+
 const AWS = require("aws-sdk");
 const crypto = require("crypto");
 const dynamo = new AWS.DynamoDB.DocumentClient({region: 'us-east-1'}); 
@@ -36,6 +38,8 @@ exports.handler = async (event, context) => {
                 }
               })
               .promise();
+              //body = JSON.stringify(body);
+            body = JSON.stringify({"contracts":body.Item});  
         } else {
             const params = {
                 TableName: db_tableName,
@@ -76,6 +80,7 @@ exports.handler = async (event, context) => {
           }
         await dynamo.put(postParams).promise();
         body = `Added/Updated contract ${cid}`;
+        body = JSON.stringify(body);
         break;
       case "PUT":
         let requestUpdateJSON = JSON.parse(event.body);
@@ -107,6 +112,7 @@ exports.handler = async (event, context) => {
           })
           .promise();
         body = `Put item ${event.pathParameters.id}`;
+        body = JSON.stringify(body);
         break;
       default:
         throw new Error(`Unsupported route: "${event.httpMethod}"`);
@@ -114,18 +120,14 @@ exports.handler = async (event, context) => {
   } catch (err) {
     statusCode = 400;
     body = err.message;
-  } finally {
-     
-  //body = JSON.stringify(body);
-  body=body;
-  }
-
+  } 
+  
   return {
     statusCode: statusCode,
     headers: {
         "Content-Type": "application/json"
     },
-    //body: JSON.stringify({"contracts":body})
+    //body: JSON.stringify({"contracts":body}) // set1
     body:body 
 };
 };
