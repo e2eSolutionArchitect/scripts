@@ -29,7 +29,8 @@ exports.handler = async (event, context) => {
             }
         await dynamo
           .delete(params).promise();
-        body = `Deleted contract ${event.queryStringParameters.id}`;
+        //body = `Deleted contract ${event.queryStringParameters.id}`;
+        body = JSON.stringify({"id":event.queryStringParameters.id});
         break;
       case "GET": //"GET /items":
         if (event.pathParameters != null) {
