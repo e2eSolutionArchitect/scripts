@@ -16,6 +16,8 @@ exports.handler = async (event, context) => {
 
 // Use event.pathParameters.id if passing param like /items/{id} in url
 // event.queryStringParameters.id (query parameter) if passing param as query parameter like /items?id={id}
+// query param must be configured in api gateway under 'request method'
+  
   try {
     switch (event.httpMethod) {
       case "DELETE": //"DELETE /items/{id}":
