@@ -14,19 +14,20 @@ exports.handler = async (event, context) => {
   let body;
   let statusCode = 200;
 
-
+// Use event.pathParameters.id if passing param like /items/{id} in url
+// event.queryStringParameters.id (query parameter) if passing param as query parameter like /items?id={id}
   try {
     switch (event.httpMethod) {
       case "DELETE": //"DELETE /items/{id}":
             const params = {
                 TableName: db_tableName,
                 Key: {
-                  id: event.pathParameters.id
+                  id: event.queryStringParameters.id 
                 }
             }
         await dynamo
           .delete(params).promise();
-        body = `Deleted contract ${event.pathParameters.id}`;
+        body = `Deleted contract ${event.queryStringParameters.id}`;
         break;
       case "GET": //"GET /items":
         if (event.pathParameters != null) {
@@ -125,7 +126,8 @@ exports.handler = async (event, context) => {
   return {
     statusCode: statusCode,
     headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin" : "*"
     },
     //body: JSON.stringify({"contracts":body}) // set1
     body:body 
