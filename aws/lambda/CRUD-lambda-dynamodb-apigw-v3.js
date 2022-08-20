@@ -14,23 +14,20 @@ exports.handler = async (event, context) => {
   let body;
   let statusCode = 200;
 
-// Use event.pathParameters.id if passing param like /items/{id} in url
-// event.queryStringParameters.id (query parameter) if passing param as query parameter like /items?id={id}
-// query param must be configured in api gateway under 'request method'
-  
+
   try {
     switch (event.httpMethod) {
       case "DELETE": //"DELETE /items/{id}":
             const params = {
                 TableName: db_tableName,
                 Key: {
-                  id: event.queryStringParameters.id 
+                  id: event.queryStringParameters.id //event.pathParameters.id
                 }
             }
         await dynamo
           .delete(params).promise();
         //body = `Deleted contract ${event.queryStringParameters.id}`;
-        body = JSON.stringify({"id":event.queryStringParameters.id});
+        body = JSON.stringify({"id":event.queryStringParameters.id});  
         break;
       case "GET": //"GET /items":
         if (event.pathParameters != null) {
@@ -65,7 +62,7 @@ exports.handler = async (event, context) => {
                   category: requestJSON.category,
                   name: requestJSON.name,
                   description: requestJSON.description,
-                  tags: requestJSON.tags,
+                  tags: requestJSON.tags == null ? [] : requestJSON.tags,
                   sku: requestJSON.sku,
                   barcode: requestJSON.barcode,
                   brand: requestJSON.brand,
@@ -78,45 +75,46 @@ exports.handler = async (event, context) => {
                   price: requestJSON.price,
                   weight: requestJSON.weight,
                   thumbnail: requestJSON.thumbnail,
-                  images: requestJSON.images,
+                  images: requestJSON.images ==null ? [] : requestJSON.images,
                   active: requestJSON.active
             }
           }
+          //postParams.Item.tags=[]
         await dynamo.put(postParams).promise();
-        body = `Added/Updated contract ${cid}`;
-        body = JSON.stringify(body);
+        //body = `Added/Updated contract ${cid}`;
+        
+        body = JSON.stringify(postParams.Item);
         break;
       case "PUT":
         let requestUpdateJSON = JSON.parse(event.body);
-        await dynamo
-          .put({
+        const updateParams = {
             TableName: db_tableName,
             Item: {
-              id: event.pathParameters.id,
-              productId: requestUpdateJSON.productId,
-              category: requestUpdateJSON.category,
-              name: requestUpdateJSON.name,
-              description: requestUpdateJSON.description,
-              tags: requestUpdateJSON.tags,
-              sku: requestUpdateJSON.sku,
-              barcode: requestUpdateJSON.barcode,
-              brand: requestUpdateJSON.brand,
-              vendor: requestUpdateJSON.vendor,
-              stock: requestUpdateJSON.stock,
-              reserved: requestUpdateJSON.reserved,
-              cost: requestUpdateJSON.cost,
-              basePrice: requestUpdateJSON.basePrice,
-              taxPercent: requestUpdateJSON.taxPercent,
-              price: requestUpdateJSON.price,
-              weight: requestUpdateJSON.weight,
-              thumbnail: requestUpdateJSON.thumbnail,
-              images: requestUpdateJSON.images,
-              active: requestUpdateJSON.active
+                  id: requestUpdateJSON.contract.id, //event.pathParameters.id, requestUpdateJSON.id
+                  productId: requestUpdateJSON.contract.productId,
+                  category: requestUpdateJSON.contract.category,
+                  name: requestUpdateJSON.contract.name,
+                  description: requestUpdateJSON.contract.description,
+                  tags: requestUpdateJSON.contract.tags,
+                  sku: requestUpdateJSON.contract.sku,
+                  barcode: requestUpdateJSON.contract.barcode,
+                  brand: requestUpdateJSON.contract.brand,
+                  vendor: requestUpdateJSON.contract.vendor,
+                  stock: requestUpdateJSON.contract.stock,
+                  reserved: requestUpdateJSON.contract.reserved,
+                  cost: requestUpdateJSON.contract.cost,
+                  basePrice: requestUpdateJSON.contract.basePrice,
+                  taxPercent: requestUpdateJSON.contract.taxPercent,
+                  price: requestUpdateJSON.contract.price,
+                  weight: requestUpdateJSON.contract.weight,
+                  thumbnail: requestUpdateJSON.contract.thumbnail,
+                  images: requestUpdateJSON.contract.images,
+                  active: requestUpdateJSON.contract.active
             }
-          })
-          .promise();
-        body = `Put item ${event.pathParameters.id}`;
-        body = JSON.stringify(body);
+          }
+        await dynamo.put(updateParams).promise();
+        //body = `Put item ${event.pathParameters.id}`;
+        body = JSON.stringify(updateParams.Item);
         break;
       default:
         throw new Error(`Unsupported route: "${event.httpMethod}"`);
