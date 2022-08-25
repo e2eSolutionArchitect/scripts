@@ -1,3 +1,6 @@
+# rename the file to appspec.yml
+# It is for ECS deployment
+
 version: 0.0
 Resources:
  - TargetService:
