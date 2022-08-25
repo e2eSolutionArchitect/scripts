@@ -1,0 +1,12 @@
+# rename this file to appspec.yml 
+# it is for Lambda deploy through CodeDeploy
+
+version: 0.0
+Resources:
+  - myLambdaFunctionName:
+      Type: AWS::Lambda::Function
+      Properties:
+        Name: "myLambdaFunctionName"
+        Alias: "VLatest"
+        CurrentVersion: "4"
+        TargetVersion: "5"
