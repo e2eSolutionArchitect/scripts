@@ -1,12 +1,12 @@
 ---
   - name: Install and configure tomcat
-    hosts: 3.89.155.217
+    hosts: localhost
     gather_facts: false
     vars:
       java_v: java-1.8.0-openjdk
-      set_java: jre-1.8.0-openjdk.x86_64
-      tomcat_port: 8181
-      tomcat_version: 8.5.55
+      set_java: jre-1.8.0-openjdk-1.8.0.332.b09-1.amzn2.0.2.x86_64
+      tomcat_port: 8000
+      tomcat_version: 9.0.65
       tomcat_url: "https://mirror.csclub.uwaterloo.ca/apache/tomcat/tomcat-{{tomcat_version.split('.')[0]}}/v{{tomcat_version}}/bin/apache-tomcat-{{tomcat_version}}.tar.gz"
     become: yes
     tasks:
@@ -22,33 +22,33 @@
        alternatives:
          name: java
          link: /usr/bin/java
-         path: /usr/lib/jvm/{{set_java}}/bin/java
+         path: /usr/lib/jvm/{{set_java}}/jre/bin/java
      - name: Downloading tomcat
        get_url:
          url: "{{tomcat_url}}"
          dest: /usr/local
      - name: Extracting downloaded tar file
        unarchive:
-         src: "/usr/local/apache-tomcat-{{tomcat_version}}.tar.gz"  
+         src: "/usr/local/apache-tomcat-{{tomcat_version}}.tar.gz"
          dest: /usr/local
          remote_src: yes
      - name: Renaming tomcat home
        command: mv /usr/local/apache-tomcat-{{tomcat_version}} /usr/local/tomcat
-	 - name: replace tomcat port in server config
+     - name: replace tomcat port in server config
        template:
          src: server.xml.j2
-         dest: /usr/local/tomcat/conf/server.xml 
-    - name: Updating users and role
-      template:
-        src: tomcat-users.xml
-        dest: /usr/local/tomcat/conf/tomcat-users.xml
-    - name: Updating context xml restriction
-      template:
-        src: context-manager.xml
-        dest: /usr/local/tomcat/webapps/manager/META-INF/context.xml
-    - name: Updating restriction for host manager context
-      template:
-        src: context-hostmanager.xml
-        dest: /usr/local/tomcat/webapps/host-manager/META-INF/context.xml
-    - name: Starting tomcat
-      shell: nohup /usr/local/tomcat/bin/startup.sh &
+         dest: /usr/local/tomcat/conf/server.xml
+     - name: Updating users and role
+       template:
+         src: tomcat-users.xml
+         dest: /usr/local/tomcat/conf/tomcat-users.xml
+     - name: Updating context xml restriction
+       template:
+         src: context-manager.xml
+         dest: /usr/local/tomcat/webapps/manager/META-INF/context.xml
+     - name: Updating restriction for host manager context
+       template:
+         src: context-hostmanager.xml
+         dest: /usr/local/tomcat/webapps/host-manager/META-INF/context.xml
+     - name: Starting tomcat
+       shell: nohup /usr/local/tomcat/bin/startup.sh &
