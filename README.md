@@ -62,3 +62,4 @@ Video tutorial [Click here](https://www.youtube.com/watch?v=y4UYX0ZPqcM)
 Install jdk and set default java [Click here](https://raw.githubusercontent.com/awstechguide/scripts/master/install-java.sh)
 
 test2
+test3
