@@ -40,3 +40,15 @@ eksctl delete nodegroup --cluster=eksdemo1 --name=eksdemo1-ng-public1 --region u
 eksctl delete cluster <clusterName> --region [region]
 eksctl delete cluster eksdemo1 --region us-east-1
 ```
+
+## Pod logs
+
+```
+kubectl logs <pod-name> 
+kubectl logs <pod-name> -c <container-name>
+kubectl logs -l name=<my-label> <pod-name> -c <container-name>
+kubectl logs -f <pod-name> # streams pod log stdout 
+kubectl logs -f <pod-name> -c <container-name>
+```
+
+ 
