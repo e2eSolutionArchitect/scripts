@@ -79,5 +79,10 @@ kubectl get pod <pod-name> -o yaml
 kubectl get pod <service-name> -o yaml
 ```
 
+# Expose ReplicaSet as a service
+```
+kubectl expose rs <ReplicaSer name> --type=NodePort --port=80 --target-port=8080 -name=<service-name-to-be-created>
+```
+
 
  
