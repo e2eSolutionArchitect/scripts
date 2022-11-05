@@ -50,5 +50,16 @@ kubectl logs -l name=<my-label> <pod-name> -c <container-name>
 kubectl logs -f <pod-name> # streams pod log stdout 
 kubectl logs -f <pod-name> -c <container-name>
 ```
+# Connect to container in a pod
+
+```
+kubectl exec -it <pod-name> -- /bin/bash
+
+ls
+cd usr/share/nginx/html
+cat index.html
+exit
+```
+
 
  
