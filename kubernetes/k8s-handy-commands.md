@@ -56,9 +56,14 @@ kubectl logs -f <pod-name> -c <container-name>
 kubectl exec -it <pod-name> -- /bin/bash
 
 ls
-cd usr/share/nginx/html
+cd /usr/share/nginx/html
 cat index.html
 exit
+
+# to get all env variables
+kubectl exec -it <pod-name> env
+kubectl exec -it <pod-name> ls
+kubectl exec -it <pod-name> cat /usr/share/nginx/html/index.html
 ```
 
 
