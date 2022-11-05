@@ -41,6 +41,12 @@ eksctl delete cluster <clusterName> --region [region]
 eksctl delete cluster eksdemo1 --region us-east-1
 ```
 
+# Pod port details
+
+### nodePort:31961 - node port
+### port:81 - service port
+### targetPort: 80 -  this is container port
+
 ## Pod logs
 
 ```
