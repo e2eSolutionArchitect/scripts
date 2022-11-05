@@ -66,5 +66,12 @@ kubectl exec -it <pod-name> ls
 kubectl exec -it <pod-name> cat /usr/share/nginx/html/index.html
 ```
 
+## Get YAML definition as output
+
+```
+kubectl get pod <pod-name> -o yaml
+kubectl get pod <service-name> -o yaml
+```
+
 
  
