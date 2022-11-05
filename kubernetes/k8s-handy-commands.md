@@ -8,12 +8,7 @@ kubectl describe pod <podname>
 ## Create a pod
 
 ```
-kubectl run <desired-pod-name> --image <Container-Image> --generator=run-pod/v1
-kubectl run e2esa-pod01 --image nginx:latest --generator=run-pod/v1
-
-# generator is added to deploy pod as a pod instead of deployment
-
-#If kubernetes version is latest then only run below 
+#If kubernetes version is latest then only run below  (without generator tag)
 kubectl run e2esa-pod01 --image nginx:latest
 ```
 
