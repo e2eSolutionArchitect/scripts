@@ -20,23 +20,23 @@ kubectl describe pod <podname>
 
 # List EKS Clusters
 ```
-eksctl get clusters
+eksctl get clusters --region [region]
+eksctl get clusters --region us-east-1
 ```
 
 # Capture Node Group name
 ```
-eksctl get nodegroup --cluster=<clusterName>
-eksctl get nodegroup --cluster=eksdemo1
+eksctl get nodegroup --cluster=e2esa-demo-eks-cluster --region us-east-1
 ```
 
 # Delete Node Group
 ```
-eksctl delete nodegroup --cluster=<clusterName> --name=<nodegroupName>
-eksctl delete nodegroup --cluster=eksdemo1 --name=eksdemo1-ng-public1
+eksctl delete nodegroup --cluster=<clusterName> --name=<nodegroupName>  --region [region]
+eksctl delete nodegroup --cluster=eksdemo1 --name=eksdemo1-ng-public1 --region us-east-1
 ```
   
 # Delete Cluster
 ```
-eksctl delete cluster <clusterName>
-eksctl delete cluster eksdemo1
+eksctl delete cluster <clusterName> --region [region]
+eksctl delete cluster eksdemo1 --region us-east-1
 ```
