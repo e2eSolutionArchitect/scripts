@@ -85,6 +85,10 @@ kubectl get pod <service-name> -o yaml
 ```
 kubectl expose rs <ReplicaSer name> --type=NodePort --port=80 --target-port=8080 -name=<service-name-to-be-created>
 ```
+# Expose Deployment as a service
+```
+kubectl expose deployment <deployment name> --type=NodePort --port=80 --target-port=8080 -name=<service-name-to-be-created>
+```
 
 
  
