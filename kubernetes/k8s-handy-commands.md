@@ -143,4 +143,8 @@ Observation: Make a note of port which starts with 3 (Example: 80:3xxxx/TCP). Ca
 kubectl get nodes -o wide
 Observation: Make a note of "EXTERNAL-IP" if your Kubernetes cluster is setup on AWS EKS.
 ```
+
+```
+http://<worker-node-public-ip>:<Node-Port>
+```
  
