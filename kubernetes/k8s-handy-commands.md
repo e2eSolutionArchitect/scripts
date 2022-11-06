@@ -89,6 +89,44 @@ kubectl expose rs <ReplicaSer name> --type=NodePort --port=80 --target-port=8080
 ```
 kubectl expose deployment <deployment name> --type=NodePort --port=80 --target-port=8080 -name=<service-name-to-be-created>
 ```
+```
+# Create Deployment
+kubectl create deployment <Deplyment-Name> --image=<Container-Image>
+kubectl create deployment my-first-deployment --image=stacksimplify/kubenginx:1.0.0 
 
+# Verify Deployment
+kubectl get deployments
+kubectl get deploy 
+
+# Describe Deployment
+kubectl describe deployment <deployment-name>
+kubectl describe deployment my-first-deployment
+
+# Verify ReplicaSet
+kubectl get rs
+
+# Verify Pod
+kubectl get po
+```
+
+## Scale deployment
+```
+# Scale Up the Deployment
+kubectl scale --replicas=20 deployment/<Deployment-Name>
+kubectl scale --replicas=20 deployment/my-first-deployment 
+
+# Verify Deployment
+kubectl get deploy
+
+# Verify ReplicaSet
+kubectl get rs
+
+# Verify Pods
+kubectl get po
+
+# Scale Down the Deployment
+kubectl scale --replicas=10 deployment/my-first-deployment 
+kubectl get deploy
+```
 
  
