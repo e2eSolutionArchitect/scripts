@@ -1,18 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
- name: mydeployment
+ name: e2esa-webapp01-deployment
  labels:
-  app: myapp
+  app: e2esa-webapp01
   tire: front-end
 spec:
- replicas: 6
+ replicas: 4
  template:
   metadata:
-   name: mypod
+   name: e2esa-webapp01-pod
    labels:
     tire: front-end
     env: dev
+    app: e2esa-webapp01
   spec:
    containers:
     - name: nginx
