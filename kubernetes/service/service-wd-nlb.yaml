@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: e2esa-webapp01-service
+  namespace: dev-webapp01
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-type: external
+    service.beta.kubernetes.io/aws-load-balancer-nlb-target-type: ip
+    service.beta.kubernetes.io/aws-load-balancer-scheme: internet-facing
+  labels:
+    app: e2esa-webapp01
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 80
+      targetPort: 80
+      nodePort: 30004
+  selector:
+   tire: front-end
+   env: dev
+   app: e2esa-webapp01
