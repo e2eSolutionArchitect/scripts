@@ -148,3 +148,7 @@ Observation: Make a note of "EXTERNAL-IP" if your Kubernetes cluster is setup on
 http://<worker-node-public-ip>:<Node-Port>
 ```
  
+## Create Namespace
+```
+kubectl create -f https://raw.githubusercontent.com/e2eSolutionArchitect/scripts/main/kubernetes/create-namespace.yaml
+```
