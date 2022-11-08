@@ -9,7 +9,7 @@ spec:
   replicas: 4
   selector:
     matchLabels:
-      app: nginx
+      app: e2esa-webapp01
   template:
     metadata:
       labels:
