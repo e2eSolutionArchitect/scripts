@@ -4,7 +4,7 @@ metadata:
   name: e2esa-webapp01-deployment
   namespace: dev-webapp01
   labels:
-    app: nginx
+    app: e2esa-webapp01
 spec:
   replicas: 4
   selector:
