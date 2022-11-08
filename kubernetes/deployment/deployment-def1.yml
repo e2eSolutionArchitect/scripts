@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
  name: e2esa-webapp01-deployment
+ namespace: dev-webapp01
  labels:
   app: e2esa-webapp01
   tire: front-end
@@ -22,3 +23,4 @@ spec:
    matchLabels:
    tire: front-end
    env: dev
+   app: e2esa-webapp01
