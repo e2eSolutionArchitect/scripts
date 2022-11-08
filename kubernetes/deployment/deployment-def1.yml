@@ -5,7 +5,6 @@ metadata:
  namespace: dev-webapp01
  labels:
   app: e2esa-webapp01
-  tire: front-end
 spec:
  replicas: 4
  template:
@@ -21,6 +20,4 @@ spec:
       image: nginx
  selector:
    matchLabels:
-   tire: front-end
-   env: dev
    app: e2esa-webapp01
