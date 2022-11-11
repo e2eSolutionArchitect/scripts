@@ -1,5 +1,6 @@
 
 ```
+kubectl get all --namespace=e2esa-webapp01-ns
 kubectl get nodes
 kubectl get nodes -o wide
 kubectl describe pod <podname>
@@ -95,8 +96,8 @@ kubectl create deployment <Deplyment-Name> --image=<Container-Image>
 kubectl create deployment my-first-deployment --image=stacksimplify/kubenginx:1.0.0 
 
 # Verify Deployment
-kubectl get deployments
-kubectl get deploy 
+kubectl get deployments  --namespace=e2esa-webapp01-ns
+kubectl get deploy  --namespace=e2esa-webapp01-ns
 
 # Describe Deployment
 kubectl describe deployment <deployment-name>
