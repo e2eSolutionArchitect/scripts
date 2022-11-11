@@ -1,8 +1,9 @@
 
 ```
+# without specifying namespace will consider 'default' name space
 kubectl get all --namespace=e2esa-webapp01-ns
-kubectl get nodes
-kubectl get nodes -o wide
+kubectl get nodes --namespace=e2esa-webapp01-ns
+kubectl get pods -o wide --namespace=e2esa-webapp01-ns
 kubectl describe pod <podname>
 ```
 
