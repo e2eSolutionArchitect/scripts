@@ -1,3 +1,4 @@
+# refer: https://jfrog.com/blog/pulling-all-your-kubernetes-cluster-images-from-a-private-artifactory-registry/
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -16,8 +17,8 @@ spec:
         app: e2esa-webapp01
     spec:
       containers:
-      - name: nginx
-        image: nginx:latest
+      - name: my-app
+        image: my-artifactory.jfrog.io/default-docker-virtual/my-app:1.0.1
         imagePullPolicy: Always
         imagePullSecrets:
         - name: regcred
