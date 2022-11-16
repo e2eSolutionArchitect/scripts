@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: e2esa-webapp01-deployment
+  namespace: dev-webapp01
+  labels:
+    app: e2esa-webapp01
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: e2esa-webapp01
+  template:
+    metadata:
+      labels:
+        app: e2esa-webapp01
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:latest
+        imagePullPolicy: Always
+        imagePullSecrets:
+        - name: regcred
+        ports:
+        - containerPort: 80
