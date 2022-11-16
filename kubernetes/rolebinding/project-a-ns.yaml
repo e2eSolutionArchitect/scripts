@@ -1,9 +1,10 @@
 # Refer: https://kubernetes.io/docs/reference/access-authn-authz/rbac/
+# This RoleBinding will provide all the users in 'project-a' group 'superuser' access scopped to 'project-a' name space ONLY. 
 apiVersion: rbac.authorization.k8s.io/v1
 # This cluster role binding allows anyone in the "manager" group to read secrets in any namespace.
 kind: ClusterRoleBinding
 metadata:
-  name: read-secrets-global
+  name: project-a-ns-full-access
   namespace: project-a
 subjects:
 - kind: Group
