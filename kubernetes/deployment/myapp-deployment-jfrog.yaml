@@ -6,8 +6,8 @@
 # --docker-password=my-super-secret-pass \
 # --docker-email=johndoe@example.com \
 # -n my-app-ns
-
-secret/regcred created
+#
+# secret/regcred created
 
 apiVersion: apps/v1
 kind: Deployment
@@ -34,3 +34,17 @@ spec:
         - name: regcred
         ports:
         - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: e2esa-webapp01-ns
+  name: e2esa-webapp01-service
+spec:
+  ports:
+    - port: 80
+      targetPort: 80
+      protocol: TCP
+  type: NodePort
+  selector:
+    app.kubernetes.io/name: e2esa-webapp01
