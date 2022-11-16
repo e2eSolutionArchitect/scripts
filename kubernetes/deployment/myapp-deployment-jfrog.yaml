@@ -9,6 +9,15 @@
 #
 # secret/regcred created
 
+# Patch the default service account to include the imagePullSecrets section.
+# By default a service account named default automatically gets created with each namespace and all workloads will automatically use it.
+
+# kubectl edit serviceaccount default -n my-app-ns
+apiVersion: v1
+kind: ServiceAccount
+imagePullSecrets:
+- name: regcred
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
