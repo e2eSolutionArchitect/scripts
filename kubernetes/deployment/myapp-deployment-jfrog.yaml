@@ -1,4 +1,14 @@
 # refer: https://jfrog.com/blog/pulling-all-your-kubernetes-cluster-images-from-a-private-artifactory-registry/
+# create the secret first for jfrog authentication
+# kubectl create secret docker-registry regcred \
+# --docker-server=my-artifactory.jfrog.io \
+# --docker-username=read-only \
+# --docker-password=my-super-secret-pass \
+# --docker-email=johndoe@example.com \
+# -n my-app-ns
+
+secret/regcred created
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
