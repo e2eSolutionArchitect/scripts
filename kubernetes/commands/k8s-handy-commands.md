@@ -7,6 +7,13 @@ kubectl get pods -o wide --namespace=e2esa-webapp01-ns
 kubectl describe pod <podname>
 ```
 
+Change namespace
+
+```
+change-ns <namespace>
+change-ns webapp
+```
+
 ## Create a pod
 
 ```
