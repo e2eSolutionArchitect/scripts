@@ -1,6 +1,6 @@
-# This is to add multiple users to SSH an EC2
-# The primary user (who has the ssh key pair ) loginto the instance and run below commands to add another user for ssh access to that EC2.
-# The new user need to share private-key of his/her key <ssh-private-key-of-the-new-user>
+This is to add multiple users to SSH an EC2
+The primary user (who has the ssh key pair ) loginto the instance and run below commands to add another user for ssh access to that EC2.
+The new user need to share private-key of his/her key <ssh-private-key-of-the-new-user>
 
   ```
 sudo bash
