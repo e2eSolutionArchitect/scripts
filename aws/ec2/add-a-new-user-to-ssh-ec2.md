@@ -12,3 +12,8 @@ chmod 600 /home/<username>/.ssh/authorized_keys
 chown <username>:<username> -R /home/<username>/.ssh
 passwd <username>
   ```
+
+  Note: get <ssh-private-key-of-the-new-user> from the other EC2 where the user has access. browse to below location to get the keys
+  ```
+  /home/<username>/.ssh/authorized_keys
+  ```
