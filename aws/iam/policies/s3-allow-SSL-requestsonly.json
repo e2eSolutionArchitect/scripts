@@ -1,6 +1,4 @@
-
-
-```
+# To allow SSL requests only to s3
 {
   "Id": "S3AllowSSLRequestsOnly",
   "Version": "2012-10-17",
@@ -23,4 +21,3 @@
   ]
 }
 
-```
