@@ -1,3 +1,5 @@
+# IAM policy used for taking RDS snapshot backup to S3
+
 {
   "Id": "S3AllowRDSSnapshotExport",
   "Version": "2012-10-17",
