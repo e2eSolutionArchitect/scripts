@@ -1,0 +1,15 @@
+{
+  "Id": "EKSFullPermission",
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "EKS",
+      "Effect": "Allow",
+      "Action": [
+        "cloudformation:ListStacks",
+        "eks:*"
+      ],
+      "Resource": *
+    }
+  ]
+}
