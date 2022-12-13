@@ -7,6 +7,11 @@ kubectl get pods -o wide --namespace=e2esa-webapp01-ns
 kubectl describe pod <podname>
 ```
 
+Check service
+```
+kubectl get svc --namespace=e2esa-webapp01-ns
+```
+
 Change namespace
 
 ```
