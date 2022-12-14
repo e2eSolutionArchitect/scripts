@@ -1,4 +1,5 @@
 # Role is NS specific. 
+# Bind Role in RoleBinding. Also map this role to the user configuration in kubernetes ConfigMap
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
