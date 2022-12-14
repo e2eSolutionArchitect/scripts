@@ -84,7 +84,7 @@ metadata:
   uid: 1cghhtf0-bgh3-4ed1-b7df-e9dd7310oj7fd
 ```
 
-multiple user or role can be added like below
+multiple user can be added like below
 ```
     mapUsers: |
     - userarn: arn:aws:iam::<aws-acc-no>:user/<iam-user-name>
