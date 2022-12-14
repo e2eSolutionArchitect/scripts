@@ -41,6 +41,9 @@ kubectl describe pod <podname>
 eksctl get clusters --region [region]
 eksctl get clusters --region us-east-1
 
+# Get Cluster Role
+kubectl get clusterrole
+
 # Delete Cluster 
 
 eksctl delete cluster <clusterName> --region [region]
