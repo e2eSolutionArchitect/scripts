@@ -1,0 +1,22 @@
+# Role is NS specific. 
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: e2esa-development-role-name
+  namespace: project-a-ns
+rules:          # Authorization rules
+  - apiGroups:  # 1st API group, Multiple apiGroups can be added
+      - ''      # An empty string designates the core API group.
+      - extensions
+      - apps
+    resources:
+      - deployments
+      - replicasets
+      - pods
+    verbs:
+      - create
+      - get
+      - list
+      - update
+      - path
+      - watch
