@@ -1,14 +1,24 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  name: viewer
+  name: e2esa-cluster-role-name
 rules:          # Authorization rules
   - apiGroups:  # 1st API group
       - ''      # An empty string designates the core API group.
+      - extensions
     resources:
       - persistentvolumes
       - nodes
+      - configmaps
+      - endpoints
+      - events
+      - ingresses
+      - ingresses/status
+      - services
     verbs:
       - get
       - list
       - watch
+      - create
+      - update
+      - path
