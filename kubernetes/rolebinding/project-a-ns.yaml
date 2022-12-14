@@ -1,5 +1,6 @@
 # Refer: https://kubernetes.io/docs/reference/access-authn-authz/rbac/
 # This RoleBinding will provide all the users in 'project-a' group 'superuser' access scopped to 'project-a' name space ONLY. 
+# ClusterRoleBinding binds Clusterrole with Service Account
 apiVersion: rbac.authorization.k8s.io/v1
 # This cluster role binding allows anyone in the "manager" group to read secrets in any namespace.
 kind: ClusterRoleBinding
@@ -10,7 +11,10 @@ subjects:
 - kind: Group
   name: project-a # Name is case sensitive
   apiGroup: rbac.authorization.k8s.io
+- kind: ServiceAccount
+  name: e2esa-service-account
+  namespace: project-a-ns
 roleRef:
   kind: ClusterRole
-  name: superuser
+  name: e2esa-cluster-role-name
   apiGroup: rbac.authorization.k8s.io
