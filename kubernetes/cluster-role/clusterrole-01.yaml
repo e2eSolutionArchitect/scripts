@@ -1,4 +1,5 @@
 # ClusterRoleBinding binds Clusterrole with Service Account
+# ClsuterRole is not NS specific. It is available through out the cluster
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
