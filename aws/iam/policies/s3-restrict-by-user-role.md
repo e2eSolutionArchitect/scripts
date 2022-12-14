@@ -11,7 +11,7 @@ Run the command: aws iam get-user -–user-name USER-NAME
 
 In the output, look for the userId string, which will begin with AIDAEXAMPLEID for userid and AROAEXAMPLEID for Roleid.
 
-dont be confused with "aws:userId" you can add userId and RoleID with aws:userId. userid will be a string like "AIDA*" or roleid it will be "AROA*"
+dont be confused by "aws:userId" you can add userId and RoleID with aws:userId. userid will be a string like "AIDA*" or roleid it will be "AROA*"
 
 ```
 {
