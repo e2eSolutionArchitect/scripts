@@ -43,6 +43,7 @@ eksctl get clusters --region us-east-1
 
 # Get Cluster Role
 kubectl get clusterrole
+kubectl describe clusterrole admin
 
 # Delete Cluster 
 
