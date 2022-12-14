@@ -15,6 +15,7 @@ kubectl get svc --namespace=e2esa-webapp01-ns
 Check service account
 ```
 kubectl get sa
+kubectl describe sa <service-account-name>
 ```
 
 Change namespace
@@ -41,6 +42,11 @@ kubectl describe pod <podname>
 ```
 eksctl get clusters --region [region]
 eksctl get clusters --region us-east-1
+
+# Delete Cluster 
+
+eksctl delete cluster <clusterName> --region [region]
+eksctl delete cluster eksdemo1 --region us-east-1
 ```
 
 # Capture Node Group name
@@ -54,11 +60,6 @@ eksctl delete nodegroup --cluster=<clusterName> --name=<nodegroupName>  --region
 eksctl delete nodegroup --cluster=eksdemo1 --name=eksdemo1-ng-public1 --region us-east-1
 ```
   
-# Delete Cluster
-```
-eksctl delete cluster <clusterName> --region [region]
-eksctl delete cluster eksdemo1 --region us-east-1
-```
 
 # Pod port details
 
