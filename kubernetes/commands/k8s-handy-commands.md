@@ -25,20 +25,18 @@ change-ns <namespace>
 change-ns webapp
 ```
 
-## Create a pod
+### Create a pod
 
 ```
 #If kubernetes version is latest then only run below  (without generator tag)
 kubectl run e2esa-pod01 --image nginx:latest
-```
 
-# Debug pod issue
-```
+### Debug pod issue
 kubectl describe pod <podname>
 # check the event section after running destribe on any k8s object for any failure or success
 ```
 
-# List EKS Clusters
+### EKS Clusters
 ```
 eksctl get clusters --region [region]
 eksctl get clusters --region us-east-1
