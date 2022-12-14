@@ -1,1 +1,1 @@
-(Click here) for Kubernetes commands and scripts (https://github.com/e2eSolutionArchitect/scripts/tree/main/kubernetes)
+[Click here](https://github.com/e2eSolutionArchitect/scripts/tree/main/kubernetes) for Kubernetes commands and scripts 
