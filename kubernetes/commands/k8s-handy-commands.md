@@ -12,6 +12,11 @@ Check service
 kubectl get svc --namespace=e2esa-webapp01-ns
 ```
 
+Check service account
+```
+kubectl get sa
+```
+
 Change namespace
 
 ```
