@@ -3,7 +3,7 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
-  name: e2esa-development-role-name
+  name: e2esa-development-role-01
   namespace: project-a-ns
 rules:          # Authorization rules
   - apiGroups:  # 1st API group, Multiple apiGroups can be added
