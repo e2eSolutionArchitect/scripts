@@ -12,9 +12,9 @@ subjects:
   name: project-a # Name is case sensitive
   apiGroup: rbac.authorization.k8s.io
 - kind: ServiceAccount
-  name: e2esa-service-account
-  namespace: project-a-ns
+  name: e2esa-service-account-01
+  namespace: project-ns-01
 roleRef:
   kind: ClusterRole
-  name: e2esa-cluster-role-name
+  name: e2esa-cluster-role-01
   apiGroup: rbac.authorization.k8s.io
