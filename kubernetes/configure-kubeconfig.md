@@ -90,6 +90,7 @@ multiple user can be added like below
     - userarn: arn:aws:iam::<aws-acc-no>:user/<iam-user-name>
       username: <iam-user-name>
       groups:
+      - e2esa-development-role-01 # Role from K8S Role contructs
       - system:bootstrappers
       - system:nodes
       - eks-console-dashboard-full-access-group
