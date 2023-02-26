@@ -1,0 +1,42 @@
+{
+  "displayName": "Require custom tags as per org policy on resources",
+  "policyType": "BuiltIn",
+  "mode": "Indexed",
+  "description": "Enforces existence of a tag. Does not apply to resource groups.Enforce each resource to be tagged as per the organizational cloud governance policy",
+  "metadata": {
+    "version": "1.0.1",
+    "category": "Tags"
+  },
+  "policyRule": {
+    "if": {
+      "allOf": [
+        {
+          "field": "tags[project]",
+          "exists": "false"
+        },
+        {
+          "field": "tags[cost_center]",
+          "exists": "false"
+        },{
+          "field": "tags[env]",
+          "exists": "false"
+        }
+      ]
+    },
+    "then": {
+      "effect": "append",
+      "details": [
+        {
+        "field": "tags[project]",
+        "value": "e2esa-demo"
+        },{
+          "field": "tags[cost_center]",
+          "value": "CC-E2ESAAZ01"
+          },{
+            "field": "tags[env]",
+            "value": "dev"
+            }
+      ]
+    }
+  }
+}
