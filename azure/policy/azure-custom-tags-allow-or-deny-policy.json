@@ -19,8 +19,19 @@
     },
     "policyRule": {
       "if": {
-        "field": "[concat('tags[', parameters('tagName'), ']')]",
-        "exists": "false"
+        "allOf": [
+          {
+            "field": "tags[project]",
+            "exists": "false"
+          },
+          {
+            "field": "tags[cost_center]",
+            "exists": "false"
+          },{
+            "field": "tags[env]",
+            "exists": "false"
+          }
+        ]
       },
       "then": {
         "effect": "deny"
