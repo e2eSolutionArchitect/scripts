@@ -1,21 +1,11 @@
 {
-  "properties": {
-    "displayName": "Require a tag on resources",
+    "displayName": "Require custom tags as per org policy on resources",
     "policyType": "BuiltIn",
     "mode": "Indexed",
-    "description": "Enforces existence of a tag. Does not apply to resource groups.",
+    "description": "Enforces existence of a tag. Does not apply to resource groups.Enforce each resource to be tagged as per the organizational cloud governance policy",
     "metadata": {
       "version": "1.0.1",
       "category": "Tags"
-    },
-    "parameters": {
-      "tagName": {
-        "type": "String",
-        "metadata": {
-          "displayName": "Tag Name",
-          "description": "Name of the tag, such as 'environment'"
-        }
-      }
     },
     "policyRule": {
       "if": {
@@ -37,8 +27,4 @@
         "effect": "deny"
       }
     }
-  },
-  "id": "/providers/Microsoft.Authorization/policyDefinitions/########-####-####-####-############",
-  "type": "Microsoft.Authorization/policyDefinitions",
-  "name": "########-####-####-####-############"
-}
+  }
