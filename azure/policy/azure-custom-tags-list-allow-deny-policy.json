@@ -19,7 +19,7 @@
             "notIn": ["CC-E2ESAAZ01","CC-E2ESAAZ01"]
           },{
             "field": "tags[env]",
-            "notIn": ["dev","stg","prod]
+            "notIn": ["dev","stg","prod"]
           }
         ]
       },
