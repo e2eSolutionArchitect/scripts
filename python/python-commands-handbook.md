@@ -22,7 +22,7 @@ conda activate env_name
 conda remove --name myenv --all
 ```
 
-** To create an environment with a specific version of Python: 
+***To create an environment with a specific version of Python***
 ```
 conda create --name myenv python=3.7
 ```
