@@ -7,8 +7,11 @@ import time
 from datetime import datetime
 
 def lambda_handler(event, context):
-
-    for x in range(random.randint(1, 10)):
+    
+    loop_cnt=random.randint(1, 10)
+    print("No of messages:", loop_cnt)
+    
+    for x in range(loop_cnt):
         stream_twitter_msg(event)
 
     return {
