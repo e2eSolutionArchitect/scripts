@@ -7,6 +7,16 @@ import time
 from datetime import datetime
 
 def lambda_handler(event, context):
+
+    for x in range(random.randint(1, 10)):
+        stream_twitter_msg(event)
+
+    return {
+        'statusCode': 200,
+        'body': 'Message generated successfully'
+    }
+
+def stream_twitter_msg(event):
     usr_id = random.randint(10000000, 100000000)
     id_str = random.randint(9999999999, 99999999999)
     
@@ -61,8 +71,4 @@ def lambda_handler(event, context):
         Key='clean-zone/streaming-data/message-'+str(time_stamp)+'.json',
         Body=data_string
     )
-    return {
-        'statusCode': 200,
-        'body': data_string
-    }
 	
