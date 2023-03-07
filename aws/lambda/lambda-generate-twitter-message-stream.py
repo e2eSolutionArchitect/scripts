@@ -61,4 +61,8 @@ def lambda_handler(event, context):
         Key='clean-zone/streaming-data/message-'+str(time_stamp)+'.json',
         Body=data_string
     )
+    return {
+        'statusCode': 200,
+        'body': data_string
+    }
 	
