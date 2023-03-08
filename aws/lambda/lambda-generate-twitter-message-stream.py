@@ -7,19 +7,7 @@ import time
 from datetime import datetime
 
 def lambda_handler(event, context):
-    
-    loop_cnt=random.randint(1, 10)
-    print("No of messages:", loop_cnt)
-    
-    for x in range(loop_cnt):
-        stream_twitter_msg(event)
 
-    return {
-        'statusCode': 200,
-        'body': 'Message generated successfully'
-    }
-
-def stream_twitter_msg(event):
     usr_id = random.randint(10000000, 100000000)
     id_str = random.randint(9999999999, 99999999999)
     
@@ -28,6 +16,7 @@ def stream_twitter_msg(event):
     print("Current timestamp:", time_stamp)
     
     country=["US", "Canada", "Mexico", "India", "Japan" , "Dubai" , "China", "Kenya", "Australia" , "Srilanka"]
+    hash_tags=create_hashtags(event)
     
     data_dict = {
       "created_at": datetime.fromtimestamp(time_stamp),
@@ -44,8 +33,7 @@ def stream_twitter_msg(event):
       }],
       "place": [country[random.randint(0, 9)]],
       "entities": {
-        "hashtags": [      
-        ],
+        "hashtags": hash_tags,
         "urls": [
           {
             "url": "https:\/\/t.co\/XweGngmxlP",
@@ -71,7 +59,18 @@ def stream_twitter_msg(event):
     s3_bucket = s3_resource.Bucket(name='ucal-datalake')
     
     s3_bucket.put_object(
-        Key='clean-zone/streaming-data/message-'+str(time_stamp)+'.json',
+        Key='raw-zone/streaming-data/message-'+str(time_stamp)+'.json',
         Body=data_string
     )
-	
+
+    return {
+        'statusCode': 200,
+        'body': data_string
+    }
+
+
+def create_hashtags(event):
+    hashtags_list=["Ucal", "Data608", "Calgary", "Canada", "Alberta" ]
+    return [
+         hashtags_list[random.randint(1,4)] , hashtags_list[random.randint(1,4)] 
+    ]
