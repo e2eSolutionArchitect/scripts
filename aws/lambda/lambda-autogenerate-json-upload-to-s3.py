@@ -13,20 +13,16 @@ def lambda_handler(event, context):
     time_stamp = calendar.timegm(current_GMT)
     print("Current timestamp:", time_stamp)
     
-    country=["US", "Canada", "Mexico", "India", "Japan" , "Dubai" , "China", "Kenya", "Australia" , "Srilanka"]
-    
     data_dict = {
-            "id": usr_id,
-			"name": "Twitter Dev1",
-			"screen_name": "TwitterDev",
-			"location": country[random.randint(0, 9)],
-			"url": "https:\/\/dev.twitter1.com\/",
-			"description": "Your official source for Twitter Platform news, updates & events. Need technical help? Visit https:\/\/twittercommunity.com\/ \u2328\ufe0f #TapIntoTwitter",
-			"date": datetime.fromtimestamp(time_stamp),
-            "topics": ['DataScience', 'Science', 'History']
-    }
-
+        "id": usr_id,
+        "name": "Twitter Dev",
+        "screen_name": "TwitterDev",
+        "location": "Internet",
+        "url": "https:\/\/dev.twitter.com\/",
+        "description": "Your official source for Twitter Platform news, updates & events. Need technical help?"
+      }
     
+
     # Convert Dictionary to JSON String
     data_string = json.dumps(data_dict, indent=2, default=str)
     
@@ -37,7 +33,11 @@ def lambda_handler(event, context):
     s3_bucket = s3_resource.Bucket(name='ucal-datalake')
     
     s3_bucket.put_object(
-        Key='clean-zone/streaming-data/message-'+str(time_stamp)+'.json',
+        Key='raw-zone/streaming-data/message-'+str(time_stamp)+'.json',
         Body=data_string
     )
-	
+
+    return {
+        'statusCode': 200,
+        'body': data_string
+    }
