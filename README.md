@@ -4,8 +4,7 @@
 
 ## e2eSA CLOUD SKILLS BOOTCAMP 
 
-[![e2eSA CLOUD SKILLS BOOTCAMP](https://user-images.githubusercontent.com/62712515/213931902-aa4143d0-760f-4fd4-9886-7d7d99ef9ec4.png)](https://github.com/e2eSolutionArchitect/academy/blob/main/bootcamp/readme.md)
-
+[![e2esa-bootcamp-posters-01](https://github.com/e2eSolutionArchitect/terraform/assets/62712515/485d9a63-da4b-4308-853d-cca3a5334e89)](https://e2esolutionarchitect.eventbrite.ca)
 # Table of Contents for 'Script' repository
 
 ## End to End Solution Architect tutorials [Click here](https://www.youtube.com/channel/UC5Juuk7aTvbRmrABMq4onJA/videos)
