@@ -23,3 +23,16 @@ sudo apt-get install salt-syndic
 sudo apt-get install salt-cloud
 sudo apt-get install salt-api
 ```
+
+### Enable and start the services for salt-minion, salt-master, or other Salt components:
+```
+sudo systemctl enable salt-master && sudo systemctl start salt-master
+sudo systemctl enable salt-minion && sudo systemctl start salt-minion
+sudo systemctl enable salt-syndic && sudo systemctl start salt-syndic
+sudo systemctl enable salt-api && sudo systemctl start salt-api
+```
+
+### Verify installation 
+```
+systemctl status salt-master
+```
