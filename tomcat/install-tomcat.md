@@ -1,7 +1,10 @@
 Install Java
 ```
-sudp apt update
+sudo apt update
 sudo apt install default-jdk
+# or for java 11
+sudo apt install openjdk-11-jdk
+
 java -version
 
 ```
