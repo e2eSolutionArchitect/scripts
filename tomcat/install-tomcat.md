@@ -1,13 +1,5 @@
-Install Java
-```
-sudo apt update
-sudo apt install default-jdk
-# or for java 11
-sudo apt install openjdk-11-jdk
+Install Java first [click here](https://github.com/e2eSolutionArchitect/scripts/blob/main/java/java-install.md)
 
-java -version
-
-```
 Install Tomcat v10.0.20
 ```
 mkdir tomcat
