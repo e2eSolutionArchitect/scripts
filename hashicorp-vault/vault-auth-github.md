@@ -21,3 +21,7 @@ Now login using Github method. Use Github Token as password
 vault login -method=github
 
 ```
+
+Create Github Token from Github
+- Github > Profile > Developer Settings > Personal Access Token
+- Make sure to add 'read-org' permission to the PAT (Personal Access Token)
