@@ -1,0 +1,4 @@
+
+```
+vault secrets list
+```
