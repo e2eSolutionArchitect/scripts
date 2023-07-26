@@ -2,7 +2,7 @@ start vault server
 ```
 vault server -config = config.hcl # for production/server model 
 ```
-For the production server please make Vault a service
+For the production server please make Vault a service in Linux system
 
 Set environment variables
 ```
