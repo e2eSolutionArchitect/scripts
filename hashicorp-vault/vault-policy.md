@@ -20,3 +20,9 @@ Delete policy
 ```
 vault policy delete <policy-name>
 ```
+
+Attach a token with Policy
+
+```
+export VAULT_TOKEN="$(vault token create -field token -policy=my-policy)"
+```
