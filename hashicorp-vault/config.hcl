@@ -6,7 +6,7 @@ storage "raft" {
   }
 
 listener "tcp" {
-   address = "127.0.0.1:8200"
+   address = "0.0.0.0:8200" # 0.0.0.0 is because of installing vault in a remote VM
    tls_disable = "true" # for actual production this value should be false
   }
 
