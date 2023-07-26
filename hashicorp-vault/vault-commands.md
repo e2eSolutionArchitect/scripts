@@ -77,4 +77,9 @@ Regenerate vault token
 ```
 vault token create
 ```
+
+Login with Root Token. Use your root token as password
+```
+vault login
+```
 - [Generate Dynamic Secrets for AWS](https://github.com/e2eSolutionArchitect/scripts/blob/main/hashicorp-vault/generating-dynamic-secrets-for-aws.md)
