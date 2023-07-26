@@ -1,9 +1,11 @@
 
+
 - HashiCorp Vault [installation instruction](https://developer.hashicorp.com/vault/tutorials/getting-started/getting-started-install)
 - Types and sources for Vault [installation](https://developer.hashicorp.com/vault/docs/install)
 - Vault [tutorials](https://developer.hashicorp.com/vault/tutorials)
 
-- 
+
+
 Set environment variables
 ```
 export VAULT_ADDR='http://127.0.0.1:8200'
@@ -69,4 +71,10 @@ vault kv put -mount=secret creds password="my-super-secret-passwprd123"
 ```
 
 - [Policy](https://github.com/e2eSolutionArchitect/scripts/blob/main/hashicorp-vault/vault-policy.md)
+
+Regenerate vault token
+
+```
+vault token create
+```
 - [Generate Dynamic Secrets for AWS](https://github.com/e2eSolutionArchitect/scripts/blob/main/hashicorp-vault/generating-dynamic-secrets-for-aws.md)
