@@ -25,3 +25,9 @@ vault write auth/approle/role/my-role \
 export ROLE_ID="$(vault read -field=role_id auth/approle/role/my-role/role-id)"
 export SECRET_ID="$(vault write -f -field=secret_id auth/approle/role/my-role/secret-id)"
 ```
+
+Write config
+```
+vault write auth/approle/login role_id="$ROLE_ID" secret_id="$SECRET_ID"
+
+```
