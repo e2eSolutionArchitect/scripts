@@ -65,9 +65,16 @@ vault secrets disable mypath/hello1
 
 
 Generating dynamic secrets for AWS
-```
-You need to have ACCESS_KEY, SECRET_KEY as prerequisite
+- You need to have ACCESS_KEY, SECRET_KEY as prerequisite
 - Enable AWS secret engine
+```
 vault secrets enable -path=myaws aws
+```
+- Set root config
+```
+vault write myaws/config/root \
+access_key = ####
+secret_key = ####
+region = us-east-1
 ```
 
