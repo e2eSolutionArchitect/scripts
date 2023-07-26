@@ -16,3 +16,8 @@ Write config for Teams. web-team, app-team assumed created in github org already
 vault write auth/github/map/teams/my-team values = web-team, app-team
 ```
 
+Now login using Github method. Use Github Token as password
+```
+vault login -method=github
+
+```
