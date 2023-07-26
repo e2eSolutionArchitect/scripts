@@ -73,8 +73,8 @@ vault secrets enable -path=myaws aws
 - Set root config
 ```
 vault write myaws/config/root \
-access_key = ####
-secret_key = ####
+access_key = #### \
+secret_key = #### \
 region = us-east-1
 ```
 
