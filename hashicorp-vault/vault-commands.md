@@ -82,4 +82,10 @@ Login with Root Token. Use your root token as password
 ```
 vault login
 ```
+
+Revoke root token
+```
+vault token revoke <root-token>
+vault token revoke hvs.hisdf776234kSDFSFhiendsfsdfjh
+```
 - [Generate Dynamic Secrets for AWS](https://github.com/e2eSolutionArchitect/scripts/blob/main/hashicorp-vault/generating-dynamic-secrets-for-aws.md)
