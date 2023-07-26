@@ -4,4 +4,4 @@ Get policy list
 vault policy list
 ```
 
-Create policy mypolicy.hcl
+Create policy [vault-policy-01.hcl](https://github.com/e2eSolutionArchitect/scripts/blob/main/hashicorp-vault/vault-policy-01.hcl)
