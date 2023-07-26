@@ -14,5 +14,6 @@ vault write auth/approle/role/my-role \
   token_ttl=20m \
   token_max_ttl=30m \
   secret_id_num_uses=40 \
-  token_policies=,y-policy
+  token_policies=my-policy
 ```
+'my-policy' is already created policy and 'approle' is the auth method already created
