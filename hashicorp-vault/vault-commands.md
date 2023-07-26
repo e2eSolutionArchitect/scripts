@@ -21,7 +21,7 @@ vault status
 start vault server
 ```
 vault server -dev
-vault server -server
+vault server -config = config.hcl # for production/server model 
 ```
 
 
