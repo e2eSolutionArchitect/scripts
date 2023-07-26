@@ -44,11 +44,17 @@ vault kv get <path>
 vault kv get mypath/hello1
 ```
 
+Delete
+```
+vault kv delete <path>
+vault kv delete mypath/hello1
+```
+
 
 Enable AWS secret engine path
 ```
 vault secrets enable -path=<path> <name-of-secret-engine>
-vault secrets enable -path=myaws aws
+vault secrets enable -path=mypath2 aws
 ```
 
 Disable secret engine path
