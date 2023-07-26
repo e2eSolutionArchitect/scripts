@@ -31,3 +31,14 @@ vault write aws/roles/my-ec2-role \
   ]
 }
 ```
+- Vault to generate ACCESS_KEY, SECRET_KEY for role  'my-ec2-role'
+
+```
+vault read aws/creds/my-ec2-role
+
+```
+
+How to revoke the dynamic key?
+```
+vault lease revoke aws/creds/my-ec2-role/JJASD534dfg5df67789dfgJASDASD
+```
