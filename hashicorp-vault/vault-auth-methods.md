@@ -19,3 +19,9 @@ vault write auth/approle/role/my-role \
   token_policies=my-policy
 ```
 'my-policy' is already created policy and 'approle' is the auth method already created
+
+
+```
+export ROLE_ID="$(vault read -field=role_id auth/approle/role/my-role/role-id)"
+export SECRET_ID="$(vault write -f -field=secret_id auth/approle/role/my-role/secret-id)"
+```
