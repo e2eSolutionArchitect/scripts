@@ -9,7 +9,7 @@ Set environment variables
 export VAULT_ADDR='http://<server-public-ip>:8200'
 ```
 
-Initialize Vault
+Initialize Vault. It will give 5 unseal keys and a root token
 ```
 vault operator init
 ```
