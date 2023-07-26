@@ -7,6 +7,8 @@ vault auth enable approle
 
 After enabling auth method we have to assign it to the policy
 
+## Associate auth method with policy
+
 ```
 vault write auth/approle/role/my-role \
   secret_id_ttl=10m \
