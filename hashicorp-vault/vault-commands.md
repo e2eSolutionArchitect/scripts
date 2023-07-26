@@ -63,5 +63,10 @@ vault secrets disable <path-name>
 vault secrets disable mypath/hello1
 ```
 
+Create secrets
+```
+vault kv put -mount=secret creds password="my-super-secret-passwprd123"
+```
+
 - [Policy](https://github.com/e2eSolutionArchitect/scripts/blob/main/hashicorp-vault/vault-policy.md)
 - [Generate Dynamic Secrets for AWS](https://github.com/e2eSolutionArchitect/scripts/blob/main/hashicorp-vault/generating-dynamic-secrets-for-aws.md)
