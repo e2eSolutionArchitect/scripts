@@ -1,5 +1,5 @@
 
-Create Authentication method for GitHub
+Create an Authentication method for GitHub
 ```
 vault auth list
 vault auth enable github
@@ -25,3 +25,12 @@ vault login -method=github
 Create Github Token from Github
 - Github > Profile > Developer Settings > Personal Access Token
 - Make sure to add 'read-org' permission to the PAT (Personal Access Token)
+
+
+How to remove the authentication method? such as Github
+
+```
+vault token revoke -mode path auth/github
+# Also disable the auth method
+vault auth disable github
+```
