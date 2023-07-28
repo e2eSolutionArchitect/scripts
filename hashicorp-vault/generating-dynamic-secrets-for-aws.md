@@ -31,7 +31,7 @@ vault write aws/roles/my-ec2-role \
   ]
 }
 ```
-- Vault to generate ACCESS_KEY, SECRET_KEY for role  'my-ec2-role'
+- Vault to generate Dynamic secret Key now. get ACCESS_KEY, SECRET_KEY for role 'my-ec2-role'
 
 ```
 vault read aws/creds/my-ec2-role
