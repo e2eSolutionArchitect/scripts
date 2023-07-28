@@ -43,6 +43,9 @@ Get key value from path
 ```
 vault kv get <path>
 vault kv get mypath/hello1
+
+Read in JSON format
+vault kv get -format=json my/path
 ```
 
 Delete
@@ -55,7 +58,7 @@ vault kv delete mypath/hello1
 Enable AWS secret engine path
 ```
 vault secrets enable -path=<path> <name-of-secret-engine>
-vault secrets enable -path=mypath2 aws
+vault secrets enable -path=aws aws
 ```
 
 Disable secret engine path
