@@ -9,7 +9,7 @@
 Set environment variables
 ```
 export VAULT_ADDR='http://127.0.0.1:8200'
-export VAULT_TOKEN="hvs.6j4cuewowBGit65rheNoceI7"
+export VAULT_TOKEN="hvs.6j4cuewowBGit65rheNoceI7" # root token
 ```
 Vault & version status
 
@@ -23,7 +23,7 @@ start vault server
 vault server -dev
 vault server -config = config.hcl # for production/server mode 
 ```
-For production server please make vault as a service
+For the production server please make Vault as a service
 Get the list of secret engine paths
 ```
 vault secrets list
