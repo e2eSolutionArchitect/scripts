@@ -20,6 +20,7 @@ Delete policy
 ```
 vault policy delete <policy-name>
 ```
+## When using policy , it should be attached with a token before it is used
 
 Attach a token with Policy
 
