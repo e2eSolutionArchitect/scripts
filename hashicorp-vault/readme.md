@@ -1,0 +1,3 @@
+- HashiCorp Vault [installation instruction](https://developer.hashicorp.com/vault/tutorials/getting-started/getting-started-install)
+- Types and sources for Vault [installation](https://developer.hashicorp.com/vault/docs/install)
+- Vault [tutorials](https://developer.hashicorp.com/vault/tutorials)
