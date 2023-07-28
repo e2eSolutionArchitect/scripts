@@ -21,7 +21,7 @@ vault status
 start vault server
 ```
 vault server -dev
-vault server -config = config.hcl # for production/server model 
+vault server -config = config.hcl # for production/server mode 
 ```
 For production server please make vault as a service
 Get the list of secret engine paths
