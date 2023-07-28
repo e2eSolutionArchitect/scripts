@@ -3,7 +3,7 @@ Generating dynamic secrets for AWS
 - You need to have ACCESS_KEY, SECRET_KEY as prerequisite
 - Enable AWS secret engine
 ```
-vault secrets enable -path=myaws aws
+vault secrets enable -path=aws aws
 ```
 - Set root config
 ```
