@@ -23,3 +23,8 @@ vault kv destroy kv/applications/app01
 ```
 vault kv delete kv/applications/app01
 ```
+
+Admin never sees all unseal  keys and can not unseal the vault by themselves. each individual user can only decrypt their own unseal key using their PGP keys
+```
+vault operator init -key-shares=3 -key-threshold=2 -pgp-keys="keybase:user1,keybase:user2,keybase:user3"
+```
