@@ -19,7 +19,7 @@ vault kv metadata delete
 vault kv destroy
 ```
 
-- Soft delete the current version of the secret. Not all version
+- Soft delete the current version of the secret.
 ```
 vault kv delete
 ```
