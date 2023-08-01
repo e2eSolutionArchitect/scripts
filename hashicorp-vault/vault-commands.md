@@ -9,17 +9,17 @@ curl http://127.0.0.1:8200/v1/sys/leader | jq
 vault write transit/rewrap/<key-name> ciphertext=<old-data>
 ```
 
-- Delete all versions and metadata for the key permanently
+- Delete all versions and metadata for the key permanently. Command would permanently delete the path from Vault
 ```
-vault kv metadata delete
+vault kv metadata delete kv/applications/app01
 ```
 
 - Permanently delete the current version of the secret. Not all version
 ```
-vault kv destroy
+vault kv destroy kv/applications/app01
 ```
 
 - Soft delete the current version of the secret.
 ```
-vault kv delete
+vault kv delete kv/applications/app01
 ```
