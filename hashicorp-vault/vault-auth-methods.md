@@ -6,7 +6,10 @@ vault auth list
 vault auth enable <auth-method-name>
 vault auth enable approle
 ```
-
+Check what version the KV store is using
+```
+vault secrets list -detailed
+```
 After enabling auth method we have to assign it to the policy
 
 ## Associate auth method with policy
