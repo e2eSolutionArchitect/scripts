@@ -1,4 +1,5 @@
 
+Examples of machine auth methods include AppRole, Cloud-based auth methods, tokens, TLS, Kubernetes, and Radius. Examples of human auth methods include Okta, LDAP, GitHub, OIDC, and userpass.
 
 ```
 vault auth list
