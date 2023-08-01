@@ -2,6 +2,7 @@
 
 ```
 vault auth list
+vault auth enable <auth-method-name>
 vault auth enable approle
 ```
 
