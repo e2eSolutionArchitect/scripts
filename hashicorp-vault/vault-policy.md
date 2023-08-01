@@ -33,4 +33,10 @@ Policy to restrict a path access
 path "secret/apps/confidential" {
      capabilities =["deny"]
 }
+
+or use + as wildcards instead of calling-out each segments of the path
+
+path "secret/+/confi*" {
+     capabilities =["deny"]
+}
 ```
