@@ -27,3 +27,10 @@ Attach a token with Policy
 ```
 export VAULT_TOKEN="$(vault token create -field token -policy=my-policy)"
 ```
+
+Policy to restrict a path access
+```
+path "secret/apps/confidential" {
+     capabilities =["deny"]
+}
+```
