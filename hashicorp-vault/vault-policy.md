@@ -40,3 +40,30 @@ path "secret/+/confi*" {
      capabilities =["deny"]
 }
 ```
+A policy to permit new entry for environment=prod at path /secrets/app/top_secrets
+
+```
+path "secret/apps/top_secrets" {
+     capabilities =["create"]
+     allowed_parameters = {
+        "environment" = ["dev", "test", "stg", "prod"]
+     }
+}
+
+or
+
+path "secret/apps/top_secrets" {
+     capabilities =["create"]
+     allowed_parameters = {
+        "environment" = []
+     }
+}
+
+or path "secret/+/top_*" {
+     capabilities =["create"]
+     allowed_parameters = {
+        "*" = []
+     }
+}
+
+```
