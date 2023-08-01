@@ -33,7 +33,7 @@ vault write auth/approle/login role_id="$ROLE_ID" secret_id="$SECRET_ID"
 
 ```
 
-Vault ERROR http: server have HTTP response to HTTPS client
+Vault ERROR http: server gave HTTP response to HTTPS client
 ```
 If you're running Vault in a demo or non-production environment, you can configure Vault to disable TLS. In this case, TLS has been disabled, but the default value for VAULT_ADDR is https://127.0.0.1:8200. Therefore Vault is sending the request over HTTPS, but Vault is responding using HTTP since TLS is disabled. In this case, you should set the VAULT_ADDR environment variable to "http://127.0.0.1:8200". This is true if you're running Vault Dev server as well.
 ```
