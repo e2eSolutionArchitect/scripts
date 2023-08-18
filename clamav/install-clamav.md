@@ -21,6 +21,11 @@ sudo freshclam
 crontab -e
 @hourly   /usr/bin/freshclam --quiet
 
+# Configure clamd 
+cd /etc/clamav
+vi clamd.conf
+vi  freshclam.conf
+
 # Start clamav service
 
 ```
