@@ -16,8 +16,18 @@ sudo freshclam
 crontab -e
 @hourly   /usr/bin/freshclam --quiet
 
-# start clamav service
+# Start clamav service
 sudo systemctl start clamav-freshclam.service
+sudo systemctl status clamav-freshclam.service
+
+# Install htop to check momory consumption
+sudo apt-get install htop -y 
+htop
+
+# run clamd. check LocalSocket path in clamd.conf
+mkdir /var/run/clamav
+sudo chmod -R 777 /var/run/clamav
+sudo clamd
 
 
 ------
