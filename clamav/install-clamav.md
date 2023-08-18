@@ -65,7 +65,8 @@ clamconf -g clamd.conf > clamd.conf
 Update clamd.conf with below attributes
 ```
 OnAccessMaxFileSize 5M
-OnAccessIncludePath /home/ubuntu/scandir
+OnAccessIncludePath /home/ubuntu/scandir/
+OnAccessIncludePath /home/ubuntu/
 OnAccessPrevention yes
 OnAccessExcludeUname clamav
 OnAccessExtraScanning yes
