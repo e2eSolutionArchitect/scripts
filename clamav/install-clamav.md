@@ -1,3 +1,27 @@
+
+# Install in Ubuntu 
+
+sudo apt-get install -y clamav clamav-base clamav-daemon clamav-freshclam clamav-testfiles
+
+# ERROR: Can't open /var/log/clamav/freshclam.log in append mode (check permissions!)
+sudo chmod -R 777 /var/log/clamav
+which freshclam
+
+# ERROR: /var/log/clamav/freshclam.log is locked by another process
+# freshclam run automatically, If you want to stop the daemon and run it manually:
+
+sudo systemctl stop clamav-freshclam.service
+sudo freshclam
+
+crontab -e
+@hourly   /usr/bin/freshclam --quiet
+
+# start clamav service
+sudo systemctl start clamav-freshclam.service
+
+
+------
+
 yum install epel-release
 
 yum -y install clamav-server clamav-data clamav-update clamav-filesystem clamav clamav-scanner-systemd clamav-devel clamav-lib clamav-server-systemd
