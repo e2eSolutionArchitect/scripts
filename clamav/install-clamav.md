@@ -78,4 +78,11 @@ sudo chmod -R 777 /etc/clamav/clamd.conf
 ```
 
 # Run clamonacc
+```
 sudo clamonacc
+```
+
+# check clamav log file
+```
+tail -f /var/log/clamav/clamav.log
+```
