@@ -86,3 +86,17 @@ sudo clamonacc
 ```
 tail -f /var/log/clamav/clamav.log
 ```
+
+# Kernel should be > 3.8
+```
+uname -rm
+config-5.19.0-1025-aws
+# here it is 5.19.0-1025
+
+sudo su 
+cd boot
+vi config-5.19.0-1025-aws
+
+CONFIG_FANOTIFY=y
+CONFIG_FANOTIFY_ACCESS_PERMISSIONS=y
+```
