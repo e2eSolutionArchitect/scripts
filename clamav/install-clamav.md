@@ -73,3 +73,5 @@ OnAccessExcludeUname clamav
 sudo chmod -R 777 /etc/clamav/clamd.conf
 ```
 
+# Run clamonacc
+sudo clamonacc
