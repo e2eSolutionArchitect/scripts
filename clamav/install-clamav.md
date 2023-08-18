@@ -1,5 +1,6 @@
 
 # Install in Ubuntu 
+
 ```
 sudo apt-get install -y clamav clamav-base clamav-daemon clamav-freshclam clamav-testfiles
 ```
@@ -21,6 +22,7 @@ crontab -e
 @hourly   /usr/bin/freshclam --quiet
 
 # Start clamav service
+
 ```
 sudo systemctl start clamav-freshclam.service
 sudo systemctl status clamav-freshclam.service
