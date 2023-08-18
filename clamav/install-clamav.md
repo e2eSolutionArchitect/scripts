@@ -50,6 +50,7 @@ sudo clamd
 ```
 clamdscan --fdpass <scan directory>
 clamdscan --fdpass /home/ubuntu/scantest
+clamdscan --fdpass --move=/home/ubuntu/quarantined /home/ubuntu/scandir
 ```
 
 
