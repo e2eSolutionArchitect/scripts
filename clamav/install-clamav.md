@@ -66,6 +66,7 @@ Update clamd.conf with below attributes
 OnAccessIncludePath /home/ubuntu/scandir
 OnAccessPrevention yes
 OnAccessExcludeUname clamav
+OnAccessExtraScanning yes
 ```
 ### If getting permission issue to update clamd.conf. change the permission
 
