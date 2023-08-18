@@ -63,10 +63,13 @@ clamconf -g clamd.conf > clamd.conf
 # Enable On Access Scanning 
 Update clamd.conf with below attributes
 ```
+OnAccessMaxFileSize 5M
 OnAccessIncludePath /home/ubuntu/scandir
 OnAccessPrevention yes
 OnAccessExcludeUname clamav
 OnAccessExtraScanning yes
+OnAccessMaxThreads 10
+
 ```
 ### If getting permission issue to update clamd.conf. change the permission
 
