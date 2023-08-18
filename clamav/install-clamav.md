@@ -60,3 +60,16 @@ clamconf -g clamd.conf > clamd.conf
 ```
 
 
+# Enable On Access Scanning 
+Update clamd.conf with below attributes
+```
+OnAccessIncludePath /home/ubuntu/scandir
+OnAccessPrevention yes
+OnAccessExcludeUname clamav
+```
+### If getting permission issue to update clamd.conf. change the permission
+
+```
+sudo chmod -R 777 /etc/clamav/clamd.conf
+```
+
