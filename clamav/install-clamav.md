@@ -45,6 +45,13 @@ sudo chmod -R 777 /var/run/clamav
 sudo clamd
 ```
 
+# Run scan 
+
+```
+clamdscan --fdpass <scan directory>
+clamdscan --fdpass /home/ubuntu/scantest
+```
+
 ------
 
 yum install epel-release
@@ -59,3 +66,5 @@ crontab -e
 
 groupadd clamav
 useradd -g clamav -s /bin/false -c "Clam Antivirus" clamav
+
+
