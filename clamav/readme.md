@@ -1,7 +1,10 @@
 Contents referred from ClamAV documentation [here](https://docs.clamav.net)
 Docker Hub [here](https://hub.docker.com/r/clamav/clamav)
 
- 
+check cloud init output log
+```
+tail -f /var/log/cloud-init-output.log
+```
 
 Recommended RAM for ClamAV (As of 2020/09/20): Minimum: 3 GiB, Preferred: 4 GiB
 
