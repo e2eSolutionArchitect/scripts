@@ -1,10 +1,15 @@
 ClamAV documentation [here](https://docs.clamav.net)
 Docker Hub [here](https://hub.docker.com/r/clamav/clamav)
 
-## On Docker Install
 Recommended RAM for ClamAV (As of 2020/09/20): Minimum: 3 GiB, Preferred: 4 GiB
 
-## All images come in two forms:
+# On RHEL Install
+
+# On Ubuntu Install
+
+# On Docker Install
+
+### All images come in two forms:
 
 - clamav/clamav:<version>: A release preloaded with signature databases.
 
