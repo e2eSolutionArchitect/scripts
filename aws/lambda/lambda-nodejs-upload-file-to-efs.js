@@ -1,11 +1,33 @@
 // NodeJs script
+// Pre-requisite: The lambda should be attached to VPC and the File System should be attached also. 
+// File system should have accesspoint /mnt/upload/ created already 
+
 import * as fs from 'fs';
 
+
 export const handler = async (event) => {
-  fs.writeFileSync('/mnt/upload/hello.txt','It is working!!');
-  const response = {
-    statusCode: 200,
-    body: JSON.stringify('Hello from Lambda!'),
-  };
-  return response;
+  try {
+    let filename = event['params']['header']['filename']
+    const fileContent = event['body-json'];
+    const filePath = '/mnt/upload/'+filename;
+
+    fs.writeFileSync(filePath, fileContent);
+
+    const response = {
+      statusCode: 200,
+      body: JSON.stringify('File uploaded successfully')
+    };
+
+    return response;
+    
+  } catch (error) {
+    console.error('Error uploading file:', error);
+    const errorResponse = {
+      statusCode: 500,
+      body: JSON.stringify('Error uploading file')
+    };
+
+    return errorResponse;
+  }
 };
+
