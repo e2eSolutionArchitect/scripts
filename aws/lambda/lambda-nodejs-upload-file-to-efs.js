@@ -1,6 +1,7 @@
 // NodeJs script
 // Pre-requisite: The lambda should be attached to VPC and the File System should be attached also. 
 // File system should have accesspoint /mnt/upload/ created already 
+// API gateway should have mapping templated defined for content type 'multipart/form-data' - When there are no templates defined (recommended)
 
 import * as fs from 'fs';
 
