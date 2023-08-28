@@ -38,12 +38,15 @@ sudo apt-get install htop -y
 htop
 ```
 
-# run clamd. check LocalSocket path in clamd.conf
+## Run clamd. check LocalSocket path in clamd.conf
 ```
 mkdir /var/run/clamav
 sudo chmod -R 777 /var/run/clamav
 sudo clamd
 ```
+
+## If clamd didn't run properly it will generate below error. clamd creates clamd.ctl file in /var/run/clamav/
+## Error: Could not connect to clamd on LocalSocket /var/run/clamav/clamd.ctl: No such file or directory LibClamAV Error: File tree walk aborted.
 
 # Run scan 
 
@@ -79,7 +82,7 @@ OnAccessMaxThreads 10
 sudo chmod -R 777 /etc/clamav/clamd.conf
 ```
 
-# Run clamonacc
+# Run clamonacc ( OnAccess scan should be enabled in /etc/clamav/clamd.conf first)
 ```
 sudo clamonacc
 ```
