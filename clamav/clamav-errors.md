@@ -13,7 +13,8 @@ sudo docker run --rm \
   clamscan /scandir
 ```
 
-Fix: remove clamscan /scandir part and run
+Fix: first remove clamscan /scandir part and run. Then update the container name "clamav_container_02" and run the command with clamscan /scandir
+Step 1
 ```
 sudo docker run --rm \
   --name "clamav_container_01" \
@@ -23,9 +24,31 @@ sudo docker run --rm \
   --env 'FRESHCLAM_CHECKS=24' \
   clamav/clamav:1.0.2_base 
 ```
+Step 2
+```
+sudo docker run --rm \
+  --name "clamav_container_02" \
+  --mount source=clam_db,target=/var/lib/clamav \
+  --mount type=bind,source=/opt/scandir,target=/scandir \
+  --env 'CLAMAV_NO_FRESHCLAMD=false' \
+  --env 'FRESHCLAM_CHECKS=24' \
+  clamav/clamav:1.0.2_base \
+  clamscan /scandir
+```
+
 
 ## Could not connect to clamd on LocalSocket /tmp/clamd.sock: No such file or directory
-
+While running clamDscan
+```
+sudo docker run --rm \
+  --name "clamav_container_01" \
+  --mount source=clam_db,target=/var/lib/clamav \
+  --mount type=bind,source=/opt/scandir,target=/scandir \
+  --env 'CLAMAV_NO_FRESHCLAMD=false' \
+  --env 'FRESHCLAM_CHECKS=24' \
+  clamav/clamav:1.0.2_base \
+  clamdscan /scandir
+```
 Fix:
 
 
