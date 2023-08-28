@@ -29,3 +29,13 @@ which freshclam
 sudo systemctl stop clamav-freshclam.service
 sudo freshclam
 ```
+
+## Error: Could not connect to clamd on LocalSocket /var/run/clamav/clamd.ctl: No such file or directory LibClamAV Error: File tree walk aborted.
+If clamd didn't run properly it will generate below error. clamd creates clamd.ctl file in /var/run/clamav/
+
+Fix:
+```
+mkdir /var/run/clamav
+sudo chmod -R 777 /var/run/clamav
+sudo clamd
+```
