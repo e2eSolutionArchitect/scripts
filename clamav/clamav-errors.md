@@ -14,3 +14,18 @@ sudo docker run --rm \
 ```
 
 ## Fix:
+
+---------------------------------------
+
+## ERROR: Can't open /var/log/clamav/freshclam.log in append mode (check permissions!)
+```
+sudo chmod -R 777 /var/log/clamav
+which freshclam
+```
+
+## ERROR: /var/log/clamav/freshclam.log is locked by another process
+## freshclam run automatically, If you want to stop the daemon and run it manually:
+```
+sudo systemctl stop clamav-freshclam.service
+sudo freshclam
+```
