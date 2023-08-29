@@ -1,4 +1,4 @@
-# Use Python 3.7 or 3.8
+# Use Python 3.7 or 3.8 but not 3.11. 3.11 has issue with requests import
 import json
 import boto3
 from botocore.exceptions import ClientError
@@ -24,7 +24,7 @@ def lambda_handler(event, context):
         )
         print(presigned_url)
         
-        response = requests.put(presigned_url, data=file_content)
+        response = requests.put(presigned_url, data=content_decoded)
         print(response.status_code)
         
     except Exception as e:
