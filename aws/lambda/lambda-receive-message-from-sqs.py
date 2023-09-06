@@ -1,4 +1,5 @@
 import boto3
+import json
 
 def lambda_handler(event, context):
     # Set up SQS client
@@ -15,13 +16,16 @@ def lambda_handler(event, context):
     
     # Check if messages were received
     if 'Messages' in response:
+        #print(response['Messages'])
         for message in response['Messages']:
             message_body = message['Body']
             receipt_handle = message['ReceiptHandle']
+            message_id= message['MessageId']
             
-            print(f"Received message: {message_body}")
+            #print(f"Received message: {message_body}")
+            print(json.loads(message_body))
             
-            # Add your processing logic here
+            # Add processing logic here
             
             # Delete the message from the queue
             sqs.delete_message(
@@ -29,11 +33,11 @@ def lambda_handler(event, context):
                 ReceiptHandle=receipt_handle
             )
             
-            print(f"Deleted message: {message_body}")
+            print(f"Deleted message:"+message_id)
     else:
         print("No messages received from the queue.")
     
     return {
         'statusCode': 200,
-        'body': 'Message processing complete'
+        'body': 'Message processing complete for messageId: '+message_id
     }
