@@ -1,0 +1,14 @@
+## Trust Relationship entry. It is required to get the role access to sts:AssumedRole
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Principal": {
+                "Service": "eks.amazonaws.com",
+                "AWS": "arn:aws:iam::11111111:user/myuser"
+            },
+            "Action": "sts:AssumeRole"
+        }
+    ]
+}
