@@ -96,6 +96,12 @@ vault write aws/roles/myrole credential_type=iam_user policy_document=-<<EOF
 EOF
 ```
 
+Generate Dynamic secret access_ket, secret_key via the role created above
+```
+vault read aws/creds myrole
+```
+
+
 Create secrets
 ```
 vault kv put -mount=secret creds password="my-super-secret-passwprd123"
