@@ -1,6 +1,6 @@
 
 
-- HashiCorp Vault [installation instruction](https://developer.hashicorp.com/vault/tutorials/getting-started/getting-started-install)
+- HashiCorp Vault [installation instruction](https://developer.hashicorp.com/vault/tutorials/getting-started/getting-started-install) in short [check it](https://github.com/e2eSolutionArchitect/scripts/blob/main/hashicorp-vault/install-vault.md)
 - Types and sources for Vault [installation](https://developer.hashicorp.com/vault/docs/install)
 - Vault [tutorials](https://developer.hashicorp.com/vault/tutorials)
 
