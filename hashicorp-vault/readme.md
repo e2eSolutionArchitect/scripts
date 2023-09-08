@@ -70,6 +70,11 @@ vault secrets disable <path-name>
 vault secrets disable mypath/hello1
 ```
 
+Set Root config for AWS
+```
+vault write aws/config/root access_key######## secret_key=######## region=us-east-1
+```
+
 Create secrets
 ```
 vault kv put -mount=secret creds password="my-super-secret-passwprd123"
@@ -93,6 +98,7 @@ Revoke root token
 vault token revoke <root-token>
 vault token revoke hvs.hisdf776234kSDFSFhiendsfsdfjh
 ```
+
 Login to Vault using GitHub token
 ```
 vault login -method=github
