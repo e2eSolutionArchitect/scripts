@@ -24,10 +24,7 @@ vault server -dev
 vault server -config = config.hcl # for production/server mode 
 ```
 For the production server please make Vault as a service
-Get the list of secret engine paths
-```
-vault secrets list
-```
+
 Enable a new secret engine path
 ``
 vault enable mypath
@@ -56,6 +53,10 @@ vault kv delete <path>
 vault kv delete mypath/hello1
 ```
 
+Get the list of secret engine paths
+```
+vault secrets list
+```
 
 Enable AWS secret engine path
 ```
