@@ -70,42 +70,10 @@ vault secrets disable <path-name>
 vault secrets disable mypath/hello1
 ```
 
-Set Root config for AWS
-```
-vault write aws/config/root access_key######## secret_key=######## region=us-east-1
-```
+- [Generate Dynamic Secrets for AWS](https://github.com/e2eSolutionArchitect/scripts/blob/main/hashicorp-vault/generating-dynamic-secrets-for-aws.md)
+- [Policy](https://github.com/e2eSolutionArchitect/scripts/blob/main/hashicorp-vault/vault-policy.md)
 
-Setup a role for which we need dynamic secrets
-```
-vault write aws/roles/myrole credential_type=iam_user policy_document=-<<EOF
-{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Effect": "Allow",
-            "Action": [
-               "ec2:*"
-             ],
-            "Resource": {
-                "*"
-            },
-           
-        }
-    ]
-}
-EOF
-```
-
-Generate Dynamic secret access_ket, secret_key via the role created above
-```
-vault read aws/creds myrole
-```
-
-
-Create secrets
+Create secrets with mount
 ```
 vault kv put -mount=secret creds password="my-super-secret-passwprd123"
 ```
-
-- [Policy](https://github.com/e2eSolutionArchitect/scripts/blob/main/hashicorp-vault/vault-policy.md)
-- [Generate Dynamic Secrets for AWS](https://github.com/e2eSolutionArchitect/scripts/blob/main/hashicorp-vault/generating-dynamic-secrets-for-aws.md)
