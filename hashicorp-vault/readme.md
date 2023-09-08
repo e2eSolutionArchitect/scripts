@@ -75,7 +75,7 @@ Set Root config for AWS
 vault write aws/config/root access_key######## secret_key=######## region=us-east-1
 ```
 
-Setup a role for which we need dynamic credentials
+Setup a role for which we need dynamic secrets
 ```
 vault write aws/roles/myrole credential_type=iam_user policy_document=-<<EOF
 {
