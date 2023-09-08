@@ -39,6 +39,8 @@ vault kv put <path> <key>=<value>
 vault kv put mypath/hello1 key1=value1
 ```
 
+Note: Once a new 'path' is mentioned the 'path' should be enabled for a secret engine. please check how to enable in the section "Enable AWS secret engine path" below. 
+
 Get key value from path
 ```
 vault kv get <path>
