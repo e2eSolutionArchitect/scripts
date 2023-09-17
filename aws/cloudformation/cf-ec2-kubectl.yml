@@ -1,83 +1,57 @@
-AWSTemplateFormatVersion: 2010-09-09
-Description: CloudFormation template for EC2.
+AWSTemplateFormatVersion: '2010-09-09'
+Description: EKS cluster with Fargate workload
+#============================================================================#
+ # Parameters
+#============================================================================#
 Parameters:
   VPC:
     Type: AWS::EC2::VPC::Id
-  Subnet:
+    Description: Select VPC for Control Plane
+  ControlPlaneSubnetA:
     Type: AWS::EC2::Subnet::Id
-  KeyName:
-    Description: Name of an existing EC2 KeyPair to enable SSH access to the instance
-    Type: AWS::EC2::KeyPair::KeyName
-    ConstraintDescription: must be the name of an existing EC2 KeyPair.
-  InstanceType:
-    Description: EC2 instance type
+    Description: Select subnet for Control Plane
+  ControlPlaneSubnetB:
+    Type: AWS::EC2::Subnet::Id
+    Description: Select subnet for Control Plane
+  FargateProfilePvtSubnet1:
+    Type: AWS::EC2::Subnet::Id
+    Description: Select private subnet for Fargate profile
+  FargateProfilePvtSubnet2:
+    Type: AWS::EC2::Subnet::Id
+    Description: Select private subnet for Fargate profile
+# If you plan to deploy the workload to Fargate, then the existing Fargate profile that includes the same namespace created 
+  NameSpace:
     Type: String
-    Default: t2.small
-    AllowedValues: [t2.nano, t2.micro, t2.small, t2.medium, t2.large]
-    ConstraintDescription: must be a valid EC2 instance type.
-  SSHLocation:
-    Description: The IP address range that can be used to SSH to the EC2 instances
+    Default: nginx
+    Description: Enter namespace
+  EKSClusterName:
     Type: String
-    MinLength: 9
-    MaxLength: 18
-    Default: 0.0.0.0/0
-    AllowedPattern: (\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})/(\d{1,2})
-    ConstraintDescription: must be a valid IP CIDR range of the form x.x.x.x/x.
-  OpenTCPLocation:
-    Description: The IP address range that can be used to test EC2 instances
-    Type: String
-    MinLength: 9
-    MaxLength: 18
-    Default: 0.0.0.0/0
-    AllowedPattern: (\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})/(\d{1,2})
-    ConstraintDescription: must be a valid IP CIDR range of the form x.x.x.x/x.
-  LatestAmiId:
-    Type:  'AWS::EC2::Image::Id'
-    Default: 'ami-053b0d53c279acc90'
+    Description: Name of k8s cluster
+    Default: cluster01
+    
+
+#============================================================================#
+ # Resources
+#============================================================================#
 Resources:
-  ElasticIP:
-    Type: AWS::EC2::EIP
+  # Control plane
+  ControlPlane:
+    Type: AWS::EKS::Cluster
     Properties:
-      Domain: vpc
-      InstanceId: !Ref EC2Instance
-  EC2Instance:
-    Type: AWS::EC2::Instance
-    Properties:
-      InstanceType: !Ref 'InstanceType'
-      SecurityGroupIds: 
-        - !Ref InstanceSecurityGroup
-      KeyName: !Ref 'KeyName'
-      ImageId: !Ref 'LatestAmiId'
-      SubnetId: !Ref 'Subnet'
-      BlockDeviceMappings:
-        - DeviceName: /dev/sda1
-          Ebs:
-            VolumeSize: 30
-      UserData:
-        Fn::Base64: !Sub |
-          #!/bin/bash -xe
-          echo 'Starting Update'
-          sudo apt-get update -y
-          sudo apt-get install unzip
-          echo 'Installing AWSCLI2'
-          curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-          unzip awscliv2.zip
-          sudo ./aws/install
-          aws --version
-          echo 'Installing kubectl'
-          curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.27.4/2023-08-16/bin/linux/amd64/kubectl
-          chmod +x ./kubectl
-          mkdir -p $HOME/bin && cp ./kubectl $HOME/bin/kubectl && export PATH=$HOME/bin:$PATH
-          kubectl version --short --client
-          # for ARM systems, set ARCH to: `arm64`, `armv6` or `armv7`
-          ARCH=amd64
-          PLATFORM=$(uname -s)_$ARCH
-          curl -sLO "https://github.com/eksctl-io/eksctl/releases/latest/download/eksctl_$PLATFORM.tar.gz"
-          # (Optional) Verify checksum
-          curl -sL "https://github.com/eksctl-io/eksctl/releases/latest/download/eksctl_checksums.txt" | grep $PLATFORM | sha256sum --check
-          tar -xzf eksctl_$PLATFORM.tar.gz -C /tmp && rm eksctl_$PLATFORM.tar.gz
-          sudo mv /tmp/eksctl /usr/local/bin
-          eksctl version
+      Name: !Ref EKSClusterName
+      Version: "1.27"
+      RoleArn: !GetAtt ControlPlaneRole.Arn
+      ResourcesVpcConfig:
+        SecurityGroupIds:
+          - !Ref ControlPlaneSecurityGroup
+        SubnetIds:
+          - !Ref ControlPlaneSubnetA
+          - !Ref ControlPlaneSubnetB 
+      Logging:
+        ClusterLogging:
+          EnabledTypes:
+            - Type: api
+            - Type: audit
       Tags:
         - Key: project
           Value: demo
@@ -86,43 +60,99 @@ Resources:
         - Key: criticality
           Value: low
         - Key: createdby
-          Value: usr
+          Value: e2esa
         - Key: createdon
-          Value: sysdate
+          Value: currentdate
         - Key: env
           Value: dev
-  InstanceSecurityGroup:
+        - Key: maintainer
+          Value: maintainer@domain.com
+  # Control plane role
+  ControlPlaneRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Sub "ControlPlaneRole-CF-${AWS::StackName}"
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+            Effect: Allow
+            Principal:
+              Service:
+                - eks.amazonaws.com
+            Action: sts:AssumeRole
+      ManagedPolicyArns: 
+        - arn:aws:iam::aws:policy/AmazonEKSClusterPolicy
+        - arn:aws:iam::aws:policy/AmazonEKSServicePolicy
+
+# Control plane security group
+  ControlPlaneSecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
-      GroupName: !Join ["-", [kubectl-security-group, dev]]
-      GroupDescription: Enable access via port 22 and 80
+      GroupDescription: Security group for the elastic network interfaces between the control plane and the worker nodes
       VpcId: !Ref VPC
-      SecurityGroupIngress:
-      - IpProtocol: tcp
-        FromPort: 22
-        ToPort: 22
-        CidrIp: !Ref 'SSHLocation'
-      - IpProtocol: tcp
-        FromPort: 80
-        ToPort: 80
-        CidrIp: !Ref 'OpenTCPLocation'
-  IPAddress:
-    Type: AWS::EC2::EIP
-  IPAssoc:
-    Type: AWS::EC2::EIPAssociation
+      Tags:
+        - Key: cfstack
+          Value: !Sub "${AWS::StackName}-ControlPlaneSecurityGroup"
+  # Configure Fargate Profile
+  EKSFargateProfile:
+    #DependsOn: EKSIdpConfig
+    DependsOn: ControlPlane
+    Type: 'AWS::EKS::FargateProfile'
     Properties:
-      InstanceId: !Ref 'EC2Instance'
-      EIP: !Ref 'IPAddress'
-Outputs:
-  InstanceId:
-    Description: InstanceId of the newly created EC2 instance
-    Value: !Ref 'EC2Instance'
-  AZ:
-    Description: Availability Zone of the newly created EC2 instance
-    Value: !GetAtt [EC2Instance, AvailabilityZone]
-  PublicDNS:
-    Description: Public DNSName of the newly created EC2 instance
-    Value: !GetAtt [EC2Instance, PublicDnsName]
-  PublicIP:
-    Description: Public IP address of the newly created EC2 instance
-    Value: !GetAtt [EC2Instance, PublicIp]
+      FargateProfileName: !Sub "${AWS::StackName}-FargateProfile"
+      ClusterName: !Ref EKSClusterName
+      PodExecutionRoleArn: !GetAtt EKSFargatePodExecutionRole.Arn
+      Subnets:
+        - !Ref FargateProfilePvtSubnet1
+        - !Ref FargateProfilePvtSubnet2
+      Selectors:
+        - Namespace: !Ref NameSpace
+          Labels:
+            - Key: app
+              Value: nginx
+  # EKS Fargate PodExecution Role
+  EKSFargatePodExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Sub "EKSFargatePodExecutionRole-CF-${AWS::StackName}"
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+            Effect: Allow
+            Principal:
+              Service:
+                - eks-fargate-pods.amazonaws.com
+            Action: sts:AssumeRole
+      ManagedPolicyArns: 
+        - arn:aws:iam::aws:policy/AmazonEKSFargatePodExecutionRolePolicy
+        - arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy
+        - arn:aws:iam::306442480424:policy/e2esa-eks-fargate-cloudwatch
+  # EKS Identity provider config
+  # EKSIdpConfig:
+  #   DependsOn: EKSFargateProfile
+  #   Type: AWS::EKS::IdentityProviderConfig
+  #   Properties:
+  #     ClusterName: !Ref EKSClusterName
+  #     Type: oidc
+  #     Oidc:
+  #       ClientId: "kubernetes"
+  #       IssuerUrl: "https://example.com"
+  NATGateway:
+    Type: AWS::EC2::NatGateway
+    Properties:
+        AllocationId: !GetAtt NATGatewayEIP.AllocationId
+        SubnetId: !Ref ControlPlaneSubnetA
+        Tags:
+        - Key: env
+          Value: dev
+  NATGatewayEIP:
+    Type: AWS::EC2::EIP
+    Properties:
+        Domain: vpc
+  RouteNATGateway:
+    DependsOn: NATGateway
+    Type: AWS::EC2::Route
+    Properties:
+        RouteTableId: !Ref PrivateRouteTable
+        DestinationCidrBlock: '0.0.0.0/0'
+        NatGatewayId: !Ref NATGateway
