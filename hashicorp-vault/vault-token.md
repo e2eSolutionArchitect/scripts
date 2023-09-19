@@ -24,3 +24,14 @@ Login to Vault using GitHub token
 ```
 vault login -method=github
 ```
+
+Token renew [refer](https://developer.hashicorp.com/vault/docs/commands/token/renew#token-renew)
+```
+# Renew a token (this uses the /auth/token/renew endpoint and permission):
+vault token renew <token_id>
+vault token renew 96ddf4bc-d217-f3ba-f9bd-017055595017
+
+vault token renew -increment=30m <token_id>
+vault token renew -increment=30m 96ddf4bc-d217-f3ba-f9bd-017055595017
+
+```
