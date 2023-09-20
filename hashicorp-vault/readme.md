@@ -4,7 +4,7 @@
 - Types and sources for Vault [installation](https://developer.hashicorp.com/vault/docs/install)
 - Vault [tutorials](https://developer.hashicorp.com/vault/tutorials)
 
-
+- Vault [API docs](https://developer.hashicorp.com/vault/api-docs/system/leader)
 
 Set environment variables
 ```
