@@ -7,3 +7,9 @@ Key        Value
 ---        ----- 
 ciphertext vault:v3:cZNHVx+sxdMErXRSuDa1q/pz49fXTn1PScKfhf+PIZPvy8xKfkytpwKcbC0fF2U=
 ```
+
+
+```
+To rotate a key, use the command
+vault write -f transit/keys/<key name>/rotate
+```
