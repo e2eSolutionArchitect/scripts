@@ -16,3 +16,8 @@ vault kv metadata delete - permanently deletes the secret with all versions and 
 vault kv delete - soft delete current version
 vault kv destroy - permanently deletes current version of the secret
 ```
+
+revoke all leases associated with the secret engine mounted at /aws
+```
+vault lease revoke -prefix aws/
+```
