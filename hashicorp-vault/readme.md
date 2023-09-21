@@ -70,6 +70,11 @@ vault secrets disable <path-name>
 vault secrets disable mypath/hello1
 ```
 
+Command to instruct the active node to gracefully stand down
+```
+vault operator step-down
+```
+
 - [Generate Dynamic Secrets for AWS](https://github.com/e2eSolutionArchitect/scripts/blob/main/hashicorp-vault/generating-dynamic-secrets-for-aws.md)
 - [Policy](https://github.com/e2eSolutionArchitect/scripts/blob/main/hashicorp-vault/vault-policy.md)
 
