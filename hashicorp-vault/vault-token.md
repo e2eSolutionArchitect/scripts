@@ -20,6 +20,8 @@ vault token revoke <root-token>
 vault token revoke hvs.hisdf776234kSDFSFhiendsfsdfjh
 ```
 
+After authenticating, a client is issued a service token which is associated with a policy. That token is used to make all subsequent requests to Vault.
+
 Login to Vault using GitHub token
 ```
 vault login -method=github
