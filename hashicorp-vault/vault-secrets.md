@@ -38,3 +38,8 @@ Force to remove the secret
 ```
 vault lease revoke -force -prefix <lease-path>
 ```
+
+Invalidate a credential
+```
+vault lease revoke aws/creds/....
+```
