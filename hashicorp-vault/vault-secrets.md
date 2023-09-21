@@ -32,3 +32,9 @@ curl \
 https://prod-vault.abc.com:8200/v1/transit/encrypt/customer-data
 ```
 data.json will contain plaintext customer data to be encrypted
+
+
+Force to remove the secret
+```
+vault lease revoke -force -prefix <lease-path>
+```
