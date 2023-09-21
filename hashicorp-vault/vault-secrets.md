@@ -43,3 +43,12 @@ Invalidate a credential
 ```
 vault lease revoke aws/creds/....
 ```
+
+Steps to encrypt
+```
+vendor secrets enable transit
+vault write -f transit/keys/myencrpkey
+base64 <<< "my confidential text"
+
+vault write transit/encrypt/myencrpkey plaintext="dfgdJJDfg#$%#FDgaGFzaGljbZFDgd#$%#$DFGmllZA=="
+```
