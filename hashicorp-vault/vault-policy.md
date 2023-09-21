@@ -67,3 +67,20 @@ or path "secret/+/top_*" {
 }
 
 ```
+
+Create policy
+```
+cat user.hcl | vault policy write mypolicy -
+
+OR
+
+vault policy write mypolicy - << EOF
+path "secret/data/*" {
+capabilities = ["create","update"]
+}
+EOF
+
+OR
+
+vault policy write mypolicy policy.hcl
+```
