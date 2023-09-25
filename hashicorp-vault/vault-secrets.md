@@ -52,3 +52,13 @@ base64 <<< "my confidential text"
 
 vault write transit/encrypt/myencrpkey plaintext="dfgdJJDfg#$%#FDgaGFzaGljbZFDgd#$%#$DFGmllZA=="
 ```
+
+perform API call to read secrets for a particular namespace 'integration'
+```
+curl \
+--header "X-Vault-Token:s.lzrmRe5Y3LMcDRmOttEjWoag" \
+--header "X-Vault-Namespace: integration" \
+--request GET \
+https://vault.example.com:8200/v1/secret/data/my-secret
+
+```
