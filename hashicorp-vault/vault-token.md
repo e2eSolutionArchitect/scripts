@@ -58,3 +58,9 @@ or
 vault login -method=token hvc.########
 
 ```
+
+Revoke all leases associated with a role 'myrole'
+
+```
+vault lease revoke -prefix database/creds/myrole
+```
