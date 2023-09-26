@@ -14,6 +14,16 @@ Login with Root Token. Use your root token as password
 vault login
 ```
 
+Generate Root Token
+
+```
+vault token create - when using a valid root token
+vault operator init - when first time initializing vault
+
+3rdly when generating a root token using a quorum of recovery keys when using vault auto seal
+
+```
+
 Revoke root token
 ```
 vault token revoke <root-token>
