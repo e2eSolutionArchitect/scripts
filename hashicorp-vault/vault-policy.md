@@ -84,3 +84,15 @@ OR
 
 vault policy write mypolicy policy.hcl
 ```
+
+
+Create policy where user can only access their own private section of KV secret engine
+```
+path "kv/team/{{identity.entity.id}}/*" {
+ capabilities = ["create", "update", "read", "delete"]
+}
+path "kv/team/{{identity.entity.id}}" {
+ capabilities = ["create", "update", "read", "delete"]
+}
+
+```
