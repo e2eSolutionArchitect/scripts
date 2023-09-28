@@ -79,3 +79,7 @@ Vault token look up shows associated policy with vault
 ```
 vault token lookup s.DjWW0########
 ```
+
+vault operator diagnose  is a new command in Vault 1.8 that allows you to troubleshoot a Vault node where the Vault service will not start
+vault token capabilities will list the capabilities on a certain path 
+vault policy list will list the current policies on the Vault node/cluster
