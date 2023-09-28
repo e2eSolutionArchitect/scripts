@@ -74,3 +74,8 @@ Revoke all leases associated with a role 'myrole'
 ```
 vault lease revoke -prefix database/creds/myrole
 ```
+
+Vault token look up shows associated policy with vault
+```
+vault token lookup s.DjWW0########
+```
