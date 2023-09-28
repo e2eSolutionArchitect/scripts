@@ -78,6 +78,7 @@ vault lease revoke -prefix database/creds/myrole
 Vault token look up shows associated policy with vault
 ```
 vault token lookup s.DjWW0########
+You can also use -accessor flag if you only know the accessor and not the token.
 ```
 
 vault operator diagnose  is a new command in Vault 1.8 that allows you to troubleshoot a Vault node where the Vault service will not start
