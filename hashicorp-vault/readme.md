@@ -85,3 +85,8 @@ vault kv put -mount=secret creds password="my-super-secret-passwprd123"
 
 Notes:
 - After initializing Vault or restarting the Vault service, each individual node in the cluster needs to be unsealed.
+
+Rekey operation using the vault operator rekey command creates new unseal/recovery keys as well as a new master key
+```
+vault operator rekey
+```
