@@ -1,4 +1,4 @@
-const {SQS, SendMessageCommand} = require("@aws-sdk/client-sqs");
+const {SQS, SendMessageCommand,ReceiveMessageCommand} = require("@aws-sdk/client-sqs");
 require('dotenv').config();
 
 const sqsClient = new SQS({
@@ -37,4 +37,22 @@ const sendMessageToQueue = async (body) => {
     }
 };
 
-sendMessageToQueue("My first message to the world")
+//sendMessageToQueue("My first message to the world")
+
+const pullMessagesFromQueue = async () => {
+    try{
+        const command = new ReceiveMessageCommand({
+            MaxNumberOfMessages: 10,
+            QueueUrl: process.env.AWS_SQS_QUEUE_URL,
+            WaitTimeSeconds: 5,
+            MessageAttributes: ["All"],
+            VisibilityTimeout: 10,
+
+        });
+        const result = await sqsClient.send(command);
+        console.log(result);
+    } catch (error) {
+        console.log(error);
+    }
+};
+pullMessagesFromQueue()
