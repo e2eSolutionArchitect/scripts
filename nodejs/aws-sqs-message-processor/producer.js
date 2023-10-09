@@ -1,4 +1,4 @@
-const {SQS, SendMessageCommand,ReceiveMessageCommand} = require("@aws-sdk/client-sqs");
+const {SQS, SendMessageCommand} = require("@aws-sdk/client-sqs");
 require('dotenv').config();
 
 const sqsClient = new SQS({
@@ -17,10 +17,10 @@ function generateUniqueId() {
 
 // Usage example
 const fileId = generateUniqueId();
-console.log('Generated Message ID:', fileId);
+//console.log('Generated Message ID:', fileId);
 
 
-const sendMessageToQueue = async (body) => {
+const SendMessageToQueue = async (body) => {
     try{
         const command = new SendMessageCommand({
             MessageBody: body,
@@ -28,6 +28,7 @@ const sendMessageToQueue = async (body) => {
             MessageAttributes:{
                 FileId: {DataType: "String", StringValue: fileId},
                 FileName: {DataType: "String", StringValue: "test.png"},
+                FileS3URI: {DataType: "String", StringValue: "s3://e2esa-demo/uploads/fileup.pdf"},
             },
         });
         const result = await sqsClient.send(command);
@@ -37,22 +38,4 @@ const sendMessageToQueue = async (body) => {
     }
 };
 
-//sendMessageToQueue("My first message to the world")
-
-const pullMessagesFromQueue = async () => {
-    try{
-        const command = new ReceiveMessageCommand({
-            MaxNumberOfMessages: 10,
-            QueueUrl: process.env.AWS_SQS_QUEUE_URL,
-            WaitTimeSeconds: 5,
-            MessageAttributes: ["All"],
-            VisibilityTimeout: 10,
-
-        });
-        const result = await sqsClient.send(command);
-        console.log(result);
-    } catch (error) {
-        console.log(error);
-    }
-};
-pullMessagesFromQueue()
+SendMessageToQueue("File scan request for fileId: "+fileId)
