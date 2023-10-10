@@ -3,7 +3,7 @@ require('dotenv').config();
 const { v4: uuidv4 } = require('uuid');
 
 const s3file = require("./download");
-var fileName = "uploads/test-doc1.pdf"; 
+var fileName = "test-doc1.pdf"; 
 
 const sqsClient = new SQS({
     region: process.env.AWS_REGION,
@@ -13,10 +13,6 @@ const sqsClient = new SQS({
     }
 });
 
-var s3FileParams = {
-    Bucket: process.env.AWS_BUCKET_NAME,
-    Key: fileName
-};
 
 const fileId = generateUniqueId();
 function generateUniqueId() {
@@ -25,6 +21,7 @@ function generateUniqueId() {
 
 var messageAttributes = {
     "FileId": {DataType: "String", StringValue: fileId},
+    "FileKey": {DataType: "String", StringValue: "uploads/"},
     "FileName": {DataType: "String", StringValue: fileName}
 };
 
@@ -48,10 +45,15 @@ SendMessageToQueue("File scan request");
 const PullMessagesFromQueue = async () => {
     try{
         const command = new ReceiveMessageCommand({
-            MaxNumberOfMessages: 10,
+            AttributeNames: [
+                "SentTimestamp"
+             ],
+             MaxNumberOfMessages: 10,
             QueueUrl: process.env.AWS_SQS_QUEUE_URL_AWAITING,
             WaitTimeSeconds: 5,
-            MessageAttributes: ["All"],
+            MessageAttributeNames: [
+                "All"
+             ],
             VisibilityTimeout: 10,
 
         });
@@ -85,7 +87,9 @@ const ProcessMessage = async (result) => {
         // read the message attributes and pull the file from s3 bucket
         console.log('calling ProcessMessage');
         console.log(result.Messages);
-        s3file.download(s3FileParams);
+
+        var msgAttrs = result.Messages[0].MessageAttributes;
+        s3file.download(msgAttrs.FileKey.StringValue+msgAttrs.FileName.StringValue);
         // post processing delete the current message and recreate a copy with status:scanned attribute to SCANNED queue
         // delete the message after successful processing
         const del_result = await DeleteMessageFromQueue(result.Messages[0].ReceiptHandle);
