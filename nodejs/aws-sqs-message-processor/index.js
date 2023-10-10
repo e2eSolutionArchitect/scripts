@@ -1,6 +1,9 @@
 const {SQS, SendMessageCommand,ReceiveMessageCommand,DeleteMessageCommand} = require("@aws-sdk/client-sqs");
 require('dotenv').config();
 
+const s3file = require("./download");
+const fileName = "uploads/test-doc1.pdf"; 
+
 const sqsClient = new SQS({
     region: process.env.AWS_REGION,
     credentials: {
@@ -8,6 +11,11 @@ const sqsClient = new SQS({
         secretAccessKey: process.env.AWS_ACCESS_SECRET_KEY
     }
 });
+
+const s3FileParams = {
+    Bucket: process.env.AWS_BUCKET_NAME,
+    Key: fileName
+  };
 
 const { v4: uuidv4 } = require('uuid');
 
@@ -18,15 +26,14 @@ function generateUniqueId() {
 const fileId = generateUniqueId();
 
 
-const SendMessageToQueue = async (body) => {
+const SendMessageToQueue = async (body,fileId,fileName) => {
     try{
         const command = new SendMessageCommand({
             MessageBody: body,
             QueueUrl: process.env.AWS_SQS_QUEUE_URL_AWAITING,
             MessageAttributes:{
                 FileId: {DataType: "String", StringValue: fileId},
-                FileName: {DataType: "String", StringValue: "test.png"},
-                FileS3URI: {DataType: "String", StringValue: "s3://e2esa-demo/uploads/fileup.pdf"},
+                FileName: {DataType: "String", StringValue: fileName}
             },
         });
         const result = await sqsClient.send(command);
@@ -36,7 +43,7 @@ const SendMessageToQueue = async (body) => {
     }
 };
 
-SendMessageToQueue("File scan request for fileId: "+fileId)
+//SendMessageToQueue("File scan request",fileId,fileName);
 
 const PullMessagesFromQueue = async () => {
     try{
@@ -49,12 +56,10 @@ const PullMessagesFromQueue = async () => {
 
         });
         const result = await sqsClient.send(command);
-        //console.log(result.Messages);
+        // console.log(result.Messages);
 
         // do some message processing 
         ProcessMessage(result);
-        // delete the message after successful processing
-        //const del_result = await DeleteMessageFromQueue(result.Messages[0].ReceiptHandle);
     } catch (error) {
         console.log(error);
     }
@@ -75,13 +80,15 @@ const DeleteMessageFromQueue = async (ReceiptHandle) => {
 };
 
 
-
 const ProcessMessage = async (result) => {
     try{
         // read the message attributes and pull the file from s3 bucket
         console.log('calling ProcessMessage');
         console.log(result.Messages);
+        s3file.download(s3FileParams);
         // post processing delete the current message and recreate a copy with status:scanned attribute to SCANNED queue
+        // delete the message after successful processing
+        const del_result = await DeleteMessageFromQueue(result.Messages[0].ReceiptHandle);
     } catch (error) {
         console.log(error);
     }

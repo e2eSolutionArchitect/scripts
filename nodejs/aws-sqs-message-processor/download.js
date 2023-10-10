@@ -11,11 +11,10 @@ AWS.config.update({
 
 const s3 = new AWS.S3();
 
-const params = {
-    Bucket: process.env.AWS_BUCKET_NAME,
-    Key: "uploads/test-doc1.pdf"
-  };
-  
+
+
+const download = async (params) => {
+  console.log("Initiating download.....");
   s3.getObject(params, (err, data) => {
     if (err) {
         console.log(err);
@@ -31,4 +30,6 @@ const params = {
       console.log(`File downloaded to ${process.env.LOCAL_PATH_TO_SAVE_FILE}`);
     });
   });
+};
 
+  module.exports = { download };
