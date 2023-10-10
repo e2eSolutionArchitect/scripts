@@ -13,14 +13,15 @@ const s3 = new AWS.S3();
 
 const params = {
     Bucket: process.env.AWS_BUCKET_NAME,
-    Key: "uploads/fileup.pdf"
+    Key: "uploads/test-doc1.pdf"
   };
   
   s3.getObject(params, (err, data) => {
     if (err) {
-      console.error(err);
-      return;
-    }
+        console.log(err);
+      } else {
+        //console.log(data.Body.toString());
+      }
   
     fs.writeFile(process.env.LOCAL_PATH_TO_SAVE_FILE, data.Body, (writeErr) => {
       if (writeErr) {
@@ -30,3 +31,4 @@ const params = {
       console.log(`File downloaded to ${process.env.LOCAL_PATH_TO_SAVE_FILE}`);
     });
   });
+
