@@ -1,3 +1,5 @@
+
+```
 npm install
 
 npm init
@@ -9,6 +11,5 @@ npm install aws-sdk
 
 node producer.js
 node consumer.js
-
-https://www.youtube.com/watch?v=_20HXT43hFk
+```
 
