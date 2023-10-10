@@ -1,8 +1,9 @@
 const {SQS, SendMessageCommand,ReceiveMessageCommand,DeleteMessageCommand} = require("@aws-sdk/client-sqs");
 require('dotenv').config();
+const { v4: uuidv4 } = require('uuid');
 
 const s3file = require("./download");
-const fileName = "uploads/test-doc1.pdf"; 
+var fileName = "uploads/test-doc1.pdf"; 
 
 const sqsClient = new SQS({
     region: process.env.AWS_REGION,
@@ -12,29 +13,28 @@ const sqsClient = new SQS({
     }
 });
 
-const s3FileParams = {
+var s3FileParams = {
     Bucket: process.env.AWS_BUCKET_NAME,
     Key: fileName
-  };
-
-const { v4: uuidv4 } = require('uuid');
-
-function generateUniqueId() {
-  return uuidv4();
-}
+};
 
 const fileId = generateUniqueId();
+function generateUniqueId() {
+    return uuidv4();
+  };
+
+var messageAttributes = {
+    "FileId": {DataType: "String", StringValue: fileId},
+    "FileName": {DataType: "String", StringValue: fileName}
+};
 
 
-const SendMessageToQueue = async (body,fileId,fileName) => {
+const SendMessageToQueue = async (body) => {
     try{
         const command = new SendMessageCommand({
             MessageBody: body,
             QueueUrl: process.env.AWS_SQS_QUEUE_URL_AWAITING,
-            MessageAttributes:{
-                FileId: {DataType: "String", StringValue: fileId},
-                FileName: {DataType: "String", StringValue: fileName}
-            },
+            MessageAttributes: messageAttributes,
         });
         const result = await sqsClient.send(command);
         console.log(result);
@@ -43,7 +43,7 @@ const SendMessageToQueue = async (body,fileId,fileName) => {
     }
 };
 
-//SendMessageToQueue("File scan request",fileId,fileName);
+SendMessageToQueue("File scan request");
 
 const PullMessagesFromQueue = async () => {
     try{
