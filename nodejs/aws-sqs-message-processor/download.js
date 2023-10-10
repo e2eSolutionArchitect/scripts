@@ -13,7 +13,12 @@ const s3 = new AWS.S3();
 
 
 
-const download = async (params) => {
+const download = async (filename) => {
+
+var params = {
+    Bucket: process.env.AWS_BUCKET_NAME,
+    Key: filename
+};
   console.log("Initiating download.....");
   s3.getObject(params, (err, data) => {
     if (err) {
