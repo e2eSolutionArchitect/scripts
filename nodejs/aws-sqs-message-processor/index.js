@@ -3,6 +3,7 @@ require('dotenv').config();
 const { v4: uuidv4 } = require('uuid');
 
 const s3file = require("./download");
+const msgProducer = require("./producer");
 var fileName = "test-doc1.pdf"; 
 
 const sqsClient = new SQS({
@@ -26,21 +27,8 @@ var messageAttributes = {
 };
 
 
-const SendMessageToQueue = async (body) => {
-    try{
-        const command = new SendMessageCommand({
-            MessageBody: body,
-            QueueUrl: process.env.AWS_SQS_QUEUE_URL_AWAITING,
-            MessageAttributes: messageAttributes,
-        });
-        const result = await sqsClient.send(command);
-        console.log(result);
-    } catch (error) {
-        console.log(error);
-    }
-};
 
-SendMessageToQueue("File scan request");
+msgProducer.SendMessageToQueue("new File scan request",messageAttributes);
 
 const PullMessagesFromQueue = async () => {
     try{
@@ -70,15 +58,18 @@ const PullMessagesFromQueue = async () => {
 PullMessagesFromQueue();
 
 const DeleteMessageFromQueue = async (ReceiptHandle) => {
+    var resp =false;
     try{
         const data = await sqsClient.send(new DeleteMessageCommand({
             QueueUrl: process.env.AWS_SQS_QUEUE_URL_AWAITING,
             ReceiptHandle: ReceiptHandle,
         }))
+        resp =true;
         console.log("deleted successfully......");
     } catch (error) {
         console.log(error);
     }
+    return resp;
 };
 
 
@@ -89,10 +80,14 @@ const ProcessMessage = async (result) => {
         console.log(result.Messages);
 
         var msgAttrs = result.Messages[0].MessageAttributes;
-        s3file.download(msgAttrs.FileKey.StringValue+msgAttrs.FileName.StringValue);
-        // post processing delete the current message and recreate a copy with status:scanned attribute to SCANNED queue
-        // delete the message after successful processing
-        const del_result = await DeleteMessageFromQueue(result.Messages[0].ReceiptHandle);
+        var download_result = await s3file.download(msgAttrs.FileKey.StringValue+msgAttrs.FileName.StringValue);
+        if(download_result){
+            // post processing delete the current message and recreate a copy with status:scanned attribute to SCANNED queue
+            // delete the message after successful processing
+            const del_result = await DeleteMessageFromQueue(result.Messages[0].ReceiptHandle);
+            console.log(del_result);
+        }
+
     } catch (error) {
         console.log(error);
     }

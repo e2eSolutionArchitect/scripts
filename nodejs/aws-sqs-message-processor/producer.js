@@ -1,6 +1,5 @@
 const {SQS, SendMessageCommand} = require("@aws-sdk/client-sqs");
 require('dotenv').config();
-
 const sqsClient = new SQS({
     region: process.env.AWS_REGION,
     credentials: {
@@ -9,27 +8,12 @@ const sqsClient = new SQS({
     }
 });
 
-const { v4: uuidv4 } = require('uuid');
-
-function generateUniqueId() {
-  return uuidv4();
-}
-
-// Usage example
-const fileId = generateUniqueId();
-//console.log('Generated Message ID:', fileId);
-
-
-const SendMessageToQueue = async (body) => {
+const SendMessageToQueue = async (body,messageAttributes) => {
     try{
         const command = new SendMessageCommand({
             MessageBody: body,
-            QueueUrl: process.env.AWS_SQS_QUEUE_URL,
-            MessageAttributes:{
-                FileId: {DataType: "String", StringValue: fileId},
-                FileName: {DataType: "String", StringValue: "test.png"},
-                FileS3URI: {DataType: "String", StringValue: "s3://e2esa-demo/uploads/fileup.pdf"},
-            },
+            QueueUrl: process.env.AWS_SQS_QUEUE_URL_AWAITING,
+            MessageAttributes: messageAttributes,
         });
         const result = await sqsClient.send(command);
         console.log(result);
@@ -38,4 +22,6 @@ const SendMessageToQueue = async (body) => {
     }
 };
 
-SendMessageToQueue("File scan request for fileId: "+fileId)
+//SendMessageToQueue("File scan request");
+
+module.exports = { SendMessageToQueue };
