@@ -25,3 +25,15 @@ git config --global http.sslverify=false
   ```
   set no-proxy="abc.com"
   ```
+
+## SSL certificate problem: self signed certificate in certificate chain
+
+```
+use http.sslVerify=false
+instead
+git config --global http.sslVerify false # Do NOT do this!
+You should never globally disable TLS(/SSL) certificate verification
+
+Run below command
+git -c http.sslVerify=false clone https://github.com/e2eSolutionArchitect/academy.git
+```
