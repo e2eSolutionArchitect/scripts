@@ -1,6 +1,24 @@
 
 ## Git common issues
 
+### remote: Repository Not found
+```
+git clone https://myusername:mypassword@github.com/path_to/myRepo.git
+OR
+git clone https://myusername@github.com/path_to/myRepo.git -- it will open a github login popup. you can enter password or use the option to login via browser.
+
+C:\Som\workspace\terraform>git clone https://github.com/myusername/myrepo.git
+Cloning into 'myrepo'... remote: Repository not found.
+fatal: repository 'https://github.com/myusername/myrepo.git/' not found
+
+C:\Som\workspace\terraform>git clone https://myusername@github.com/myusername/myrepo.git
+Cloning into 'myrepo'... info: please complete authentication in your browser... remote: Enumerating objects: 18, done.
+remote: Counting objects: 100% (18/18), done. remote: Compressing objects: 100% (15/15), done.
+remote: Total 18 (delta 4), reused 0 (delta 0), pack-reused 0 Receiving objects: 100% (18/18), 4.99 KiB | 1.66 MiB/s, done.
+Resolving deltas: 100% (4/4), done.
+
+```
+
 ### fatal: unable to access <repo link> : could not load PEM client certificate, OpenSSL error error:02001002:system library:fopen:No such file or directory, ...
 
 ### check you git config and remove hhtp.sslcert record from there (if its there)
