@@ -1,0 +1,84 @@
+{
+	"Version": "2012-10-17",
+	"Statement": [
+		{
+			"Sid": "IAM_Statement01",
+			"Effect": "Allow",
+			"Action": [
+				"iam:CreateRole",
+				"iam:GetRole",
+				"iam:DeleteRole",
+				"iam:DeleteRolePolicy",
+				"iam:TagRole",
+				"iam:CreatePolicy",
+				"iam:DeletePolicy",
+				"iam:GetPolicy",
+				"iam:GetRolePolicy",
+				"iam:PutRolePolicy",
+				"iam:TagPolicy",			
+				"iam:ListRolePolicies",
+				"iam:GetPolicyVersion",
+				"iam:AttachRolePolicy",
+				"iam:ListAttachedRolePolicies",				
+				"iam:DetachRolePolicy",
+				"iam:ListPolicyVersions",
+				"iam:ListInstanceProfilesForRole",
+				"iam:CreateInstanceProfile",
+				"iam:GetInstanceProfile",
+				"iam:RemoveRoleFromInstanceProfile",
+				"iam:DeleteInstanceProfile",
+				"iam:AddRoleToInstanceProfile"				
+			],
+			"Resource": [
+				"arn:aws:iam::<aws-acc-no>:role/myOrg_Role_*",
+				"arn:aws:iam::<aws-acc-no>:policy/myOrg_Policy_*",
+				"arn:aws:iam::<aws-acc-no>:instance-profile/myOrg_*"
+			]
+		},
+		{
+			"Sid": "IAM_Statement02",
+			"Effect": "Allow",
+			"Action": [
+				"iam:PassRole"
+			],
+			"Resource": [
+				"arn:aws:iam::<aws-acc-no>:role/myOrg_Role_*",
+				"arn:aws:iam::<aws-acc-no>:policy/myOrg_Policy_*"				
+			]
+		},
+		{
+		  "Sid": "Resources_Statement01",
+			"Effect": "Allow",
+			"Action": [
+				"s3:*",
+				"ec2:*",
+				"kms:*",
+				"rds:*",
+				"sns:*",
+				"sqs:*",
+				"eks:*",			
+				"ecs:*",
+				"logs:*",
+				"glue:*",
+				"events:*",
+				"lambda:*",
+				"athena:*",
+				"states:*",
+				"dynamodb:*",
+				"codebuild:*",
+				"apigateway:*",
+				"elasticache:*",
+				"comprehend:*",
+				"codepipeline:*",
+				"datapipeline:*",
+				"lakeformation:*",
+				"emr-serverless:*",
+				"elasticmapreduce:*",
+				"elasticloadbalancing:*"
+			],
+			"Resource": [
+				"*"
+			]
+		}
+	]
+}
