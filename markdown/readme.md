@@ -9,7 +9,7 @@
 | :question: |question | :: | | :: | | :: | |
 | :grey_exclamation: |grey_exclamation | :: | | :: | | :: | |
 | :+1: |+1 | :: | | :: | | :: | |
-| :thumbsup: |thumbsup | :: | | :: | | :: | |
+| :thumbsup: |thumbsup | :thumbsdown: |thumbsdown | :ok_hand: | ok_hand| :raising_hand: |raising_hand |
 | :: | | :: | | :: | | :: | |
 | :: | | :: | | :: | | :: | |
 | :: | | :: | | :: | | :: | |
