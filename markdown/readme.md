@@ -15,12 +15,12 @@
 | :computer: |computer | :camera: |camera | :cd: | cd| :tv: | tv|
 | :loudspeaker: | loudspeaker| :hourglass: |hourglass | :alarm_clock: | alarm_clock| :watch: |watch |
 | :radio: |radio | :loop: | loop| :satellite: |satellite | :mag_right: |mag_right |
-| :diamonds: | diamonds| :spades: | spades| :: | | :: | |
-| :office: |office | :house: | house| :bank: |bank | :: | |
-| :four: |four | :seven: |seven | :<b>seven</b>: |seven | :: | |
-| :: | | :: | | :: | | :: | |
-| :: | | :: | | :: | | :: | |
-| :: | | :: | | :: | | :: | |
+| :diamonds: | diamonds| :spades: | spades| :100: |100 | :o: |o |
+| :office: |office | :house: | house| :bank: |bank | :bangbang: |bangbang |
+| :four: |four | :seven: |seven | :arrow_up: |arrow_up | :arrow_double_up: |arrow_double_up |
+| :no_entry_sign: |no_entry_sign | :copyright: |copyright | :registered: |registered | :: | |
+| :clock130: |clock130 | :clock11: | clock11| :white_check_mark: | white_check_mark| :: | |
+| :red_circle: | red_circle| :heavy_dollar_sign: |heavy_dollar_sign | :large_orange_diamond: |large_orange_diamond | :white_square_button: |white_square_button |
 
 
 ***Reference***:
