@@ -1,7 +1,7 @@
 
-| | | | | | |
-|--- | --- |---  |---  |---  |---  |
-| :snowflake:| snowflake | :: | | :: | | :: | |
+| | | | | | | | |
+|--- | --- |---  |---  |---  |---  |---  |---  |
+| :snowflake:| snowflake | :: | | :: | | :: | | :: | |
 | :star: |star | :: | | :: | | :: | |
 | :boom: | boom| :: | | :: | | :: | |
 | :exclamation: |exclamation | :: | | :: | | :: | |
@@ -9,7 +9,7 @@
 | :question: |question | :: | | :: | | :: | |
 | :grey_exclamation: |grey_exclamation | :: | | :: | | :: | |
 | :+1: |+1 | :: | | :: | | :: | |
-| :thumbsup: |thumbsup | :thumbsdown: |thumbsdown | :ok_hand: | ok_hand| :raising_hand: |raising_hand |
+| :thumbsup: |thumbsup | :thumbsdown: |thumbsdown | :ok_hand: | ok_hand| :raising_hand: | raising_hand |
 | :: | | :: | | :: | | :: | |
 | :: | | :: | | :: | | :: | |
 | :: | | :: | | :: | | :: | |
