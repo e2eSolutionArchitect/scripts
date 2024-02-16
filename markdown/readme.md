@@ -1,4 +1,6 @@
 
+add the keyword between two : : to get the icon displayed 
+
 | | | | | | | | |
 |--- | --- |---  |---  |---  |---  |---  |---  |
 | :snowflake:| snowflake | :bulb: |bulb | :chart_with_upwards_trend: |chart_with_upwards_trend | :calendar: |calendar | :clipboard: | clipboard|
