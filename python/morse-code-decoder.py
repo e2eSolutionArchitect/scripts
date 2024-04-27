@@ -26,7 +26,10 @@ def create_dictionary():
         "W": ".--",
         "X": "-..-",
         "Y": "-.--",
-        "Z": "--.."
+        "Z": "--..",
+        " ":"/",
+        ",":"--..--",
+        ".":".-.-.-"
     }
     return dictionary_obj
 
@@ -58,7 +61,10 @@ def create_rev_dictionary():
         ".--":"W",
         "-..-":"X",
         "-.--":"Y",
-        "--..":"Z"
+        "--..":"Z",
+        "/":" ",
+        "--..--":",",
+        ".-.-.-":"."
     }
     return rev_dictionary_obj
 
@@ -77,7 +83,7 @@ def rev_search(rev_dictionary_obj, rev_search_string):
     result = ""
     for token in tokens:
         if token in rev_dictionary_obj:
-            result += rev_dictionary_obj[token] + " "
+            result += rev_dictionary_obj[token]
         else:
             result += "Not Found" + " "
     return result.strip()
@@ -88,13 +94,13 @@ def main():
     rev_dictionary_obj = create_rev_dictionary()
 
     # Read input from the user
-    search_string = "Hello"
-    rev_search_string = ". .-.. .-.. ---"
+    search_string = "Hi there, My name is Som"
+    rev_search_string = ". .-.. .-.. --- / .... .. / - .... . .-. ."
 
     # Search for values based on the input string
     result = search(dictionary_obj, search_string)
     print("Result:", result)
-    rev_result = rev_search(rev_dictionary_obj, rev_search_string)
+    rev_result = rev_search(rev_dictionary_obj, result)
     print("Rev Result:", rev_result)
 
 if __name__ == "__main__":
