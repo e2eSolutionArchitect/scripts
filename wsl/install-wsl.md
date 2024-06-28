@@ -1,6 +1,6 @@
 # Windows Subsystem for Linux
 
-Install WSL
+Install WSL in Windows PC
 ```
 wsl --install -d Ubuntu-22.04
 ```
