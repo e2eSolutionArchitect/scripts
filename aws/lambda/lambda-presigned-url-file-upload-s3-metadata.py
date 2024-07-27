@@ -2,7 +2,7 @@ import json
 import boto3
 from botocore.exceptions import ClientError
 import base64
-import requests
+import requests # Make sure the Lambda layer is added for 'requests'. It is not readily available unless custom layer is added. please refer https://github.com/e2eSolutionArchitect/troubleshoot/blob/main/aws/lambda%20function%20requests%20module%20not%20found.md
 from datetime import datetime
 import os
 import logging
