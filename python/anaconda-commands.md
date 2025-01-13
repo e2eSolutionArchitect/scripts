@@ -11,4 +11,8 @@ use conda to update Anaconda to the latest version.
 
 conda update anaconda
 
+Update Python Packages
+
+conda update python
+
 ```
