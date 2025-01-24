@@ -23,6 +23,20 @@ Switched to branch 'master'
 git push (push changes in master branch)
 ```
 
+### Get update from a branch which is ahead from your your branch. 
+
+```
+# branch A is a feature branch which is behind of 'main' branch. Here is how to take updates from main TO branch A
+
+git checkout branch-A
+git pull
+git merge origin/main
+git add .
+git commit -m "updated with main branch"
+git push
+```
+
+
 ### git commit history 
 
 ```
