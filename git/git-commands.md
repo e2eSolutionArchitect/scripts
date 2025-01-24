@@ -23,7 +23,7 @@ Switched to branch 'master'
 git push (push changes in master branch)
 ```
 
-### Get update from a branch which is ahead from your your branch. 
+### Get the update from a branch that is ahead of your branch. 
 
 ```
 # branch A is a feature branch which is behind of 'main' branch. Here is how to take updates from main TO branch A
