@@ -68,7 +68,7 @@ if ($CurrentHostname -ne $NewHostname) {
 
 # --------- Creating Route53 Rocord ------
 $DomainName = "demo.internal.com"
-$HostedZoneId = "Z03925793MJT0LQJCUEMU"  # Replace with your Route 53 Hosted Zone ID
+$HostedZoneId = "GFH435DFG#$%"  # Replace with your Route 53 Hosted Zone ID
 $Hostname = $NewHostname              
 
 # Install AWS CLI (if not already installed)
