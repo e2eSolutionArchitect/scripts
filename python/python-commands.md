@@ -2,6 +2,9 @@
 ```
 python3 -V
 python -version
+
+python3 <filename.py>
+python3 demo.py
 ```
 
 ***list python packages***
