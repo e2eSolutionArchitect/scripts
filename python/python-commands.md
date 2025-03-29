@@ -1,4 +1,7 @@
 
+python3 -V
+python -version
+
 ***list python packages***
 
 ```
