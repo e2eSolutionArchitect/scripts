@@ -20,6 +20,7 @@ C:\pyenv> python -m venv <env-name>
 C:\> python -m venv py310
 C:\> .\py310\Scripts\activate
 (py310) c:\pyenv> pip install jupyter
+(py310) c:\pyenv> jupyter notebook
 
 # Similarly install any other libs you need.
 pip install monai==1.3.0 torch==2.0.1 pydicom==2.4.4 opencv-python==4.8.0.76 numpy==1.23.5
