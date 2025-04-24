@@ -17,8 +17,8 @@ python3 -V
 C:\ mkdir pyenv
 C:\ cd pyenv
 C:\pyenv> python -m venv <env-name>
-C:\> python -m venv py310
-C:\> .\py310\Scripts\activate
+C:\pyenv> python -m venv py310
+C:\pyenv> .\py310\Scripts\activate
 (py310) c:\pyenv> pip install jupyter
 (py310) c:\pyenv> jupyter notebook
 
