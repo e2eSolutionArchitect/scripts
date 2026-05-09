@@ -7,7 +7,8 @@
 - '/compact': run '/compact' when your context window reaches 60% or more. It will compress without loosing important information.
 - build custom skills: skills/code-review/SKILL.md, skills/security-rules/SKILL.md. invoke like '/code-review'.
 - constantly update CLAUDE.md as and when any new feature is added.
-  
+- make sure that the CLAUDE.md reference to other required files. like refer to 'docs/requirements.md' for project requirements, 'docs/architecture.md' for design architecture, 'docs/style-guide.md' etc.
+- 
 Tips:
 - - Make Claude to ask question. like 'Continuously ask questions until you are more than 80% confident that you understood the requirements'.
   - Build self-checking into the todo list. add quality check into execution plan.
