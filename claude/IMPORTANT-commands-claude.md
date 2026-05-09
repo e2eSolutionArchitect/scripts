@@ -1,4 +1,13 @@
 
 - add 'requirement.md' file that includes purpose, objectives, contexts, requirements of the project.
-- Run '/init' : start with '/init' in new/existing project directory. it creates CLAUDE.md. Instead of re-explaining the requirements every sessions, Claude contextualize, initialize everything you need for the project.  
+- '/init' : start with '/init' in new/existing project directory. it creates CLAUDE.md. Instead of re-explaining the requirements every sessions, Claude contextualize, initialize everything you need for the project.  
+- '/usage': know your remaining context.
+- '/context': shows what component using your context
+- keep your context small. break your requirement into small tasks and make the context window small. 
+- '/compact': run '/compact' when your context window reaches 60% or more. It will compress without loosing important information.
 - 
+- Tips:
+- - Make Claude to ask question. like 'Continuously ask questions until you are more than 80% confident that you understood the requirements'.
+  - Build self-checking into the todo list. add quality check into execution plan.
+  - Research using plan mode. 'Shift+M' to change to plan mode.
+  - 
