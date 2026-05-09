@@ -5,7 +5,7 @@
 - '/context': shows what component using your context
 - keep your context small. break your requirement into small tasks and make the context window small. 
 - '/compact': run '/compact' when your context window reaches 60% or more. It will compress without loosing important information.
-- add skills > skills/code-review/SKILL.md, skills/tech-debt/SKILL.md
+- build custom skills: skills/code-review/SKILL.md, skills/security-rules/SKILL.md. invoke like '/code-review'.
 
 - Tips:
 - - Make Claude to ask question. like 'Continuously ask questions until you are more than 80% confident that you understood the requirements'.
